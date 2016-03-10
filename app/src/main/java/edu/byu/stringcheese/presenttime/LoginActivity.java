@@ -3,7 +3,7 @@ package edu.byu.stringcheese.presenttime;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -18,7 +18,7 @@ import com.google.android.gms.common.api.Status;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
+public class LoginActivity extends FragmentActivity implements GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
     /**
