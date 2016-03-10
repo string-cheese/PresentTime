@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_id": "presenttime-76ba4",
+    "project_number": "215116722613",
+    "name": "PresentTime"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215116722613:android:fe3698f7a35f8e67",
+        "client_id": "android:edu.byu.stringcheese.presenttime",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "edu.byu.stringcheese.presenttime",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215116722613-5rdv7f3hugqlrnp2vojeptcfcpqtmdgd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.byu.stringcheese.presenttime",
+            "certificate_hash": "FE5E3DFB42943DFEA7ABE552C5DBA1B066BE3EF1"
+          }
+        },
+        {
+          "client_id": "215116722613-k07goj5i46to2p4amh9eepn9i7tn7qr3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
