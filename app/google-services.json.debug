@@ -17,15 +17,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "215116722613-h1uvglca2o7eff9vju8vch4ms2gjuqeg.apps.googleusercontent.com",
+          "client_id": "215116722613-10jdprur8h1lqffj7is8ofcv50rnu7v8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "edu.byu.stringcheese.presenttime",
-            "certificate_hash": "FE5E3DFB42943DFEA7ABE552C5DBA1B066BE3EF1"
+            "certificate_hash": "099CF7DD09834950A857A1170CD4835C29EF9FCD"
           }
         },
         {
-          "client_id": "215116722613-ldba7a71hhnkesu5ff0f0epr8m2sltuk.apps.googleusercontent.com",
+          "client_id": "215116722613-ae0l726itveqh629qs38bah1ciqcffas.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
