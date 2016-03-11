@@ -1,10 +1,21 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        Debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('C:/Users/dtaylor/.android/debug.keystore')
+        }
+        Production {
+            keyAlias 'presenttime'
+            keyPassword 'presenttime'
+            storeFile file('C:/Users/dtaylor/Source/Repos/School/cs456/PresentTime/presentTimeKeyStore.jks')
+            storePassword 'presenttime'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
         applicationId "edu.byu.stringcheese.presenttime"
         minSdkVersion 16
@@ -16,14 +27,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.Production
+        }
+        debug {
+            signingConfig signingConfigs.Production
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
-    compile 'com.google.android.gms:play-services:8.3.0'
+    compile 'com.google.android.gms:play-services:8.4.0'
 }
+apply plugin: 'com.google.gms.google-services'
