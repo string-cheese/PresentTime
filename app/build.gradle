@@ -5,12 +5,12 @@ android {
         Debug {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
-            storeFile file('C:/Users/dtaylor/.android/debug.keystore')
+            storeFile file('../presentTimeKeyStore.jks')
         }
         Production {
             keyAlias 'presenttime'
             keyPassword 'presenttime'
-            storeFile file('C:/Users/dtaylor/Source/Repos/School/cs456/PresentTime/presentTimeKeyStore.jks')
+            storeFile file('../presentTimeKeyStore.jks')
             storePassword 'presenttime'
         }
     }
@@ -18,7 +18,7 @@ android {
     buildToolsVersion "23.0.2"
     defaultConfig {
         applicationId "edu.byu.stringcheese.presenttime"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
