@@ -101,8 +101,21 @@ public class SlidingTabsBasicFragment extends Fragment {
          */
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
+            int id = R.layout.pager_item;
+            switch(position){
+                case 0:
+                    id = R.layout.dashboard;
+                    break;
+                case 1:
+                    id = R.layout.friends;
+                    break;
+                case 2:
+                    id = R.layout.your_events;
+
+            }
+
             // Inflate a new layout from our resources
-            View view = getActivity().getLayoutInflater().inflate(R.layout.pager_item,
+            View view = getActivity().getLayoutInflater().inflate(id,
                     container, false);
             // Add the newly created View to the ViewPager
             container.addView(view);
