@@ -10,7 +10,7 @@ android {
         Production {
             keyAlias 'presenttime'
             keyPassword 'presenttime'
-            storeFile file('C:/Users/dtaylor/Source/Repos/School/cs456/PresentTime/presentTimeKeyStore.jks')
+            storeFile file('../presentTimeKeyStore.jks')
             storePassword 'presenttime'
         }
     }
