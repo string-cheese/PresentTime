@@ -23,13 +23,11 @@
     <ViewAnimator
           android:id="@+id/sample_output"
           android:layout_width="match_parent"
-          android:layout_height="0px"
-          android:layout_weight="1">
+          android:layout_height="56dp">
 
         <ScrollView
-              style="@style/Widget.SampleMessageTile"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="56dp">
 
             <TextView
                   style="@style/Widget.SampleMessage"
@@ -39,7 +37,7 @@
                   android:paddingRight="@dimen/horizontal_page_margin"
                   android:paddingTop="@dimen/vertical_page_margin"
                   android:paddingBottom="@dimen/vertical_page_margin"
-                  android:text="@string/intro_message" />
+                  android:text="Present Time" />
         </ScrollView>
 
     </ViewAnimator>

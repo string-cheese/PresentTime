@@ -110,7 +110,7 @@ public class SlidingTabsBasicFragment extends Fragment {
                     id = R.layout.friends;
                     break;
                 case 2:
-                    id = R.layout.your_events;
+                    id = R.layout.item_info;
 
             }
 
@@ -121,8 +121,8 @@ public class SlidingTabsBasicFragment extends Fragment {
             container.addView(view);
 
             // Retrieve a TextView from the inflated View, and update it's text
-            TextView title = (TextView) view.findViewById(R.id.item_title);
-            title.setText(String.valueOf(position + 1));
+            //TextView title = (TextView) view.findViewById(R.id.item_title);
+            //title.setText(String.valueOf(position + 1));
 
             Log.i(LOG_TAG, "instantiateItem() [position: " + position + "]");
 
