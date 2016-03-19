@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.byu.stringcheese.presenttime.AddEventActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/save_event"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:title="@string/save_event"
+        app:showAsAction="always" />
 </menu>

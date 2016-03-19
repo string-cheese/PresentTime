@@ -1,9 +1,11 @@
 package edu.byu.stringcheese.presenttime;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ViewAnimator;
 
 /**
@@ -69,5 +71,16 @@ public class MainActivity extends SampleActivityBase {
     @Override
     public void initializeLogging() {
         Log.i(TAG, "Ready");
+    }
+
+
+    //add an event to this client's proflie
+    public void addEvent(View view) {
+        Log.d(TAG, "trying to add an event");
+        Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
+        MainActivity.this.startActivity(intent);
+        Log.d(TAG, "I started an activity");
+        Log.d(TAG, intent.toString());
+        MainActivity.this.finish();
     }
 }

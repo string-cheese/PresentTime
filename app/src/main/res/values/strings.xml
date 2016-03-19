@@ -117,5 +117,6 @@
     <string name="hello_world">Wassup, world</string>
     <string name="first">first!</string>
     <string name="last">last!</string>
-    <string name="title_activity_add_event">AddEventActivity</string>
+    <string name="title_activity_add_event">Enter event name...</string>
+    <string name="save_event">SAVE</string>
 </resources>

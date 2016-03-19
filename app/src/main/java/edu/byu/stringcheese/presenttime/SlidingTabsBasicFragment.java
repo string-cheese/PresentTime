@@ -110,7 +110,7 @@ public class SlidingTabsBasicFragment extends Fragment {
                     id = R.layout.friends;
                     break;
                 case 2:
-                    id = R.layout.item_info;
+                    id = R.layout.your_events;
 
             }
 
