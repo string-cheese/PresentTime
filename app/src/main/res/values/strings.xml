@@ -119,4 +119,5 @@
     <string name="last">last!</string>
     <string name="title_activity_add_event">Enter event name...</string>
     <string name="save_event">SAVE</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
 </resources>

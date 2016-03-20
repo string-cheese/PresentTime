@@ -105,7 +105,7 @@ public class SlidingTabsBasicFragment extends Fragment {
             int id = R.layout.pager_item;
             switch(position){
                 case 0:
-                    id = R.layout.dashboard;
+                    id = R.layout.cardview_activity;
                     break;
                 case 1:
                     id = R.layout.friends;
