@@ -1,12 +1,15 @@
 package edu.byu.stringcheese.presenttime;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ViewAnimator;
+
+import edu.byu.stringcheese.presenttime.slidingtab.SlidingTabsBasicFragment;
 
 /**
  * A simple launcher activity containing a summary sample description, sample log and a custom
@@ -15,7 +18,7 @@ import android.widget.ViewAnimator;
  * For devices with displays with a width of 720dp or greater, the sample log is always visible,
  * on other devices it's visibility is controlled by an item on the Action Bar.
  */
-public class MainActivity extends SampleActivityBase {
+public class MainActivity extends FragmentActivity {
 
     public static final String TAG = "MainActivity";
 
@@ -25,6 +28,7 @@ public class MainActivity extends SampleActivityBase {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeLogging();
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
@@ -68,7 +72,6 @@ public class MainActivity extends SampleActivityBase {
     }
 
     /** Create a chain of targets that will receive log data */
-    @Override
     public void initializeLogging() {
         Log.i(TAG, "Ready");
     }

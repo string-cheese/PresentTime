@@ -1,4 +1,4 @@
-package edu.byu.stringcheese.presenttime;
+package edu.byu.stringcheese.presenttime.slidingtab;
 
 import android.content.Context;
 import android.graphics.Typeface;

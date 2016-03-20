@@ -1,4 +1,4 @@
-package edu.byu.stringcheese.presenttime;
+package edu.byu.stringcheese.presenttime.slidingtab;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import edu.byu.stringcheese.presenttime.R;
 
 class SlidingTabStrip extends LinearLayout {
 
