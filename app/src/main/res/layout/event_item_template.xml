@@ -16,17 +16,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
+            android:id="@+id/item_image"
+            android:background="@mipmap/dog"
             >
-
+<!--
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:id="@+id/item_image"
+                android:src="@mipmap/dog"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="16dp"
                 android:cropToPadding="false"
-                android:scaleType="center" />
+                android:scaleType="centerCrop" />-->
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,6 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/item_name"
+                    android:text="Dog"
                     android:layout_alignParentTop="true"
                     android:textSize="30sp"
                     />
@@ -43,6 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/item_cost"
+                    android:text="$100"
                     android:layout_below="@+id/item_name"
                     />
             </RelativeLayout>
