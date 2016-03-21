@@ -81,15 +81,15 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onClick(View v) {
                     Log.w("dot", v.toString());
+                    Intent intent = new Intent(getActivity(), FriendInfoActivity.class);
+                    intent.putExtra("name", "Trent Jones");
+                    startActivity(intent);
 
-                    Intent myIntent = new Intent(, FriendInfoActivity.class);
-                    MainActivity.this.startActivity(myIntent);
-
-                    if (null != mListener) {
+//                    if (null != mListener) {
                         // Notify the active callbacks interface (the activity, if the
                         // fragment is attached to one) that an item has been selected.
-                        mListener.onListFragmentInteraction(holder.mItem);
-                    }
+                       // mListener.onListFragmentInteraction(holder.mItem);
+  //                  }
                 }
             });
         }
