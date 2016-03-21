@@ -22,52 +22,88 @@
             android:focusable="true">
 
             <EditText
+                android:id="@+id/eventName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="textPersonName"
-                android:ems="10"
-                android:id="@+id/eventName"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:editable="true"
                 android:elegantTextHeight="false"
+                android:ems="10"
                 android:hint="Event Name"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true" />
+                android:inputType="textCapWords" />
+
         </RelativeLayout>
 
-        <Spinner
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="72dp"
-            android:id="@+id/eventType"
-            android:spinnerMode="dropdown"
-            android:entries="@array/eventTypes"/>
+            android:layout_weight="0.03"
+            android:focusable="true">
+
+            <EditText
+                android:id="@+id/add_event_date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:editable="true"
+                android:elegantTextHeight="false"
+                android:ems="10"
+                android:hint="Date"
+                android:inputType="text" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Spinner
+                android:id="@+id/eventType"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:entries="@array/eventTypes"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="34dp"
+                android:text="Event Type" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="71dp"></TableLayout>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="72dp">
 
             <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Private Event"
-                android:id="@+id/textView"
-                android:layout_centerVertical="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="16dp" />
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:text="Private Event" />
 
             <Switch
+                android:id="@+id/switch1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/switch1"
-                android:checked="false"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true" />
+                android:checked="false" />
         </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:text="@string/large_text" />
 
     </LinearLayout>
 

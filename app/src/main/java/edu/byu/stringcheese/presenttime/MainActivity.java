@@ -82,6 +82,5 @@ public class MainActivity extends FragmentActivity {
         MainActivity.this.startActivity(intent);
         Log.d(TAG, "I started an activity");
         Log.d(TAG, intent.toString());
-        MainActivity.this.finish();
     }
 }
