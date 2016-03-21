@@ -186,6 +186,12 @@ public class Database {
         public List<Item> getItems() {
             return eventItems;
         }
+
+        public void addItem(String itemName, String itemPrice, String itemLocation, int imageID) {
+            Item item = new Item(itemName, Integer.parseInt(itemPrice), itemLocation, imageID);
+            items.add(item);
+            eventItems.add(item);
+        }
     }
     public class Item
     {

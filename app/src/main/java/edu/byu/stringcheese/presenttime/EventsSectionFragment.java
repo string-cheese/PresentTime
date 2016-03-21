@@ -51,7 +51,6 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
     class RVAdapter extends RecyclerView.Adapter<RVAdapter.EventViewHolder> {
 
         List<Database.Event> eventsShown;
-
         RVAdapter(List<Database.Event> events){
             this.eventsShown = events;
         }
