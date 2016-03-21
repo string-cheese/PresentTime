@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:contentDescription="Profile Picture"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/profile" />
 
     <TextView
         android:id="@+id/friend_name"
