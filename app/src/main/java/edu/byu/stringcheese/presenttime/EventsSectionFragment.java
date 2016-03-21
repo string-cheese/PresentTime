@@ -1,4 +1,4 @@
-package edu.byu.stringcheese.presenttime.slidingtab;
+package edu.byu.stringcheese.presenttime;
 
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import edu.byu.stringcheese.presenttime.R;
 
 /**
  * Created by dtaylor on 3/20/2016.
@@ -68,19 +66,20 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
         RVAdapter adapter = new RVAdapter(events);
         recyclerView.setAdapter(adapter);
     }
-    public class Event {
 
-        String eventName;
-        String eventDate;
-        int eventPhotoID;
 
-        Event(String eventName, String eventDate, int eventPhotoID) {
-            this.eventName = eventName;
-            this.eventDate = eventDate;
-            this.eventPhotoID = eventPhotoID;
-        }
+}
+class Event {
+
+    String eventName;
+    String eventDate;
+    int eventPhotoID;
+
+    Event(String eventName, String eventDate, int eventPhotoID) {
+        this.eventName = eventName;
+        this.eventDate = eventDate;
+        this.eventPhotoID = eventPhotoID;
     }
-
 }
 class RVAdapter extends RecyclerView.Adapter<RVAdapter.EventViewHolder> {
 
@@ -100,9 +99,9 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.EventViewHolder> {
         }
     }
 
-    List<EventsSectionFragment.Event> events;
+    List<Event> events;
 
-    RVAdapter(List<EventsSectionFragment.Event> events){
+    RVAdapter(List<Event> events){
         this.events = events;
     }
 
@@ -113,7 +112,7 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.EventViewHolder> {
 
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview_activity, viewGroup, false);//$$$
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.event_template, viewGroup, false);//$$$
         EventViewHolder eventViewHolder = new EventViewHolder(v);
         return eventViewHolder;
     }

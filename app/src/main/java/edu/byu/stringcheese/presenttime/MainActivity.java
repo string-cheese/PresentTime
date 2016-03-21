@@ -9,8 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ViewAnimator;
 
-import edu.byu.stringcheese.presenttime.slidingtab.SlidingTabsBasicFragment;
-
 /**
  * A simple launcher activity containing a summary sample description, sample log and a custom
  * {@link android.support.v4.app.Fragment} which can display a view.

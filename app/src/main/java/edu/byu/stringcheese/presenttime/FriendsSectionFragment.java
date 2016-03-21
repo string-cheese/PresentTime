@@ -1,8 +1,7 @@
-package edu.byu.stringcheese.presenttime.slidingtab;
+package edu.byu.stringcheese.presenttime;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,8 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import edu.byu.stringcheese.presenttime.R;
 
 /**
  * Created by dtaylor on 3/20/2016.
@@ -67,7 +64,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.fragment_friend, parent, false);
+                    .inflate(R.layout.friend_template, parent, false);
             view.setOnClickListener(new MyOnClickListener());
 
             return new ViewHolder(view);
