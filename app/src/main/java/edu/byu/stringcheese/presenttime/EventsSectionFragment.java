@@ -18,16 +18,20 @@ import java.util.List;
  */
 public class EventsSectionFragment extends android.support.v4.app.Fragment {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.events_section_fragment, container, false);
-        return rootView;
-    }
+    private int selectedProfile = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        if(getActivity().getIntent().getExtras() != null && getActivity().getIntent().getExtras().get("profileId") != null)
+            selectedProfile = (int)getActivity().getIntent().getExtras().get("profileId");
+        View rootView = inflater.inflate(R.layout.events_section_fragment, container, false);
+        return rootView;
     }
 
     @Override
@@ -44,7 +48,7 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
 
     private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(Database.getInstance().getProfile(0).getUserEvents());
+        RVAdapter adapter = new RVAdapter(Database.getInstance().getProfile(selectedProfile).getUserEvents());
         recyclerView.setAdapter(adapter);
     }
 

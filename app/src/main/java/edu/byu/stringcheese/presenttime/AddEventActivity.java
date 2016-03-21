@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -136,7 +137,16 @@ public class AddEventActivity extends AppCompatActivity implements View.OnClickL
         Log.d(TAG, "adding new event...");
         String eventName = ((EditText) findViewById(R.id.add_event_name)).getText().toString();
         String eventDate = ((EditText) findViewById(R.id.add_event_date)).getText().toString();
-        Database.getInstance().getProfile(0).addEvent(eventName.toString(), eventDate.toString(), R.drawable.balloon);
+        String eventType = ((Spinner) findViewById(R.id.eventType)).getSelectedItem().toString();
+        String eventAddress = ((EditText) findViewById(R.id.add_event_address)).getText().toString();
+
+        int eventImageId = R.drawable.balloon;
+        if (eventType.equals("Wedding"))
+            eventImageId = R.mipmap.cake;
+        if (eventType.equals("Christmas"))
+            eventImageId = R.mipmap.gifts;
+
+        Database.getInstance().getProfile(0).addEvent(eventName.toString(), eventDate.toString(), eventImageId, eventAddress);
         finish();
     }
 }
