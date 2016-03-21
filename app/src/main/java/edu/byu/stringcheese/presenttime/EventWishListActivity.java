@@ -11,7 +11,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -71,9 +71,9 @@ public class EventWishListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ItemViewHolder itemViewHolder, int i) {
             itemViewHolder.itemName.setText(itemsShown.get(i).getItemName());
-            itemViewHolder.itemPrice.setText(String.valueOf(itemsShown.get(i).getItemCost()));
+            itemViewHolder.itemPrice.setText("$"+String.valueOf(itemsShown.get(i).getItemCost()));
             //itemViewHolder.itemLocation.setText(itemsShown.get(i).getLocation());
-            itemViewHolder.itemImage.setImageResource(itemsShown.get(i).getImage());
+            itemViewHolder.itemImage.setBackgroundResource(itemsShown.get(i).getImage());
             itemViewHolder.currentItem = i;
             itemViewHolder.itemId = itemsShown.get(i).getItemId();
         }
@@ -89,7 +89,7 @@ public class EventWishListActivity extends AppCompatActivity {
             TextView itemName;
             TextView itemPrice;
             //TextView itemLocation;
-            ImageView itemImage;
+            RelativeLayout itemImage;
             public int currentItem;
             public int itemId;
 
@@ -106,7 +106,7 @@ public class EventWishListActivity extends AppCompatActivity {
                 item_cv = (CardView)itemView.findViewById(R.id.cv);
                 itemName = (TextView)itemView.findViewById(R.id.item_name);
                 itemPrice = (TextView)itemView.findViewById(R.id.item_cost);
-                itemImage = (ImageView)itemView.findViewById(R.id.item_image);
+                itemImage = (RelativeLayout)itemView.findViewById(R.id.item_image);
             }
         }
     }
