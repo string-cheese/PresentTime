@@ -18,10 +18,16 @@ import android.widget.ViewAnimator;
  */
 public class MainActivity extends FragmentActivity {
 
+    public static MainActivity _instance;
     public static final String TAG = "MainActivity";
 
     // Whether the Log Fragment is currently shown
     private boolean mLogShown;
+
+    public static MainActivity getInstance()
+    {
+        return _instance;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
