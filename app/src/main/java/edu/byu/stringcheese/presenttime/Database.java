@@ -20,7 +20,7 @@ public class Database {
         _instance = this;
         Profile profile = new Profile("Justin","justin@cool.com");
 
-        Event event = new Event("Justin's Wedding", "June 15th, 2016", R.drawable.balloon);
+        Event event = new Event("Justin's Wedding", "June 15th, 2016", R.drawable.balloon, "BYU CAMPUS");
         event.addItem(new Item("Car",15000,"Toyota",R.drawable.ic_media_pause));
         event.addItem(new Item("Boat",7000,"The Dock",R.drawable.ic_star_black_24dp));
         event.addItem(new Item("Cake",100,"Cakes And More",R.drawable.ic_launcher));
@@ -29,7 +29,7 @@ public class Database {
         event.addItem(new Item("Cake4", 100, "Cakes And More", R.drawable.ic_launcher));
         profile.addEvent(event);
 
-        Event event2 = new Event("Sam's 25th Birthday", "December 17th, 2016", R.drawable.balloon);
+        Event event2 = new Event("Sam's 25th Birthday", "December 17th, 2016", R.drawable.balloon, "not cool place");
         event2.addItem(new Item("House",105000,"Toyota",R.drawable.ic_media_pause));
         event2.addItem(new Item("Pancake",7000,"The Dock",R.drawable.ic_star_black_24dp));
         event2.addItem(new Item("Dog",100,"Cakes And More",R.drawable.ic_launcher));
@@ -38,7 +38,7 @@ public class Database {
         event2.addItem(new Item("Bike", 100, "Cakes And More", R.drawable.ic_launcher));
         profile.addEvent(event2);
 
-        Event event3 = new Event("Amanda's Graduation", "August 11th, 2016", R.drawable.balloon);
+        Event event3 = new Event("Amanda's Graduation", "August 11th, 2016", R.drawable.balloon, "cool place");
         event3.addItem(new Item("House2",105000,"Toyota",R.drawable.ic_media_pause));
         event3.addItem(new Item("Pancake3",7000,"The Dock",R.drawable.ic_star_black_24dp));
         event3.addItem(new Item("Dog4",100,"Cakes And More",R.drawable.ic_launcher));
@@ -53,19 +53,19 @@ public class Database {
 
         Profile profile2 = new Profile("Joe","joe@cool.com");
 
-        Event eventa = new Event("Joe's Wedding", "June 15th, 2016", R.drawable.balloon);
+        Event eventa = new Event("Joe's Wedding", "June 15th, 2016", R.drawable.balloon, "an address");
         eventa.addItem(new Item("Tic",0,"Tac",R.drawable.ic_media_pause));
         eventa.addItem(new Item("Tac",25,"The Dock",R.drawable.ic_star_black_24dp));
         eventa.addItem(new Item("Toe",178,"Cakes And More",R.drawable.ic_launcher));
         profile2.addEvent(eventa);
 
-        Event event2a = new Event("Billy's 23th Birthday", "December 17th, 2016", R.drawable.balloon);
+        Event event2a = new Event("Billy's 23th Birthday", "December 17th, 2016", R.drawable.balloon, "1942 columnus");
         event2a.addItem(new Item("Kitty",65,"Toyota",R.drawable.ic_media_pause));
         event2a.addItem(new Item("Dr. Who Stuff",71245000,"The Dock",R.drawable.ic_star_black_24dp));
         event2a.addItem(new Item("Monkey",102340,"Cakes And More",R.drawable.ic_launcher));
         profile2.addEvent(event2a);
 
-        Event event3a = new Event("Amanda's Graduation", "August 11th, 2016", R.drawable.balloon);
+        Event event3a = new Event("Amanda's Graduation", "August 11th, 2016", R.drawable.balloon, "24221 Sagewood dr., Provo Utah");
         event3a.addItem(new Item("House2",0,"Toyota",R.drawable.ic_media_pause));
         event3a.addItem(new Item("Pancake3",0,"The Dock",R.drawable.ic_star_black_24dp));
         event3a.addItem(new Item("Dog4",0,"Cakes And More",R.drawable.ic_launcher));
@@ -119,8 +119,8 @@ public class Database {
             userEvents.add(event);
         }
 
-        public void addEvent(String eventName, String eventDate, int photoID) {
-            Event newEvent = new Event(eventName, eventDate, photoID);
+        public void addEvent(String eventName, String eventDate, int photoID, String eventAddress) {
+            Event newEvent = new Event(eventName, eventDate, photoID, eventAddress);
             events.add(newEvent);
             userEvents.add(newEvent);
             Log.d(TAG, "added the event: " + newEvent.getEventName() + " Date: " + newEvent.getEventDate());
@@ -153,12 +153,14 @@ public class Database {
         private String eventDate;
         private int eventPhotoID;
         private int eventId;
+        private String eventAddress;
 
-        Event(String eventName, String eventDate, int eventPhotoID) {
+        Event(String eventName, String eventDate, int eventPhotoID, String eventAddress) {
             this.eventName = eventName;
             this.eventDate = eventDate;
             this.eventPhotoID = eventPhotoID;
             this.eventId = events.size();
+            this.eventAddress = eventAddress;
         }
 
         public String getEventName() {
@@ -191,6 +193,10 @@ public class Database {
             Item item = new Item(itemName, Integer.parseInt(itemPrice), itemLocation, imageID);
             items.add(item);
             eventItems.add(item);
+        }
+
+        public String getEventAddress() {
+            return eventAddress;
         }
     }
     public class Item

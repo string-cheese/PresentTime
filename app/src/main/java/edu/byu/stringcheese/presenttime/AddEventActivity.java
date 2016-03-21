@@ -138,6 +138,7 @@ public class AddEventActivity extends AppCompatActivity implements View.OnClickL
         String eventName = ((EditText) findViewById(R.id.add_event_name)).getText().toString();
         String eventDate = ((EditText) findViewById(R.id.add_event_date)).getText().toString();
         String eventType = ((Spinner) findViewById(R.id.eventType)).getSelectedItem().toString();
+        String eventAddress = ((EditText) findViewById(R.id.add_event_address)).getText().toString();
 
         int eventImageId = R.drawable.balloon;
         if (eventType.equals("Wedding"))
@@ -145,7 +146,7 @@ public class AddEventActivity extends AppCompatActivity implements View.OnClickL
         if (eventType.equals("Christmas"))
             eventImageId = R.mipmap.gifts;
 
-        Database.getInstance().getProfile(0).addEvent(eventName.toString(), eventDate.toString(), eventImageId);
+        Database.getInstance().getProfile(0).addEvent(eventName.toString(), eventDate.toString(), eventImageId, eventAddress);
         finish();
     }
 }

@@ -125,4 +125,5 @@
     <string name="title_section3">Friends</string>
     <string name="title_section4">Profile</string>
     <string name="title_activity_friend_info">FriendInfoActivity</string>
+    <string name="title_activity_event_wish_list">EventWishListActivity</string>
 </resources>

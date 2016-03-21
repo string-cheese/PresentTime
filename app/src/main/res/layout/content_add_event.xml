@@ -53,6 +53,25 @@
                 android:hint="Date"
                 android:inputType="text" />
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_weight="0.03"
+            android:focusable="true">
+
+            <EditText
+                android:id="@+id/add_event_address"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:editable="true"
+                android:elegantTextHeight="false"
+                android:ems="10"
+                android:hint="Event Address"
+                android:inputType="textCapWords" />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
