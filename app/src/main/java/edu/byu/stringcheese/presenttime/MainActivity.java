@@ -18,16 +18,10 @@ import android.widget.ViewAnimator;
  */
 public class MainActivity extends FragmentActivity {
 
-    public static MainActivity _instance;
     public static final String TAG = "MainActivity";
 
     // Whether the Log Fragment is currently shown
     private boolean mLogShown;
-
-    public static MainActivity getInstance()
-    {
-        return _instance;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +75,9 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-    //add an event to this client's proflie
+    //add an item to this client's proflie
     public void addEvent(View view) {
-        Log.d(TAG, "trying to add an event");
+        Log.d(TAG, "trying to add an item");
         Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
         MainActivity.this.startActivity(intent);
         Log.d(TAG, "I started an activity");

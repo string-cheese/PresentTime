@@ -11,19 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by dtaylor on 3/20/2016.
  */
 public class EventsSectionFragment extends android.support.v4.app.Fragment {
-    TextView eventName;
-    TextView eventDate;
-    ImageView eventPhoto;
-    /** The CardView widget. */
-    //@VisibleForTesting
-    CardView mCardView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,94 +41,76 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(true);
-
-        initializeData();
         initializeAdapter();
     }
-    private List<Event> events;
     private RecyclerView recyclerView;
 
-
-    private void initializeData(){
-        events = new ArrayList<>();
-        events.add(new Event("Justin's Wedding", "June 15th, 2016", R.drawable.balloon));
-        events.add(new Event("Sam's 25th Birthday", "December 17th, 2016", R.drawable.balloon));
-        events.add(new Event("Amanda's Graduation", "August 11th, 2016", R.drawable.balloon));
-    }
-
     private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(events);
+        RVAdapter adapter = new RVAdapter(Database.getInstance().getProfile(0).getUserEvents());
         recyclerView.setAdapter(adapter);
     }
 
+    class RVAdapter extends RecyclerView.Adapter<RVAdapter.EventViewHolder> {
 
-}
-class Event {
+        List<Database.Event> eventsShown;
 
-    String eventName;
-    String eventDate;
-    int eventPhotoID;
+        RVAdapter(List<Database.Event> events){
+            this.eventsShown = events;
+        }
 
-    Event(String eventName, String eventDate, int eventPhotoID) {
-        this.eventName = eventName;
-        this.eventDate = eventDate;
-        this.eventPhotoID = eventPhotoID;
-    }
-}
-class RVAdapter extends RecyclerView.Adapter<RVAdapter.EventViewHolder> {
+        @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+            super.onAttachedToRecyclerView(recyclerView);
+        }
 
-    public static class EventViewHolder extends RecyclerView.ViewHolder {
+        @Override
+        public EventViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.event_template, viewGroup, false);//$$$
+            EventViewHolder eventViewHolder = new EventViewHolder(v);
+            return eventViewHolder;
+        }
 
-        CardView cv;
-        TextView eventName;
-        TextView eventDate;
-        ImageView eventPhoto;
-        public int currentItem;
+        @Override
+        public void onBindViewHolder(EventViewHolder eventViewHolder, int i) {
+            eventViewHolder.eventName.setText(eventsShown.get(i).getEventName());
+            eventViewHolder.eventDate.setText(eventsShown.get(i).getEventDate());
+            eventViewHolder.eventPhoto.setImageResource(eventsShown.get(i).getEventPhotoID());
+            eventViewHolder.currentItem = i;
+            eventViewHolder.eventId = eventsShown.get(i).getEventId();
+        }
 
-        EventViewHolder(final View itemView) {
-            super(itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.getInstance(),ItemInfoActivity.class);
-                }
-            });
-            cv = (CardView)itemView.findViewById(R.id.cv);
-            eventName = (TextView)itemView.findViewById(R.id.event_name);
-            eventDate = (TextView)itemView.findViewById(R.id.event_date);
-            eventPhoto = (ImageView)itemView.findViewById(R.id.event_photo);
+        @Override
+        public int getItemCount() {
+            return eventsShown.size();
+        }
+
+        public class EventViewHolder extends RecyclerView.ViewHolder {
+
+            CardView cv;
+            TextView eventName;
+            TextView eventDate;
+            ImageView eventPhoto;
+            public int currentItem;
+            public int eventId;
+
+            EventViewHolder(final View itemView) {
+                super(itemView);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), EventInfoActivity.class);
+                        intent.putExtra("eventId", eventId);
+                        getActivity().startActivity(intent);
+                    }
+                });
+                cv = (CardView)itemView.findViewById(R.id.cv);
+                eventName = (TextView)itemView.findViewById(R.id.event_name);
+                eventDate = (TextView)itemView.findViewById(R.id.event_date);
+                eventPhoto = (ImageView)itemView.findViewById(R.id.event_photo);
+            }
         }
     }
-
-    List<Event> events;
-
-    RVAdapter(List<Event> events){
-        this.events = events;
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    @Override
-    public EventViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.event_template, viewGroup, false);//$$$
-        EventViewHolder eventViewHolder = new EventViewHolder(v);
-        return eventViewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(EventViewHolder eventViewHolder, int i) {
-        eventViewHolder.eventName.setText(events.get(i).eventName);
-        eventViewHolder.eventDate.setText(events.get(i).eventDate);
-        eventViewHolder.eventPhoto.setImageResource(events.get(i).eventPhotoID);
-        eventViewHolder.currentItem = i;
-    }
-
-    @Override
-    public int getItemCount() {
-        return events.size();
-    }
 }
+
+
 

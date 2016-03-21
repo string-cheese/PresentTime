@@ -136,12 +136,12 @@ class MyOnClickListener implements View.OnClickListener {
 class DummyContent {
 
     /**
-     * An array of sample (dummy) items.
+     * An array of sample (dummy) eventItems.
      */
     public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
 
     /**
-     * A map of sample (dummy) items, by ID.
+     * A map of sample (dummy) eventItems, by ID.
      */
     public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
 
