@@ -17,8 +17,8 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-        <activity android:name=".RecyclerViewActivity">
-        </activity>
+
+        <activity android:name=".RecyclerViewActivity"></activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name">
@@ -51,6 +51,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.byu.stringcheese.presenttime.MainActivity" />
         </activity>
+        <activity
+            android:name=".FriendInfoActivity"
+            android:label="@string/title_activity_friend_info"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

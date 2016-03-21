@@ -1,6 +1,7 @@
 package edu.byu.stringcheese.presenttime;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -79,6 +80,11 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.w("dot", v.toString());
+
+                    Intent myIntent = new Intent(, FriendInfoActivity.class);
+                    MainActivity.this.startActivity(myIntent);
+
                     if (null != mListener) {
                         // Notify the active callbacks interface (the activity, if the
                         // fragment is attached to one) that an item has been selected.
