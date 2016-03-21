@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -16,8 +17,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class AddEventActivity extends AppCompatActivity {
+public class AddEventActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "AddEventActivity";
     Calendar myCalendar = Calendar.getInstance();
     EditText editText;
     /**
@@ -31,6 +33,9 @@ public class AddEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
         editText = (EditText) findViewById(R.id.add_event_date);
+
+        findViewById(R.id.add_event_done).setOnClickListener(this);
+
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -117,5 +122,21 @@ public class AddEventActivity extends AppCompatActivity {
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.add_event_done:
+                addNewEvent();
+        }
+    }
+
+    private void addNewEvent() {
+        Log.d(TAG, "adding new event...");
+        String eventName = ((EditText) findViewById(R.id.add_event_name)).getText().toString();
+        String eventDate = ((EditText) findViewById(R.id.add_event_date)).getText().toString();
+        Database.getInstance().getProfile(0).addEvent(eventName.toString(), eventDate.toString(), R.drawable.balloon);
+        finish();
     }
 }

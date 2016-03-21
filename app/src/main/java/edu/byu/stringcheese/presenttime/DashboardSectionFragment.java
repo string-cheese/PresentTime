@@ -17,4 +17,11 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment {
         dummyTextView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));*/
         return rootView;
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+
 }

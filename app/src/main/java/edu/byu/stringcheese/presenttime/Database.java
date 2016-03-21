@@ -1,6 +1,8 @@
 package edu.byu.stringcheese.presenttime;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +66,7 @@ public class Database {
 
     public class Profile
     {
+        private static final String TAG = "Profile in Database";
         private ArrayList<Event> userEvents = new ArrayList<>();
         private ArrayList<Profile> friends = new ArrayList<>();
         private String name;
@@ -88,6 +91,13 @@ public class Database {
             userEvents.add(event);
         }
 
+        public void addEvent(String eventName, String eventDate, int photoID) {
+            Event newEvent = new Event(eventName, eventDate, photoID);
+            events.add(newEvent);
+            userEvents.add(newEvent);
+            Log.d(TAG, "added the event: " + newEvent.getEventName() + " Date: " + newEvent.getEventDate());
+        }
+
         public String getName()
         {
             return this.name;
@@ -101,6 +111,8 @@ public class Database {
         public List<Event> getUserEvents() {
             return userEvents;
         }
+
+
     }
 
     public class Event {
