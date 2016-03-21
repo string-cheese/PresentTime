@@ -47,6 +47,30 @@ public class Database {
         event3.addItem(new Item("Bike7", 100, "Cakes And More", R.drawable.ic_launcher));
         profile.addEvent(event3);
         profiles.add(profile);
+
+
+
+
+        Profile profile2 = new Profile("Joe","joe@cool.com");
+
+        Event eventa = new Event("Joe's Wedding", "June 15th, 2016", R.drawable.balloon);
+        eventa.addItem(new Item("Tic",0,"Tac",R.drawable.ic_media_pause));
+        eventa.addItem(new Item("Tac",25,"The Dock",R.drawable.ic_star_black_24dp));
+        eventa.addItem(new Item("Toe",178,"Cakes And More",R.drawable.ic_launcher));
+        profile2.addEvent(eventa);
+
+        Event event2a = new Event("Billy's 23th Birthday", "December 17th, 2016", R.drawable.balloon);
+        event2a.addItem(new Item("Kitty",65,"Toyota",R.drawable.ic_media_pause));
+        event2a.addItem(new Item("Dr. Who Stuff",71245000,"The Dock",R.drawable.ic_star_black_24dp));
+        event2a.addItem(new Item("Monkey",102340,"Cakes And More",R.drawable.ic_launcher));
+        profile2.addEvent(event2a);
+
+        Event event3a = new Event("Amanda's Graduation", "August 11th, 2016", R.drawable.balloon);
+        event3a.addItem(new Item("House2",0,"Toyota",R.drawable.ic_media_pause));
+        event3a.addItem(new Item("Pancake3",0,"The Dock",R.drawable.ic_star_black_24dp));
+        event3a.addItem(new Item("Dog4",0,"Cakes And More",R.drawable.ic_launcher));
+        profile2.addEvent(event3a);
+        profiles.add(profile2);
     }
 
     public static Database getInstance()
@@ -62,6 +86,10 @@ public class Database {
 
     public Event getEvent(int eventId) {
         return events.get(eventId);
+    }
+
+    public ArrayList<Profile> getProfiles() {
+        return profiles;
     }
 
     public class Profile
@@ -110,6 +138,10 @@ public class Database {
 
         public List<Event> getUserEvents() {
             return userEvents;
+        }
+
+        public int getProfileId() {
+            return profileId;
         }
 
 
