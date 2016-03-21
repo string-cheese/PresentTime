@@ -74,8 +74,6 @@
 
         </RelativeLayout>
 
-        <include layout="@layout/item_divider" />
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,8 +137,6 @@
                 android:textColor="#727272" />
 
         </RelativeLayout>
-
-        <include layout="@layout/item_divider" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -207,8 +203,6 @@
 
         </RelativeLayout>
 
-        <include layout="@layout/item_divider" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -218,28 +212,32 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Send SMS" />
+                android:text="Send SMS"
+                android:textColor="@color/colorTextIcons" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:text="Call" />
+                android:text="Call"
+                android:textColor="@color/colorTextIcons" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:text="Email" />
+                android:text="Email"
+                android:textColor="@color/colorTextIcons" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:text="Remove Contact" />
+                android:text="Remove Contact"
+                android:textColor="@color/colorTextIcons" />
 
         </LinearLayout>
     </LinearLayout>

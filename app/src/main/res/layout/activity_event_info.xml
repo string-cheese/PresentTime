@@ -77,14 +77,16 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="RSVP" />
+                android:text="RSVP"
+                android:textColor="@color/colorTextIcons"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:text="Donate Funds" />
+                android:text="Donate Funds"
+                android:textColor="@color/colorTextIcons"/>
 
             <Button
                 android:id="@+id/wish_list_button"
@@ -92,7 +94,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:text="View Wishlist" />
+                android:text="View Wishlist"
+                android:textColor="@color/colorTextIcons"/>
 
 
         </LinearLayout>
