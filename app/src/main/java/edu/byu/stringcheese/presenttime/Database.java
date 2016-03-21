@@ -140,7 +140,7 @@ public class Database {
         }
 
         public List<Item> getItems() {
-            return items;
+            return eventItems;
         }
     }
     public class Item
