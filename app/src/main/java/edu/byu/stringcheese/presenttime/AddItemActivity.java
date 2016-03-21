@@ -18,7 +18,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
-        final EditText priceTextBox = (EditText)findViewById(R.id.price);
+        final EditText priceTextBox = (EditText)findViewById(R.id.add_item_price);
         priceTextBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

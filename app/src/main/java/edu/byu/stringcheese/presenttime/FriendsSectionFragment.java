@@ -17,7 +17,6 @@ import java.util.List;
  * Created by dtaylor on 3/20/2016.
  */
 public class FriendsSectionFragment extends android.support.v4.app.Fragment {
-    private OnListFragmentInteractionListener mListener;
     private RecyclerView recyclerView = null;
 
     @Override
@@ -38,21 +37,15 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.friends_rv);
         Context context = recyclerView.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        List<Database.Profile> possibleFriends = Database.getInstance().getProfiles().subList(1, Database.getInstance().getProfiles().size() - 1);
-        recyclerView.setAdapter(new FriendsListViewAdapter(possibleFriends, mListener));
+        List<Database.Profile> possibleFriends = Database.getInstance().getProfiles().subList(1, Database.getInstance().getProfiles().size());
+        recyclerView.setAdapter(new FriendsListViewAdapter(possibleFriends));
 
-    }
-
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(Database.Profile profile);
     }
 
     class FriendsListViewAdapter extends RecyclerView.Adapter<FriendsListViewAdapter.FriendViewHolder> {
-        private final List<Database.Profile> shownProfiles;
-        private final OnListFragmentInteractionListener mListener = null;
+        List<Database.Profile> shownProfiles;
 
-        public FriendsListViewAdapter(List<Database.Profile> profiles, OnListFragmentInteractionListener listener) {
+        public FriendsListViewAdapter(List<Database.Profile> profiles) {
             shownProfiles = profiles;
         }
 
@@ -69,12 +62,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
         public void onBindViewHolder(final FriendViewHolder holder, int position) {
             holder.currentItem = position;
             holder.profileId = shownProfiles.get(position).getProfileId();
-
-            holder.profile = shownProfiles.get(position);
-            //holder.mIdView.setText(shownProfiles.get(position).id);
-            holder.mContentView.setText(shownProfiles.get(position).getName());
-
-
+            holder.friendName.setText(shownProfiles.get(position).getName());
         }
 
         @Override
@@ -85,16 +73,14 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
         public class FriendViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
             //public final TextView mIdView;
-            public final TextView mContentView;
-            public Database.Profile profile;
+            public final TextView friendName;
             public int profileId;
             public int currentItem;
 
             public FriendViewHolder(View view) {
                 super(view);
                 mView = view;
-                //mIdView = (TextView) view.findViewById(R.id.id);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                friendName = (TextView) view.findViewById(R.id.friend_name);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -114,7 +100,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
 
             @Override
             public String toString() {
-                return super.toString() + " '" + mContentView.getText() + "'";
+                return super.toString() + " '" + friendName.getText() + "'";
             }
         }
     }
