@@ -25,8 +25,8 @@ public class RecyclerViewActivity extends Activity {
 
         recyclerView =(RecyclerView)findViewById(R.id.rv);
 
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(llm);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
 
         initializeData();
