@@ -23,6 +23,7 @@
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
             <ImageView
+                android:id="@+id/item_image"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/app_bar_height"
                 android:adjustViewBounds="true"
@@ -40,6 +41,7 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
+    <include layout="@layout/content_item_info"></include>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
