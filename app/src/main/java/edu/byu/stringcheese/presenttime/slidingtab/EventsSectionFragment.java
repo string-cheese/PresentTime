@@ -43,18 +43,10 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mCardView = (CardView) view.findViewById(R.id.cv);
-        eventName = (TextView)view.findViewById(R.id.event_name);
-        eventDate = (TextView)view.findViewById(R.id.event_date);
-        eventPhoto = (ImageView)view.findViewById(R.id.event_photo);
-
-        eventName.setText("Sam's 25th Birthday!");
-        eventDate.setText("December 17th, 2016");
-        eventPhoto.setImageResource(R.drawable.balloon);
 
         recyclerView =(RecyclerView)view.findViewById(R.id.rv);
 
-        LinearLayoutManager llm = new LinearLayoutManager(view.getContext());
+        LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(true);
 
@@ -67,7 +59,7 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
 
     private void initializeData(){
         events = new ArrayList<>();
-        events.add(new Event("Justin's Wedding", "June 15th, 2016", R.drawable.justin_profile));
+        events.add(new Event("Justin's Wedding", "June 15th, 2016", R.drawable.balloon));
         events.add(new Event("Sam's 25th Birthday", "December 17th, 2016", R.drawable.balloon));
         events.add(new Event("Amanda's Graduation", "August 11th, 2016", R.drawable.balloon));
     }
