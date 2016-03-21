@@ -15,17 +15,6 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             >
-        <fragment
-            android:id="@+id/cardViewFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:layout="@layout/cardview_activity" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            >
 
             <ImageView
                 android:layout_width="match_parent"
