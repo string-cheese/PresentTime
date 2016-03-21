@@ -72,7 +72,6 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
 
         public class FriendViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
-            //public final TextView mIdView;
             public final TextView friendName;
             public int profileId;
             public int currentItem;
@@ -84,23 +83,11 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.w("dot", v.toString());
                         Intent intent = new Intent(getActivity(), FriendInfoActivity.class);
                         intent.putExtra("profileId", profileId);
                         startActivity(intent);
-
-//                    if (null != mListener) {
-                        // Notify the active callbacks interface (the activity, if the
-                        // fragment is attached to one) that an item has been selected.
-                        // mListener.onListFragmentInteraction(holder.profile);
-                        //                  }
                     }
                 });
-            }
-
-            @Override
-            public String toString() {
-                return super.toString() + " '" + friendName.getText() + "'";
             }
         }
     }
