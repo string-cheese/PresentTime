@@ -92,6 +92,10 @@ public class Database {
         return profiles;
     }
 
+    public Item getItem(int itemId) {
+        return items.get(itemId);
+    }
+
     public class Profile
     {
         private static final String TAG = "Profile in Database";
