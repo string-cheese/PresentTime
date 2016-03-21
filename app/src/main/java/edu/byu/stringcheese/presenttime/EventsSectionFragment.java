@@ -1,5 +1,6 @@
 package edu.byu.stringcheese.presenttime;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -89,9 +90,16 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.EventViewHolder> {
         TextView eventName;
         TextView eventDate;
         ImageView eventPhoto;
+        public int currentItem;
 
-        EventViewHolder(View itemView) {
+        EventViewHolder(final View itemView) {
             super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.getInstance(),ItemInfoActivity.class);
+                }
+            });
             cv = (CardView)itemView.findViewById(R.id.cv);
             eventName = (TextView)itemView.findViewById(R.id.event_name);
             eventDate = (TextView)itemView.findViewById(R.id.event_date);
@@ -122,6 +130,7 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.EventViewHolder> {
         eventViewHolder.eventName.setText(events.get(i).eventName);
         eventViewHolder.eventDate.setText(events.get(i).eventDate);
         eventViewHolder.eventPhoto.setImageResource(events.get(i).eventPhotoID);
+        eventViewHolder.currentItem = i;
     }
 
     @Override
