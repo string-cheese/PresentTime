@@ -5,13 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+
+import edu.byu.stringcheese.presenttime.database.Profile;
+import edu.byu.stringcheese.presenttime.database.Utils;
 
 /**
  * Created by dtaylor on 3/20/2016.
@@ -27,6 +29,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.friends_section_fragment, container, false);
         return rootView;
     }
@@ -37,15 +40,15 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.friends_rv);
         Context context = recyclerView.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        List<Database.Profile> possibleFriends = Database.getInstance().getProfiles().subList(1, Database.getInstance().getProfiles().size());
+        List<Profile> possibleFriends = Utils.getFriends(LoginActivity.myProfile);
         recyclerView.setAdapter(new FriendsListViewAdapter(possibleFriends));
 
     }
 
     class FriendsListViewAdapter extends RecyclerView.Adapter<FriendsListViewAdapter.FriendViewHolder> {
-        List<Database.Profile> shownProfiles;
+        List<Profile> shownProfiles;
 
-        public FriendsListViewAdapter(List<Database.Profile> profiles) {
+        public FriendsListViewAdapter(List<Profile> profiles) {
             shownProfiles = profiles;
         }
 
@@ -61,7 +64,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
         @Override
         public void onBindViewHolder(final FriendViewHolder holder, int position) {
             holder.currentItem = position;
-            holder.profileId = shownProfiles.get(position).getProfileId();
+            holder.profileId = shownProfiles.get(position).getId();
             holder.friendName.setText(shownProfiles.get(position).getName());
         }
 
@@ -73,7 +76,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
         public class FriendViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
             public final TextView friendName;
-            public int profileId;
+            public String profileId;
             public int currentItem;
 
             public FriendViewHolder(View view) {

@@ -2,6 +2,7 @@ package edu.byu.stringcheese.presenttime;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,12 +14,17 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import edu.byu.stringcheese.presenttime.database.Event;
+import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
+import edu.byu.stringcheese.presenttime.database.Profile;
+import edu.byu.stringcheese.presenttime.database.Utils;
+
 /**
  * Created by dtaylor on 3/20/2016.
  */
 public class EventsSectionFragment extends android.support.v4.app.Fragment {
 
-    private int selectedProfile = 0;
+    private Profile profile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,9 +34,13 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if(getActivity().getIntent().getExtras() != null && getActivity().getIntent().getExtras().get("profileId") != null)
-            selectedProfile = (int)getActivity().getIntent().getExtras().get("profileId");
         View rootView = inflater.inflate(R.layout.events_section_fragment, container, false);
+        if(savedInstanceState != null && savedInstanceState.containsKey("profileId"))
+            profile = FirebaseDatabase.getInstance().getProfile(savedInstanceState.getString("profileId"));
+        else
+        {
+            Snackbar.make(rootView, "Something is wrong, this doesn't exist", Snackbar.LENGTH_LONG).show();
+        }
         return rootView;
     }
 
@@ -48,14 +58,14 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
 
     private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(Database.getInstance().getProfile(selectedProfile).getUserEvents());
+        RVAdapter adapter = new RVAdapter(Utils.getEvents(profile));
         recyclerView.setAdapter(adapter);
     }
 
     class RVAdapter extends RecyclerView.Adapter<RVAdapter.EventViewHolder> {
 
-        List<Database.Event> eventsShown;
-        RVAdapter(List<Database.Event> events){
+        List<Event> eventsShown;
+        RVAdapter(List<Event> events){
             this.eventsShown = events;
         }
 
@@ -73,11 +83,11 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
 
         @Override
         public void onBindViewHolder(EventViewHolder eventViewHolder, int i) {
-            eventViewHolder.eventName.setText(eventsShown.get(i).getEventName());
-            eventViewHolder.eventDate.setText(eventsShown.get(i).getEventDate());
-            eventViewHolder.eventPhoto.setImageResource(eventsShown.get(i).getEventPhotoID());
+            eventViewHolder.eventName.setText(eventsShown.get(i).getName());
+            eventViewHolder.eventDate.setText(eventsShown.get(i).getDate());
+            eventViewHolder.eventPhoto.setImageResource(eventsShown.get(i).getPhotoId());
             eventViewHolder.currentItem = i;
-            eventViewHolder.eventId = eventsShown.get(i).getEventId();
+            eventViewHolder.eventId = eventsShown.get(i).getId();
         }
 
         @Override
@@ -92,7 +102,7 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
             TextView eventDate;
             ImageView eventPhoto;
             public int currentItem;
-            public int eventId;
+            public String eventId;
 
             EventViewHolder(final View itemView) {
                 super(itemView);

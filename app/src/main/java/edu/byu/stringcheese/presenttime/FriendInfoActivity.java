@@ -1,6 +1,7 @@
 package edu.byu.stringcheese.presenttime;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
@@ -17,12 +18,22 @@ public class FriendInfoActivity extends AppCompatActivity {
 
         //Set the frame layout as the view container for this activity.
         setContentView(layout);
+        if(getIntent().getStringExtra("profileId") != null)
+        {
+            //Create and add a fragment to frame layout created above.
+            FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+            EventsSectionFragment myFragment = new EventsSectionFragment();
+            Bundle args = new Bundle();
+            args.putString("profileId", getIntent().getStringExtra("profileId"));
+            myFragment.setArguments(args);
+            t.add(layout.getId(), myFragment, "myFirstFragment");
+            t.commit();
+        }
+        else
+        {
+            Snackbar.make(this.getCurrentFocus(), "Something is wrong, this doesn't exist", Snackbar.LENGTH_LONG).show();
+        }
 
-        //Create and add a fragment to frame layout created above.
-        FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-        EventsSectionFragment myFragment = new EventsSectionFragment();
-        t.add(layout.getId(), myFragment, "myFirstFragment");
-        t.commit();
     }
 
 }

@@ -3,7 +3,7 @@ package edu.byu.stringcheese.presenttime;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -14,6 +14,12 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.GenericTypeIndicator;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -24,10 +30,13 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
+import edu.byu.stringcheese.presenttime.database.Profile;
+
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements
+public class LoginActivity extends FragmentActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
@@ -39,14 +48,19 @@ public class LoginActivity extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
     private ProgressDialog mProgressDialog;
+    public static Firebase ref;
+    public static Profile myProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //facebook[start]
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
+        //Firebase setup
+        Firebase.setAndroidContext(this);
+        initializeFirebase();
+        FirebaseDatabase.getInstance().fakeData();
+        //facebook[start]
         callbackManager = CallbackManager.Factory.create();
 
 
@@ -139,10 +153,10 @@ public class LoginActivity extends AppCompatActivity implements
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            updateUI(true);
+            updateUI(true, acct);
         } else {
             // Signed out, show unauthenticated UI.
-            updateUI(false);
+            updateUI(false, null);
         }
     }
     // [END handleSignInResult]
@@ -161,7 +175,7 @@ public class LoginActivity extends AppCompatActivity implements
                     @Override
                     public void onResult(Status status) {
                         // [START_EXCLUDE]
-                        updateUI(false);
+                        updateUI(false, null);
                         // [END_EXCLUDE]
                     }
                 });
@@ -175,7 +189,7 @@ public class LoginActivity extends AppCompatActivity implements
                     @Override
                     public void onResult(Status status) {
                         // [START_EXCLUDE]
-                        updateUI(false);
+                        updateUI(false, null);
                         // [END_EXCLUDE]
                     }
                 });
@@ -205,11 +219,13 @@ public class LoginActivity extends AppCompatActivity implements
         }
     }
 
-    private void updateUI(boolean signedIn) {
+    private void updateUI(boolean signedIn, GoogleSignInAccount acct) {
         if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("email",acct.getEmail());
+            intent.putExtra("name",acct.getDisplayName());
             startActivity(intent);
             finish();
         } else {
@@ -237,7 +253,83 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        signIn();
+        //signIn();
+    }
+
+    private void initializeFirebase() {
+
+        ref = new Firebase("https://crackling-fire-2441.firebaseio.com/present-time");
+        // Attach an listener to read the data at our posts reference
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                System.out.println("There are " + snapshot.getChildrenCount() + " blog posts");
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    //Database db = postSnapshot.getValue(Database.class);
+                    //System.out.println(post.getAuthor() + " - " + post.getTitle());
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+        });
+        //example for ordering https://www.firebase.com/docs/android/guide/retrieving-data.html#section-ordered-data
+        ref.getParent().addChildEventListener(new ChildEventListener() {
+            // Retrieve new posts as they are added to the database
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
+                if (snapshot.getKey().equals("present-time")) {
+                    GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
+                    };
+                    FirebaseDatabase dbTest = snapshot.getValue(t);
+                    FirebaseDatabase.setInstance(dbTest);
+                    if (getIntent().getStringExtra("email") != null && getIntent().getStringExtra("name") != null) {
+                        String email = getIntent().getStringExtra("email");
+                        String name = getIntent().getStringExtra("name");
+                        myProfile = FirebaseDatabase.getInstance().getProfile(email);
+                        if (myProfile == null) {
+                            myProfile = FirebaseDatabase.getInstance().addProfile(name, email);
+                        }
+                    }
+                }
+                //.out.println("Author: " + newPost.getAuthor());
+                //System.out.println("Title: " + newPost.getTitle());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                //String title = (String) snapshot.child("title").getValue();
+                //System.out.println("The updated post title is " + title);
+                if (dataSnapshot.getKey().equals("present-time")) {
+                    GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
+                    };
+                    FirebaseDatabase dbTest = dataSnapshot.getValue(t);
+                    //FirebaseDatabase db = (FirebaseDatabase) dataSnapshot.getValue();
+                    FirebaseDatabase.setInstance(dbTest);
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                //String title = (String) snapshot.child("title").getValue();
+                //System.out.println("The blog post titled " + title + " has been deleted");
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+            //... ChildEventListener also defines onChildChanged, onChildRemoved,
+            //    onChildMoved and onCanceled, covered in later sections.
+        });
     }
 }
 

@@ -1,4 +1,5 @@
 package edu.byu.stringcheese.presenttime;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -79,6 +80,7 @@ public class MainActivity extends FragmentActivity {
     public void addEvent(View view) {
         Log.d(TAG, "trying to add an item");
         Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
+        intent.putExtra("profileId", LoginActivity.myProfile.getId());
         MainActivity.this.startActivity(intent);
         Log.d(TAG, "I started an activity");
         Log.d(TAG, intent.toString());

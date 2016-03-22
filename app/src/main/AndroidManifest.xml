@@ -10,6 +10,7 @@
 
     <application
         android:allowBackup="true"
+        android:name="android.support.multidex.MultiDexApplication">
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -27,11 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".FriendInfoActivity"
             android:parentActivityName=".FriendInfoActivity">
@@ -52,30 +48,14 @@
         </activity>
         <activity
             android:name=".AddItemActivity"
-            android:parentActivityName=".MainActivity">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
+            android:parentActivityName=".ItemInfoActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.byu.stringcheese.presenttime.MainActivity" />
+                android:value="edu.byu.stringcheese.presenttime.ItemInfoActivity" />
         </activity>
         <activity
             android:name=".ItemInfoActivity"
             android:parentActivityName=".EventWishListActivity">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.byu.stringcheese.presenttime.EventWishListActivity" />
@@ -92,8 +72,7 @@
         <activity
             android:name=".EventWishListActivity"
             android:label="@string/title_activity_event_wish_list"
-            android:parentActivityName=".EventInfoActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".EventInfoActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.byu.stringcheese.presenttime.EventInfoActivity" />
