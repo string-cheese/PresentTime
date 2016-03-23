@@ -15,19 +15,23 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Item;
 import edu.byu.stringcheese.presenttime.database.Utils;
 
-public class EventWishListActivity extends AppCompatActivity {
+public class EventWishListActivity extends AppCompatActivity implements Observer {
 
     public Event event;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseDatabase.addObserver(this);
         setContentView(R.layout.activity_event_wish_list);
         if(getIntent().getStringExtra("eventId") != null) {
             event = Utils.getEvent(getIntent().getStringExtra("eventId"));
@@ -65,6 +69,16 @@ public class EventWishListActivity extends AppCompatActivity {
         ItemRVAdapter adapter = new ItemRVAdapter(Utils.getItems(event));
         recyclerView.setAdapter(adapter);
     }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if(recyclerView.getAdapter() != null)
+        {
+            ((ItemRVAdapter)recyclerView.getAdapter()).updateEventsShown(Utils.getItems(event));
+            recyclerView.invalidate();
+        }
+    }
+
     class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHolder> {
 
         List<Item> itemsShown;
@@ -98,6 +112,12 @@ public class EventWishListActivity extends AppCompatActivity {
         @Override
         public int getItemCount() {
             return itemsShown.size();
+        }
+
+        public void updateEventsShown(ArrayList<Item> items) {
+            this.itemsShown.clear();
+            this.itemsShown.addAll(items);
+            notifyDataSetChanged();
         }
 
         public class ItemViewHolder extends RecyclerView.ViewHolder {

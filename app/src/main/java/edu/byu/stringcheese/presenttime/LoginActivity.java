@@ -47,7 +47,6 @@ public class LoginActivity extends FragmentActivity implements
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
-    public static Firebase ref;
 
     LoginButton loginButton;
     CallbackManager callbackManager;
@@ -60,9 +59,7 @@ public class LoginActivity extends FragmentActivity implements
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
         //Firebase setup
-        Firebase.setAndroidContext(this);
-        initializeFirebase();
-
+        FirebaseDatabase.initializeFirebase(this);
         Button debug_login = (Button) findViewById(R.id.debug_login);
         debug_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,75 +249,6 @@ public class LoginActivity extends FragmentActivity implements
         super.onStart();
         //signIn();
     }
-    private void initializeFirebase() {
 
-        ref = new Firebase("https://crackling-fire-2441.firebaseio.com/present-time");
-        // Attach an listener to read the data at our posts reference
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                System.out.println("There are " + snapshot.getChildrenCount() + " blog posts");
-                /*for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    //Database db = postSnapshot.getValue(Database.class);
-                    //System.out.println(post.getAuthor() + " - " + post.getTitle());
-                }*/
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-        });
-
-        ref.getParent().addChildEventListener(new ChildEventListener() {
-            // Retrieve new posts as they are added to the database
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
-                if (dataSnapshot.getKey().equals("present-time")) {
-                    GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
-                    };
-                    FirebaseDatabase dbTest = dataSnapshot.getValue(t);
-                    FirebaseDatabase.setInstance(dbTest);
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.getKey().equals("present-time")) {
-                    GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
-                    };
-                    FirebaseDatabase dbTest = dataSnapshot.getValue(t);
-                    FirebaseDatabase.setInstance(dbTest);
-                } else if (dataSnapshot.getKey().equals("events")) {
-                    GenericTypeIndicator<Map<String, Event>> t = new GenericTypeIndicator<Map<String, Event>>() {
-                    };
-                    Map<String, Event> events = dataSnapshot.getValue(t);
-                } else if (dataSnapshot.getKey().equals("items")) {
-                    GenericTypeIndicator<Map<String, Item>> t = new GenericTypeIndicator<Map<String, Item>>() {
-                    };
-                    Map<String, Item> items = dataSnapshot.getValue(t);
-
-                } else if (dataSnapshot.getKey().equals("profiles")) {
-                    GenericTypeIndicator<Map<String, Profile>> t = new GenericTypeIndicator<Map<String, Profile>>() {
-                    };
-                    Map<String, Profile> profiles = dataSnapshot.getValue(t);
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
-    }
 }
 

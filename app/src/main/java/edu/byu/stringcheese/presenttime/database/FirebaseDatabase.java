@@ -4,21 +4,26 @@ package edu.byu.stringcheese.presenttime.database;
  * Created by dtaylor on 3/22/2016.
  */
 
+import android.content.Context;
+
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.GenericTypeIndicator;
+import com.firebase.client.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
-import edu.byu.stringcheese.presenttime.LoginActivity;
-import edu.byu.stringcheese.presenttime.MainActivity;
 import edu.byu.stringcheese.presenttime.R;
 
 /**
  * Created by dtaylor on 3/21/2016.
  */
-public class FirebaseDatabase {
+public class FirebaseDatabase{
     private Map<String,Profile> profiles = new HashMap<>();
     private Map<String,Event> events = new HashMap<>();
     private Map<String,Item> items = new HashMap<>();
@@ -45,7 +50,7 @@ public class FirebaseDatabase {
     public Profile addProfile(String name, String email)
     {
         //add item
-        Firebase profiles = LoginActivity.ref.child("profiles");
+        Firebase profiles = FirebaseDatabase.ref.child("profiles");
         Firebase newProfile = profiles.push();
         String key = newProfile.getKey();
         Profile profile = new Profile(name, email, key);
@@ -121,6 +126,118 @@ public class FirebaseDatabase {
         return _instance != null;
     }
 
+    public static Firebase ref;
+
+
+    public static void initializeFirebase(Context context) {
+        Firebase.setAndroidContext(context);
+        ref = new Firebase("https://crackling-fire-2441.firebaseio.com/present-time");
+        ref.addValueEventListener(getValueEventListener());
+        ref.getParent().addChildEventListener(getChildEventListener());
+    }
+
+    private static DatabaseChildEventListener childEventListener;
+    private static DatabaseChildEventListener getChildEventListener()
+    {
+        if(childEventListener == null)
+        {
+            childEventListener = new DatabaseChildEventListener();
+        }
+        return childEventListener;
+    }
+    private static DatabaseValueEventListener valueEventListener;
+    private static DatabaseValueEventListener getValueEventListener()
+    {
+        if(valueEventListener == null)
+        {
+            valueEventListener = new DatabaseValueEventListener();
+        }
+        return valueEventListener;
+    }
+
+    public static void addObserver(Observer obs)
+    {
+        getChildEventListener().addObserver(obs);
+        getValueEventListener().addObserver(obs);
+    }
+
+}
+class DatabaseValueEventListener extends Observable implements ValueEventListener {
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        System.out.println("There are " + dataSnapshot.getChildrenCount() + " blog posts");
+        if (dataSnapshot.getKey() != null && dataSnapshot.getKey().equals("present-time")) {
+            GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
+            };
+            FirebaseDatabase dbTest = dataSnapshot.getValue(t);
+            FirebaseDatabase.setInstance(dbTest);
+            //NOTIFY OBSERVERS
+            setChanged();
+            notifyObservers();
+        }
+                /*for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    //Database db = postSnapshot.getValue(Database.class);
+                    //System.out.println(post.getAuthor() + " - " + post.getTitle());
+                }*/
+    }
+
+    @Override
+    public void onCancelled(FirebaseError firebaseError) {
+        System.out.println("The read failed: " + firebaseError.getMessage());
+    }
+}
+class DatabaseChildEventListener extends Observable implements ChildEventListener {
+
+    // Retrieve new posts as they are added to the database
+    @Override
+    public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
+        if (dataSnapshot.getKey().equals("present-time")) {
+            GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
+            };
+            FirebaseDatabase dbTest = dataSnapshot.getValue(t);
+            FirebaseDatabase.setInstance(dbTest);
+            //NOTIFY OBSERVERS
+            setChanged();
+            notifyObservers();
+        }
+    }
+
+    @Override
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        if (dataSnapshot.getKey().equals("present-time")) {
+            GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
+            };
+            FirebaseDatabase dbTest = dataSnapshot.getValue(t);
+            FirebaseDatabase.setInstance(dbTest);
+        } else if (dataSnapshot.getKey().equals("events")) {
+            GenericTypeIndicator<Map<String, Event>> t = new GenericTypeIndicator<Map<String, Event>>() {
+            };
+            Map<String, Event> events = dataSnapshot.getValue(t);
+        } else if (dataSnapshot.getKey().equals("items")) {
+            GenericTypeIndicator<Map<String, Item>> t = new GenericTypeIndicator<Map<String, Item>>() {
+            };
+            Map<String, Item> items = dataSnapshot.getValue(t);
+
+        } else if (dataSnapshot.getKey().equals("profiles")) {
+            GenericTypeIndicator<Map<String, Profile>> t = new GenericTypeIndicator<Map<String, Profile>>() {
+            };
+            Map<String, Profile> profiles = dataSnapshot.getValue(t);
+        }
+    }
+
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
+    }
+
+    @Override
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onCancelled(FirebaseError firebaseError) {
+
+    }
 }
 
 

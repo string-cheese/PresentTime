@@ -34,7 +34,7 @@ public class Profile
     public String addFriend(String value)
     {
         //update profile event list
-        Firebase profile = LoginActivity.ref.child("profiles").child(id);
+        Firebase profile = FirebaseDatabase.ref.child("profiles").child(id);
         Firebase friends = profile.child("friends");
         String key = friends.push().getKey();
 
@@ -47,14 +47,14 @@ public class Profile
 
     public Event addEvent(String eventName, String eventDate, int photoID, String eventAddress) {
         //add event
-        Firebase events = LoginActivity.ref.child("events");
+        Firebase events = FirebaseDatabase.ref.child("events");
         Firebase newEvent = events.push();
         String key = newEvent.getKey();
         Event event = new Event(eventName,eventDate,photoID,eventAddress,id,key);
         newEvent.setValue(event);
 
         //update profile event list
-        Firebase profile = LoginActivity.ref.child("profiles").child(id);
+        Firebase profile = FirebaseDatabase.ref.child("profiles").child(id);
         Firebase profileEvents = profile.child("events");
         String profileEventKey = profileEvents.push().getKey();
         this.events.put(profileEventKey, key);
