@@ -1,6 +1,7 @@
 package edu.byu.stringcheese.presenttime;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -59,7 +60,14 @@ public class LoginActivity extends FragmentActivity implements
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
         //Firebase setup
-        FirebaseDatabase.initializeFirebase(this);
+        new AsyncTask<LoginActivity, LoginActivity, LoginActivity>(){
+
+            @Override
+            protected LoginActivity doInBackground(LoginActivity... params) {
+                FirebaseDatabase.initializeFirebase(params[0]);
+                return params[0];
+            }
+        }.execute(this);
         Button debug_login = (Button) findViewById(R.id.debug_login);
         debug_login.setOnClickListener(new View.OnClickListener() {
             @Override
