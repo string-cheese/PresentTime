@@ -1,6 +1,5 @@
 package edu.byu.stringcheese.presenttime;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -31,14 +30,13 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Item;
 import edu.byu.stringcheese.presenttime.database.Profile;
-import edu.byu.stringcheese.presenttime.database.Utils;
+
 
 /**
  * A login screen that offers login via email/password.
@@ -49,33 +47,32 @@ public class LoginActivity extends FragmentActivity implements
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
+    public static Firebase ref;
 
     LoginButton loginButton;
     CallbackManager callbackManager;
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
-    private ProgressDialog mProgressDialog;
-    public static Firebase ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
+        //Firebase setup
+        Firebase.setAndroidContext(this);
+        initializeFirebase();
+
         Button debug_login = (Button) findViewById(R.id.debug_login);
         debug_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("email","justin@cool.com");
+                intent.putExtra("email", "justin@cool.com");
                 intent.putExtra("name", "Justin");
                 startActivity(intent);
             }
         });
-        //Firebase setup
-        Firebase.setAndroidContext(this);
-        initializeFirebase();
-        //FirebaseDatabase.getInstance().fakeData();
         //facebook[start]
         callbackManager = CallbackManager.Factory.create();
 
@@ -219,22 +216,6 @@ public class LoginActivity extends FragmentActivity implements
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.loading));
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
-    }
-
     private void updateUI(boolean signedIn, GoogleSignInAccount acct) {
         if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
@@ -271,7 +252,6 @@ public class LoginActivity extends FragmentActivity implements
         super.onStart();
         //signIn();
     }
-
     private void initializeFirebase() {
 
         ref = new Firebase("https://crackling-fire-2441.firebaseio.com/present-time");
@@ -280,10 +260,10 @@ public class LoginActivity extends FragmentActivity implements
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 System.out.println("There are " + snapshot.getChildrenCount() + " blog posts");
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                /*for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     //Database db = postSnapshot.getValue(Database.class);
                     //System.out.println(post.getAuthor() + " - " + post.getTitle());
-                }
+                }*/
             }
 
             @Override
@@ -291,7 +271,7 @@ public class LoginActivity extends FragmentActivity implements
                 System.out.println("The read failed: " + firebaseError.getMessage());
             }
         });
-        //example for ordering https://www.firebase.com/docs/android/guide/retrieving-data.html#section-ordered-data
+
         ref.getParent().addChildEventListener(new ChildEventListener() {
             // Retrieve new posts as they are added to the database
             @Override
@@ -301,48 +281,15 @@ public class LoginActivity extends FragmentActivity implements
                     };
                     FirebaseDatabase dbTest = dataSnapshot.getValue(t);
                     FirebaseDatabase.setInstance(dbTest);
-
                 }
-                /*try {
-                    if (dataSnapshot.getKey().equals("present-time")) {
-                        GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
-                        };
-                        FirebaseDatabase dbTest = dataSnapshot.getValue(t);
-                        //FirebaseDatabase db = (FirebaseDatabase) dataSnapshot.getValue();
-                        FirebaseDatabase.setInstance(dbTest);
-                    } else if (dataSnapshot.getKey().equals("events")) {
-                        GenericTypeIndicator<Map<String, Event>> t = new GenericTypeIndicator<Map<String, Event>>() {
-                        };
-                        Map<String, Event> events = dataSnapshot.getValue(t);
-                    } else if (dataSnapshot.getKey().equals("items")) {
-                        GenericTypeIndicator<Map<String, Item>> t = new GenericTypeIndicator<Map<String, Item>>() {
-                        };
-                        Map<String, Item> items = dataSnapshot.getValue(t);
-
-                    } else if (dataSnapshot.getKey().equals("profiles")) {
-                        GenericTypeIndicator<Map<String, Profile>> t = new GenericTypeIndicator<Map<String, Profile>>() {
-                        };
-                        Map<String, Profile> profiles = dataSnapshot.getValue(t);
-
-                    }
-                }
-                catch(Exception e)
-                {
-                    Log.e("LoginActivity","error loading: "+dataSnapshot.getKey(),e);
-                }*/
-                //.out.println("Author: " + newPost.getAuthor());
-                //System.out.println("Title: " + newPost.getTitle());
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                //String title = (String) snapshot.child("title").getValue();
-                //System.out.println("The updated post title is " + title);
                 if (dataSnapshot.getKey().equals("present-time")) {
                     GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
                     };
                     FirebaseDatabase dbTest = dataSnapshot.getValue(t);
-                    //FirebaseDatabase db = (FirebaseDatabase) dataSnapshot.getValue();
                     FirebaseDatabase.setInstance(dbTest);
                 } else if (dataSnapshot.getKey().equals("events")) {
                     GenericTypeIndicator<Map<String, Event>> t = new GenericTypeIndicator<Map<String, Event>>() {
@@ -357,15 +304,11 @@ public class LoginActivity extends FragmentActivity implements
                     GenericTypeIndicator<Map<String, Profile>> t = new GenericTypeIndicator<Map<String, Profile>>() {
                     };
                     Map<String, Profile> profiles = dataSnapshot.getValue(t);
-
                 }
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                //String title = (String) snapshot.child("title").getValue();
-                //System.out.println("The blog post titled " + title + " has been deleted");
-
             }
 
             @Override
@@ -377,8 +320,6 @@ public class LoginActivity extends FragmentActivity implements
             public void onCancelled(FirebaseError firebaseError) {
 
             }
-            //... ChildEventListener also defines onChildChanged, onChildRemoved,
-            //    onChildMoved and onCanceled, covered in later sections.
         });
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.byu.stringcheese.presenttime.LoginActivity;
+import edu.byu.stringcheese.presenttime.MainActivity;
 import edu.byu.stringcheese.presenttime.R;
 
 /**
@@ -100,6 +101,9 @@ public class FirebaseDatabase {
         event3a.addItem("Pancake3",0,"The Dock",R.drawable.ic_star_black_24dp);
         event3a.addItem("Dog4",0,"Cakes And More",R.drawable.ic_launcher);
     }
+    public void fakeData2() {
+        Utils.getProfileByEmail("justin@cool.com").addFriendByEmail("joe@cool.com");
+    }
 
     public Map<String, Profile> getProfiles() {
         return profiles;
@@ -116,6 +120,7 @@ public class FirebaseDatabase {
     public static boolean hasInstance() {
         return _instance != null;
     }
+
 }
 
 

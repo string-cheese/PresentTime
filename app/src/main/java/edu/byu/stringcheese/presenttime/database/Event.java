@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.byu.stringcheese.presenttime.LoginActivity;
+import edu.byu.stringcheese.presenttime.MainActivity;
 
 /**
  * Created by dtaylor on 3/22/2016.

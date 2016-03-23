@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.byu.stringcheese.presenttime.LoginActivity;
+import edu.byu.stringcheese.presenttime.MainActivity;
 
 /**
  * Created by dtaylor on 3/22/2016.
@@ -82,5 +83,13 @@ public class Profile
 
     public String getId() {
         return id;
+    }
+
+    public void addFriendByEmail(String email) {
+        Profile friend = Utils.getProfileByEmail(email);
+        if(friend != null)
+        {
+            this.addFriend(friend.getId());
+        }
     }
 }
