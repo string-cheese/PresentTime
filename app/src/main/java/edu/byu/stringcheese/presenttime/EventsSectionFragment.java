@@ -74,35 +74,20 @@ public class EventsSectionFragment extends Fragment implements Observer {
     public void update(Observable observable, Object data) {
         if(recyclerView.getAdapter() != null)
         {
-            recyclerView.removeAllViewsInLayout();
-            ((RVAdapter)recyclerView.getAdapter()).updateEventsShown(Utils.getEvents(profile));
-            recyclerView.notifyAll();
-            recyclerView.notify();
-            recyclerView.getAdapter().notifyDataSetChanged();
-            recyclerView.notifyAll();
-            recyclerView.notify();
-            recyclerView.refreshDrawableState();
-            //new refreshAsync().execute((RVAdapter)recyclerView.getAdapter());
-        }
-    }
-    private class refreshAsync extends AsyncTask<RVAdapter,RVAdapter, RVAdapter>
-    {
-        @Override
-        protected RVAdapter doInBackground(RVAdapter... params) {
-            params[0].updateEventsShown(Utils.getEvents(profile));
-            return params[0];
-        }
-
-        @Override
-        protected void onPostExecute(RVAdapter adapter) {
-            adapter.updateEventsShown(Utils.getEvents(profile));
+            RVAdapter adapter = (RVAdapter)recyclerView.getAdapter();
+            //recyclerView.removeAllViewsInLayout();
+            adapter.eventsShown.clear();
+            adapter.notifyItemRangeRemoved(0,adapter.eventsShown.size());
+            adapter.eventsShown.addAll(Utils.getEvents(profile));
+            adapter.notifyItemRangeInserted(0,adapter.eventsShown.size());
             adapter.notifyDataSetChanged();
+            //new refreshAsync().execute((RVAdapter)recyclerView.getAdapter());
         }
     }
 
     class RVAdapter extends RecyclerView.Adapter<RVAdapter.EventViewHolder> {
 
-        List<Event> eventsShown;
+        public List<Event> eventsShown;
         RVAdapter(List<Event> events){
             this.eventsShown = events;
         }
@@ -134,12 +119,6 @@ public class EventsSectionFragment extends Fragment implements Observer {
         @Override
         public int getItemCount() {
             return eventsShown.size();
-        }
-
-        public void updateEventsShown(ArrayList<Event> events) {
-            this.eventsShown.clear();
-            this.eventsShown.addAll(events);
-            this.notifyDataSetChanged();
         }
 
         public class EventViewHolder extends RecyclerView.ViewHolder {

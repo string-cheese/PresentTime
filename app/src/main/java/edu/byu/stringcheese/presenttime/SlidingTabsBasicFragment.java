@@ -10,8 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 
-public class SlidingTabsBasicFragment extends Fragment {
+import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
+
+public class SlidingTabsBasicFragment extends Fragment implements Observer {
 
     static final String LOG_TAG = "SlidingTabsFragment";
 
@@ -50,11 +54,30 @@ public class SlidingTabsBasicFragment extends Fragment {
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         mViewPager.setAdapter(new SamplePagerAdapter(getFragmentManager()));
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         // Give the SlidingTabLayout the ViewPager, this must be done AFTER the ViewPager has had
         // it's PagerAdapter set.
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setViewPager(mViewPager);
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+
     }
 
     /**
@@ -71,6 +94,13 @@ public class SlidingTabsBasicFragment extends Fragment {
         }
 
         // BEGIN_INCLUDE (fragment_pager_adapter_getitem)
+
+        @Override
+        public int getItemPosition(Object object) {
+            Fragment frag = (Fragment)object;
+            return super.getItemPosition(object);
+        }
+
         /**
          * Get fragment corresponding to a specific position. This will be used to populate the
          * contents of the {@link ViewPager}.
@@ -78,10 +108,10 @@ public class SlidingTabsBasicFragment extends Fragment {
          * @param position Position to fetch fragment for.
          * @return Fragment for specified position.
          */
+
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-
             Fragment fragment;
             Bundle bundle = new Bundle();
             bundle.putString("profileId",MainActivity.myProfile.getId());
@@ -148,8 +178,7 @@ public class SlidingTabsBasicFragment extends Fragment {
             }
             return null;
         }
-
-        /**
+/**
          * @return the number of pages to display
         @Override
         public int getCount() {
