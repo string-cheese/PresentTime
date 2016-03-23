@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeLogging();
+        Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_main);
         if (getIntent().getStringExtra("email") != null && getIntent().getStringExtra("name") != null) {
             String email = getIntent().getStringExtra("email");
