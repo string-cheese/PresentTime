@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -61,6 +62,16 @@ public class LoginActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
+        Button debug_login = (Button) findViewById(R.id.debug_login);
+        debug_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra("email","justin@cool.com");
+                intent.putExtra("name", "Justin");
+                startActivity(intent);
+            }
+        });
         //Firebase setup
         Firebase.setAndroidContext(this);
         initializeFirebase();
