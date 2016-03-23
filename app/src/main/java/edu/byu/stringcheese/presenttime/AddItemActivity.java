@@ -11,13 +11,13 @@ import android.widget.EditText;
 
 import java.text.NumberFormat;
 
+import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
-import edu.byu.stringcheese.presenttime.database.Utils;
 
 public class AddItemActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "AddItemActivity";
-    private FirebaseDatabase.Event event;
+    private Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

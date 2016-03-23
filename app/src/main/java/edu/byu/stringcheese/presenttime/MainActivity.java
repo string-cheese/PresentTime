@@ -2,25 +2,17 @@ package edu.byu.stringcheese.presenttime;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ViewAnimator;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.GenericTypeIndicator;
-import com.firebase.client.ValueEventListener;
-
-import java.util.Map;
 
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
+import edu.byu.stringcheese.presenttime.database.Profile;
 import edu.byu.stringcheese.presenttime.database.Utils;
 
 /**
@@ -33,7 +25,7 @@ import edu.byu.stringcheese.presenttime.database.Utils;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    public static FirebaseDatabase.Profile myProfile;
+    public static Profile myProfile;
 
     // Whether the Log Fragment is currently shown
     private boolean mLogShown;
@@ -96,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     public void addEvent(View view) {
         Log.d(TAG, "trying to add an item");
         Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
-        intent.putExtra("profileId", MainActivity.myProfile.getId());
+        intent.putExtra("profileId", String.valueOf(MainActivity.myProfile.getId()));
         MainActivity.this.startActivity(intent);
         Log.d(TAG, "I started an activity");
         Log.d(TAG, intent.toString());

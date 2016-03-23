@@ -19,13 +19,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
+import edu.byu.stringcheese.presenttime.database.Profile;
 import edu.byu.stringcheese.presenttime.database.Utils;
 
 public class AddEventActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = "AddEventActivity";
-    private FirebaseDatabase.Profile profile;
+    private Profile profile;
     Calendar myCalendar = Calendar.getInstance();
     EditText editText;
     /**

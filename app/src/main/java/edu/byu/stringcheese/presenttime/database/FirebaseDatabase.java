@@ -13,7 +13,6 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -29,9 +28,9 @@ public class FirebaseDatabase{
 
     public static FirebaseDatabase getInstance()
     {
-        if(_instance != null)
-            return _instance;
-        return new FirebaseDatabase();
+        if(_instance == null)
+            _instance = new FirebaseDatabase();
+        return _instance;
     }
 
     public static void setInstance(FirebaseDatabase db)
@@ -49,9 +48,9 @@ public class FirebaseDatabase{
     {
         //add item
         Firebase profiles = FirebaseDatabase.ref.child("profiles");
-        Profile profile = new Profile(name, email, this.profiles.size());
-        this.profiles.add(profile);
-        profiles.setValue(this.profiles);
+        Profile profile = new Profile(name, email, Utils.getProfiles().size());
+        Utils.getProfiles().add(profile);
+        profiles.setValue(Utils.getProfiles());
         return profile;
     }
 
@@ -152,180 +151,6 @@ public class FirebaseDatabase{
 
 
 }
-public class Profile implements Serializable
-{
-    private ArrayList<Event> events = new ArrayList<>();
-    private ArrayList<String> friends = new ArrayList<>();
-    private int id;
-    private String name;
-    private String email;
-
-    public Profile()
-    {
-
-    }
-
-    public Profile(String name, String email, int id)
-    {
-        this.name = name;
-        this.email = email;
-        this.id = id;
-    }
-
-    public Profile addFriend(String email)
-    {
-        //update profile event list
-        Firebase friends = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("friends");
-        this.friends.add(email);
-
-        friends.setValue(this.friends);
-        return Utils.getProfileByEmail(email);
-    }
-
-    public Event addEvent(String eventName, String eventDate, int photoID, String eventAddress) {
-        //add event
-        Firebase events = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("events");
-        Event event = new Event(eventName,eventDate,photoID,eventAddress, id, this.events.size());
-        this.events.add(event);
-        events.setValue(this.events);
-        return event;
-    }
-
-    public ArrayList<Event> getEvents() {
-        return events;
-    }
-
-    public ArrayList<String> getFriends() {
-        return friends;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public int getId() {
-        return id;
-    }
-}
-public class Event  implements Serializable{
-    private ArrayList<Item> items;
-    private String name;
-    private String date;
-    private int photoId;
-    private String location;
-    private int profileId;
-    private int id;
-
-    public Event()
-    {
-
-    }
-
-    public Event(String name, String date, int photoId, String location, int profileId, int id) {
-        this.name = name;
-        this.date = date;
-        this.photoId = photoId;
-        this.location = location;
-        this.items = new ArrayList<>();
-        this.profileId = profileId;
-        this.id = id;
-    }
-
-    public Item addItem(String name, int cost, String store, int imageID) {
-        //add item
-        Firebase profile = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId));
-        Item item = new Item(name, cost, store, imageID,profileId,this.id, items.size());
-        this.items.add(item);
-        profile.setValue(profiles.get(profileId));
-        return item;
-    }
-
-    public ArrayList<Item> getItems() {
-        return items;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public int getPhotoId() {
-        return photoId;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public int getProfileId() {
-        return profileId;
-    }
-
-    public int getId() {
-        return id;
-    }
-}
-public class Item implements Serializable
-{
-    private int eventId;
-    private int id;
-    private int profileId;
-    private String name;
-    private int cost;
-    private String store;
-    private int imageId;
-
-    public Item()
-    {
-
-    }
-    public Item(String name, int cost, String location, int image, int profileId, int eventId, int id)
-    {
-        this.name =name;
-        this.cost =cost;
-        this.store =location;
-        this.imageId =image;
-        this.profileId = profileId;
-        this.eventId = eventId;
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public String getStore() {
-        return store;
-    }
-
-    public int getImageId() {
-        return imageId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getEventId() {
-        return eventId;
-    }
-
-    public int getProfileId() {
-        return profileId;
-    }
-}
-
 
 
 //OUTSIDE
@@ -359,17 +184,17 @@ class DatabaseChildEventListener extends Observable implements ChildEventListene
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
         if (dataSnapshot.getKey().equals("present-time-test")) {
-            GenericTypeIndicator<FirebaseDatabase.Item> t1 = new GenericTypeIndicator<FirebaseDatabase.Item>(){};
+            GenericTypeIndicator<Item> t1 = new GenericTypeIndicator<Item>(){};
             Item item = dataSnapshot.child("profiles").child("0").child("events").child("0").child("items").child("0").getValue(t1);
 
-            GenericTypeIndicator<ArrayList<FirebaseDatabase.Item>> t2 = new GenericTypeIndicator<ArrayList<FirebaseDatabase.Item>>(){};
-            ArrayList<FirebaseDatabase.Item> items = dataSnapshot.child("profiles").child("0").child("events").child("0").child("items").getValue(t2);
+            GenericTypeIndicator<ArrayList<Item>> t2 = new GenericTypeIndicator<ArrayList<Item>>(){};
+            ArrayList<Item> items = dataSnapshot.child("profiles").child("0").child("events").child("0").child("items").getValue(t2);
 
-            GenericTypeIndicator<ArrayList<FirebaseDatabase.Event>> t3 = new GenericTypeIndicator<ArrayList<FirebaseDatabase.Event>>() {};
-            ArrayList<FirebaseDatabase.Event> events = dataSnapshot.child("profiles").child("0").child("events").getValue(t3);
+            GenericTypeIndicator<ArrayList<Event>> t3 = new GenericTypeIndicator<ArrayList<Event>>() {};
+            ArrayList<Event> events = dataSnapshot.child("profiles").child("0").child("events").getValue(t3);
 
-            GenericTypeIndicator<ArrayList<FirebaseDatabase.Profile>> t4 = new GenericTypeIndicator<ArrayList<FirebaseDatabase.Profile>>() {};
-            ArrayList<FirebaseDatabase.Profile> profiles = dataSnapshot.child("profiles").getValue(t4);
+            GenericTypeIndicator<ArrayList<Profile>> t4 = new GenericTypeIndicator<ArrayList<Profile>>() {};
+            ArrayList<Profile> profiles = dataSnapshot.child("profiles").getValue(t4);
 
             GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {};
             FirebaseDatabase dbTest = dataSnapshot.getValue(t);

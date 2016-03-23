@@ -16,6 +16,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
+import edu.byu.stringcheese.presenttime.database.Profile;
 import edu.byu.stringcheese.presenttime.database.Utils;
 
 /**
@@ -44,7 +45,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         recyclerView = (RecyclerView) view.findViewById(R.id.friends_rv);
         Context context = recyclerView.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        List<FirebaseDatabase.Profile> friends = Utils.getFriends(MainActivity.myProfile);
+        List<Profile> friends = Utils.getFriends(MainActivity.myProfile);
         recyclerView.setAdapter(new FriendsListViewAdapter(friends));
 
     }
@@ -59,9 +60,9 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
     }
 
     class FriendsListViewAdapter extends RecyclerView.Adapter<FriendsListViewAdapter.FriendViewHolder> {
-        List<FirebaseDatabase.Profile> shownProfiles;
+        List<Profile> shownProfiles;
 
-        public FriendsListViewAdapter(List<FirebaseDatabase.Profile> profiles) {
+        public FriendsListViewAdapter(List<Profile> profiles) {
             shownProfiles = profiles;
         }
 
@@ -86,7 +87,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
             return shownProfiles.size();
         }
 
-        public void updateEventsShown(ArrayList<FirebaseDatabase.Profile> friends) {
+        public void updateEventsShown(ArrayList<Profile> friends) {
             this.shownProfiles.clear();
             this.shownProfiles.addAll(friends);
             notifyDataSetChanged();
@@ -106,7 +107,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), FriendInfoActivity.class);
-                        intent.putExtra("profileId", profileId);
+                        intent.putExtra("profileId", String.valueOf(profileId));
                         startActivity(intent);
                     }
                 });

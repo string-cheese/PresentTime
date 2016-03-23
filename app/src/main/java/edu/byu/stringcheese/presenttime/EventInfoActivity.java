@@ -8,11 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
+import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.Utils;
 
 public class EventInfoActivity extends AppCompatActivity {
-    public FirebaseDatabase.Event event;
+    public Event event;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +40,8 @@ public class EventInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EventInfoActivity.this, EventWishListActivity.class);
-                intent.putExtra("eventId", event.getId());
+                intent.putExtra("eventId", String.valueOf(event.getId()));
+                intent.putExtra("profileId", String.valueOf(event.getProfileId()));
                 EventInfoActivity.this.startActivity(intent);
             }
         });

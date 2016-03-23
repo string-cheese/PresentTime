@@ -17,7 +17,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
+import edu.byu.stringcheese.presenttime.database.Profile;
 import edu.byu.stringcheese.presenttime.database.Utils;
 
 /**
@@ -25,7 +27,7 @@ import edu.byu.stringcheese.presenttime.database.Utils;
  */
 public class EventsSectionFragment extends Fragment implements Observer {
 
-    private FirebaseDatabase.Profile profile;
+    private Profile profile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,8 +83,8 @@ public class EventsSectionFragment extends Fragment implements Observer {
 
     class RVAdapter extends RecyclerView.Adapter<RVAdapter.EventViewHolder> {
 
-        public List<FirebaseDatabase.Event> eventsShown;
-        RVAdapter(List<FirebaseDatabase.Event> events){
+        public List<Event> eventsShown;
+        RVAdapter(List<Event> events){
             this.eventsShown = events;
         }
 
@@ -132,8 +134,8 @@ public class EventsSectionFragment extends Fragment implements Observer {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), EventInfoActivity.class);
-                        intent.putExtra("eventId", eventId);
-                        intent.putExtra("profileId", profileId);
+                        intent.putExtra("eventId", String.valueOf(eventId));
+                        intent.putExtra("profileId", String.valueOf(profileId));
                         getActivity().startActivity(intent);
                     }
                 });
