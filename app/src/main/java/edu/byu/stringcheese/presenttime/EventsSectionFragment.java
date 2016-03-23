@@ -2,6 +2,7 @@ package edu.byu.stringcheese.presenttime;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -48,6 +49,15 @@ public class EventsSectionFragment extends Fragment implements Observer {
         if(getArguments() != null && getArguments().containsKey("profileId"))
         {
             profile = Utils.getProfile(Integer.parseInt(getArguments().getString("profileId")));
+            FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), AddEventActivity.class);
+                    intent.putExtra("profileId", String.valueOf(profile.getId()));
+                    getActivity().startActivity(intent);
+                }
+            });
             recyclerView = (RecyclerView) view.findViewById(R.id.events_section_rv);
 
             LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
