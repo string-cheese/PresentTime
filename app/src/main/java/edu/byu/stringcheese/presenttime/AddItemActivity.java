@@ -1,6 +1,7 @@
 package edu.byu.stringcheese.presenttime;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,14 +11,33 @@ import android.widget.EditText;
 
 import java.text.NumberFormat;
 
+import edu.byu.stringcheese.presenttime.database.Event;
+import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
+import edu.byu.stringcheese.presenttime.database.Utils;
+
 public class AddItemActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "AddItemActivity";
+    private Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
+        if(getIntent().getStringExtra("eventId") != null)
+        {
+            event = Utils.getEvent(getIntent().getStringExtra("eventId"));
+        }
+        else
+        {
+            Snackbar.make(this.getCurrentFocus(), "Something is wrong, this doesn't exist", Snackbar.LENGTH_LONG)
+                    .setAction("Go Back", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            finish();
+                        }
+                    }).show();
+        }
         final EditText priceTextBox = (EditText)findViewById(R.id.add_item_price);
         priceTextBox.addTextChangedListener(new TextWatcher() {
             @Override
@@ -63,9 +83,9 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
     private void addNewItem() {
         Log.d(TAG, "adding new item...");
         String itemName = ((EditText) findViewById(R.id.add_item_name)).getText().toString();
-        String itemPrice = ((EditText) findViewById(R.id.add_item_price)).getText().toString();
+        int itemPrice = Integer.parseInt(((EditText) findViewById(R.id.add_item_price)).getText().toString());
         String itemLocation = ((EditText) findViewById(R.id.add_item_location)).getText().toString();
-        Database.getInstance().getProfile(0).getUserEvents().get(0).addItem(itemName, itemPrice, itemLocation, R.drawable.balloon);
+        event.addItem(itemName, itemPrice, itemLocation, R.drawable.balloon);
         finish();
     }
 }
