@@ -4,17 +4,21 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 
 import java.text.NumberFormat;
 
-public class AddItemActivity extends AppCompatActivity {
+public class AddItemActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "AddItemActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
-        final EditText priceTextBox = (EditText)findViewById(R.id.price);
+        final EditText priceTextBox = (EditText)findViewById(R.id.add_item_price);
         priceTextBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -46,5 +50,22 @@ public class AddItemActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.add_item_done:
+                addNewItem();
+        }
+    }
+
+    private void addNewItem() {
+        Log.d(TAG, "adding new item...");
+        String itemName = ((EditText) findViewById(R.id.add_item_name)).getText().toString();
+        String itemPrice = ((EditText) findViewById(R.id.add_item_price)).getText().toString();
+        String itemLocation = ((EditText) findViewById(R.id.add_item_location)).getText().toString();
+        Database.getInstance().getProfile(0).getUserEvents().get(0).addItem(itemName, itemPrice, itemLocation, R.drawable.balloon);
+        finish();
     }
 }

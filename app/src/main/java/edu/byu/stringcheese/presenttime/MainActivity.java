@@ -9,8 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ViewAnimator;
 
-import edu.byu.stringcheese.presenttime.slidingtab.SlidingTabsBasicFragment;
-
 /**
  * A simple launcher activity containing a summary sample description, sample log and a custom
  * {@link android.support.v4.app.Fragment} which can display a view.
@@ -77,13 +75,12 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-    //add an event to this client's proflie
+    //add an item to this client's proflie
     public void addEvent(View view) {
-        Log.d(TAG, "trying to add an event");
+        Log.d(TAG, "trying to add an item");
         Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
         MainActivity.this.startActivity(intent);
         Log.d(TAG, "I started an activity");
         Log.d(TAG, intent.toString());
-        MainActivity.this.finish();
     }
 }

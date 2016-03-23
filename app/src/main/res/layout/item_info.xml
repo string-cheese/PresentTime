@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.letsnurture.ln_202.coordinatorlayoutpart1.ScrollingActivity">
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="218dp"
         android:fitsSystemWindows="true"
-        android:background="@color/blue_grey_500"
+        android:background="@color/colorPrimary"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -24,6 +23,7 @@
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
             <ImageView
+                android:id="@+id/item_image"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/app_bar_height"
                 android:adjustViewBounds="true"
@@ -41,8 +41,7 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_scrolling" />
+    <include layout="@layout/content_item_info"></include>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

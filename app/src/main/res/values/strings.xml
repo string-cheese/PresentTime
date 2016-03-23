@@ -120,4 +120,10 @@
     <string name="title_activity_add_event">Enter event name...</string>
     <string name="save_event">SAVE</string>
     <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_section1">Dashboard</string>
+    <string name="title_section2">Events</string>
+    <string name="title_section3">Friends</string>
+    <string name="title_section4">Profile</string>
+    <string name="title_activity_friend_info">FriendInfoActivity</string>
+    <string name="title_activity_event_wish_list">EventWishListActivity</string>
 </resources>
