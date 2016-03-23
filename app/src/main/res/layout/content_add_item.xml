@@ -200,6 +200,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="Done"
+                android:onClick="addNewItem"
                 android:textColor="@color/colorTextIcons"
                 android:theme="@style/AppTheme"/>
 

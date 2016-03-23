@@ -14,7 +14,7 @@ import java.text.NumberFormat;
 import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 
-public class AddItemActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddItemActivity extends AppCompatActivity {
 
     private static final String TAG = "AddItemActivity";
     private Event event;
@@ -70,19 +70,20 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
     }
-
+/*
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_item_done:
                 addNewItem();
         }
-    }
+    }*/
 
-    private void addNewItem() {
+    public void addNewItem(View view) {
         Log.d(TAG, "adding new item...");
+
         String itemName = ((EditText) findViewById(R.id.add_item_name)).getText().toString();
-        int itemPrice = Integer.parseInt(((EditText) findViewById(R.id.add_item_price)).getText().toString());
+        double itemPrice = Double.parseDouble(((EditText) findViewById(R.id.add_item_price)).getText().toString().replaceAll("[^\\d.]+", ""));
         String itemLocation = ((EditText) findViewById(R.id.add_item_location)).getText().toString();
         event.addItem(itemName, itemPrice, itemLocation, R.drawable.balloon);
         finish();

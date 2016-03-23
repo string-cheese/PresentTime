@@ -28,7 +28,7 @@ public class Event{
         this.id = id;
     }
 
-    public Item addItem(String name, int cost, String store, int imageID) {
+    public Item addItem(String name, double cost, String store, int imageID) {
         //add item
         Firebase profile = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId));
         Item item = new Item(name, cost, store, imageID,profileId,this.id, items.size());

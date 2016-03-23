@@ -1,14 +1,16 @@
 package edu.byu.stringcheese.presenttime.database;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dtaylor on 3/22/2016.
  */
 public class Utils {
-
-    private static List<Profile> profiles;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("M dd/yy");
 
     public static ArrayList<Profile> getFriends(Profile profile) {
         ArrayList<Profile> friends = new ArrayList<>();
@@ -37,5 +39,24 @@ public class Utils {
 
     public static ArrayList<Profile> getProfiles() {
         return FirebaseDatabase.getInstance().getProfiles();
+    }
+
+    public static List<Event> getUpcomingEvents(Profile profile) {
+        ArrayList<Event> events = new ArrayList<>();
+        ArrayList<Profile> friends = getFriends(profile);
+        for (Profile friend : friends) {
+            //TODO: change this.
+        }
+
+        return events;
+    }
+
+    class dateEventSorter implements Comparator<Profile> {
+
+        @Override
+        public int compare(Profile lhs, Profile rhs) {
+
+            return 0;
+        }
     }
 }

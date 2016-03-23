@@ -6,15 +6,14 @@ public class Item
     private int id;
     private int profileId;
     private String name;
-    private int cost;
+    private double cost;
     private String store;
     private int imageId;
-
     public Item()
     {
 
     }
-    public Item(String name, int cost, String location, int image, int profileId, int eventId, int id)
+    public Item(String name, double cost, String location, int image, int profileId, int eventId, int id)
     {
         this.name =name;
         this.cost =cost;
@@ -29,7 +28,7 @@ public class Item
         return name;
     }
 
-    public int getCost() {
+    public double getCost() {
         return cost;
     }
 

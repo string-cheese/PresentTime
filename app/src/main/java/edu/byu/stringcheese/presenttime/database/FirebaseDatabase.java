@@ -113,7 +113,6 @@ public class FirebaseDatabase{
     public static boolean hasInstance() {
         return _instance != null;
     }
-
     public static Firebase ref;
 
 

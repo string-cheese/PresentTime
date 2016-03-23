@@ -36,7 +36,7 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
         if(getIntent().getStringExtra("eventId") != null && getIntent().getStringExtra("profileId") != null) {
             event = Utils.getProfile(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId")));
             //((TextView)findViewById(R.id.selectedEvent)).setText(event.getName());
-            recyclerView = (RecyclerView) findViewById(R.id.rv);
+            recyclerView = (RecyclerView) findViewById(R.id.event_wish_list_rv);
 
             /*LinearLayoutManager llm = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(llm);

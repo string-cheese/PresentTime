@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
             String name = getIntent().getStringExtra("name");
             while(!FirebaseDatabase.hasInstance()){
                 try {
+                    Log.d(TAG, "waiting for database...");
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

@@ -48,7 +48,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
         if(getArguments() != null && getArguments().containsKey("profileId"))
         {
             profile = Utils.getProfile(Integer.parseInt(getArguments().getString("profileId")));
-            recyclerView = (RecyclerView) view.findViewById(R.id.rv);
+            recyclerView = (RecyclerView) view.findViewById(R.id.events_section_rv);
 
             LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
             recyclerView.setLayoutManager(llm);
