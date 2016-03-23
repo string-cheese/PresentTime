@@ -49,9 +49,19 @@ public class MainActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("email") != null && getIntent().getStringExtra("name") != null) {
             String email = getIntent().getStringExtra("email");
             String name = getIntent().getStringExtra("name");
-            myProfile = Utils.getProfileByEmail(email);
-            if (myProfile == null) {
-                myProfile = FirebaseDatabase.getInstance().addProfile(name, email);
+            while(!FirebaseDatabase.hasInstance()){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(FirebaseDatabase.hasInstance())
+            {
+                myProfile = Utils.getProfileByEmail(email);
+                if (myProfile == null) {
+                    myProfile = FirebaseDatabase.getInstance().addProfile(name, email);
+                }
             }
         }
         if (savedInstanceState == null) {
