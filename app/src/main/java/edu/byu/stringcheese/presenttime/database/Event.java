@@ -35,7 +35,7 @@ public class Event {
         this.items = new HashMap<>();
     }
 
-    public String addItem(String name, int cost, String store, int imageID) {
+    public String addItem(String name, double cost, String store, int imageID) {
         //add item
         Firebase items = FirebaseDatabase.ref.child("items");
         Firebase newItem = items.push();

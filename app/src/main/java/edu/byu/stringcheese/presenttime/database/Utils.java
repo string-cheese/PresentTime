@@ -79,9 +79,9 @@ public class Utils {
         ArrayList<Event> events = new ArrayList<>();
         ArrayList<Profile> friends = getFriends(profile);
         for (Profile friend : friends) {
-
+            //TODO: change this.
         }
-        //TODO: change this.
+
         return events;
     }
 

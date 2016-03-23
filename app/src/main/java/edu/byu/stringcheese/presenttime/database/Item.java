@@ -6,7 +6,7 @@ package edu.byu.stringcheese.presenttime.database;
 public class Item
 {
     private String name;
-    private int cost;
+    private double cost;
     private String store;
     private int imageId;
     private String eventId;
@@ -16,7 +16,7 @@ public class Item
     {
 
     }
-    public Item(String name, int cost, String location, int image, String eventId, String id)
+    public Item(String name, double cost, String location, int image, String eventId, String id)
     {
         this.name =name;
         this.cost =cost;
@@ -30,7 +30,7 @@ public class Item
         return name;
     }
 
-    public int getCost() {
+    public double getCost() {
         return cost;
     }
 
