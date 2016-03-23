@@ -120,6 +120,7 @@ public class FirebaseDatabase{
     public static void initializeFirebase(Context context) {
         Firebase.setAndroidContext(context);
         ref = new Firebase("https://crackling-fire-2441.firebaseio.com/present-time-test");
+        FirebaseDatabase.getInstance().fakeData();
         ref.addValueEventListener(getValueEventListener());
         ref.getParent().addChildEventListener(getChildEventListener());
     }
@@ -184,7 +185,7 @@ class DatabaseChildEventListener extends Observable implements ChildEventListene
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
         if (dataSnapshot.getKey().equals("present-time-test")) {
-            GenericTypeIndicator<Item> t1 = new GenericTypeIndicator<Item>(){};
+            /*GenericTypeIndicator<Item> t1 = new GenericTypeIndicator<Item>(){};
             Item item = dataSnapshot.child("profiles").child("0").child("events").child("0").child("items").child("0").getValue(t1);
 
             GenericTypeIndicator<ArrayList<Item>> t2 = new GenericTypeIndicator<ArrayList<Item>>(){};
@@ -194,7 +195,7 @@ class DatabaseChildEventListener extends Observable implements ChildEventListene
             ArrayList<Event> events = dataSnapshot.child("profiles").child("0").child("events").getValue(t3);
 
             GenericTypeIndicator<ArrayList<Profile>> t4 = new GenericTypeIndicator<ArrayList<Profile>>() {};
-            ArrayList<Profile> profiles = dataSnapshot.child("profiles").getValue(t4);
+            ArrayList<Profile> profiles = dataSnapshot.child("profiles").getValue(t4);*/
 
             GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {};
             FirebaseDatabase dbTest = dataSnapshot.getValue(t);

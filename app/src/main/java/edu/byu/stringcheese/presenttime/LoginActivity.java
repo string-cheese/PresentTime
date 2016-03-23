@@ -2,6 +2,7 @@ package edu.byu.stringcheese.presenttime;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -49,15 +50,18 @@ public class LoginActivity extends FragmentActivity implements
         setContentView(R.layout.activity_login);
         //Firebase setup
         FirebaseDatabase.initializeFirebase(this);
-        //FirebaseDatabase.getInstance().fakeData();
         Button debug_login = (Button) findViewById(R.id.debug_login);
         debug_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("email", "justin@cool.com");
-                intent.putExtra("name", "Justin");
-                startActivity(intent);
+                if(FirebaseDatabase.hasInstance()) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("email", "justin@cool.com");
+                    intent.putExtra("name", "Justin");
+                    startActivity(intent);
+                }
+                else
+                    Snackbar.make(v, "Database Not Yet Loaded", Snackbar.LENGTH_SHORT);
             }
         });
         //facebook[start]
@@ -223,7 +227,10 @@ public class LoginActivity extends FragmentActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_in_button:
-                signIn();
+                if(FirebaseDatabase.hasInstance())
+                    signIn();
+                else
+                    Snackbar.make(v,"Database Not Yet Loaded", Snackbar.LENGTH_SHORT);
                 break;
             case R.id.sign_out_button:
                 signOut();
