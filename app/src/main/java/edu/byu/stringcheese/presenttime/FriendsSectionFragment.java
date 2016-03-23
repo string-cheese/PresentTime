@@ -10,20 +10,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
+import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Profile;
 import edu.byu.stringcheese.presenttime.database.Utils;
 
 /**
  * Created by dtaylor on 3/20/2016.
  */
-public class FriendsSectionFragment extends android.support.v4.app.Fragment {
+public class FriendsSectionFragment extends android.support.v4.app.Fragment implements Observer {
     private RecyclerView recyclerView = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseDatabase.addObserver(this);
     }
 
     @Override
@@ -40,9 +45,18 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.friends_rv);
         Context context = recyclerView.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        List<Profile> possibleFriends = Utils.getFriends(MainActivity.myProfile);
-        recyclerView.setAdapter(new FriendsListViewAdapter(possibleFriends));
+        List<Profile> friends = Utils.getFriends(MainActivity.myProfile);
+        recyclerView.setAdapter(new FriendsListViewAdapter(friends));
 
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if(recyclerView.getAdapter() != null)
+        {
+            ((FriendsListViewAdapter)recyclerView.getAdapter()).updateEventsShown(Utils.getFriends(MainActivity.myProfile));
+            recyclerView.invalidate();
+        }
     }
 
     class FriendsListViewAdapter extends RecyclerView.Adapter<FriendsListViewAdapter.FriendViewHolder> {
@@ -71,6 +85,12 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
         @Override
         public int getItemCount() {
             return shownProfiles.size();
+        }
+
+        public void updateEventsShown(ArrayList<Profile> friends) {
+            this.shownProfiles.clear();
+            this.shownProfiles.addAll(friends);
+            notifyDataSetChanged();
         }
 
         public class FriendViewHolder extends RecyclerView.ViewHolder {

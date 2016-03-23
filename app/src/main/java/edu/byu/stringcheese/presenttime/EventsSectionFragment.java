@@ -1,8 +1,12 @@
 package edu.byu.stringcheese.presenttime;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +16,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
@@ -22,13 +29,14 @@ import edu.byu.stringcheese.presenttime.database.Utils;
 /**
  * Created by dtaylor on 3/20/2016.
  */
-public class EventsSectionFragment extends android.support.v4.app.Fragment {
+public class EventsSectionFragment extends Fragment implements Observer {
 
     private Profile profile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseDatabase.addObserver(this);
     }
 
     @Override
@@ -48,7 +56,7 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
 
             LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
             recyclerView.setLayoutManager(llm);
-            recyclerView.setHasFixedSize(true);
+            recyclerView.setHasFixedSize(false);
             initializeAdapter();
         }
         else
@@ -57,10 +65,39 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
         }
     }
     private RecyclerView recyclerView;
-
     private void initializeAdapter(){
         RVAdapter adapter = new RVAdapter(Utils.getEvents(profile));
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if(recyclerView.getAdapter() != null)
+        {
+            recyclerView.removeAllViewsInLayout();
+            ((RVAdapter)recyclerView.getAdapter()).updateEventsShown(Utils.getEvents(profile));
+            recyclerView.notifyAll();
+            recyclerView.notify();
+            recyclerView.getAdapter().notifyDataSetChanged();
+            recyclerView.notifyAll();
+            recyclerView.notify();
+            recyclerView.refreshDrawableState();
+            //new refreshAsync().execute((RVAdapter)recyclerView.getAdapter());
+        }
+    }
+    private class refreshAsync extends AsyncTask<RVAdapter,RVAdapter, RVAdapter>
+    {
+        @Override
+        protected RVAdapter doInBackground(RVAdapter... params) {
+            params[0].updateEventsShown(Utils.getEvents(profile));
+            return params[0];
+        }
+
+        @Override
+        protected void onPostExecute(RVAdapter adapter) {
+            adapter.updateEventsShown(Utils.getEvents(profile));
+            adapter.notifyDataSetChanged();
+        }
     }
 
     class RVAdapter extends RecyclerView.Adapter<RVAdapter.EventViewHolder> {
@@ -97,6 +134,12 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
         @Override
         public int getItemCount() {
             return eventsShown.size();
+        }
+
+        public void updateEventsShown(ArrayList<Event> events) {
+            this.eventsShown.clear();
+            this.eventsShown.addAll(events);
+            this.notifyDataSetChanged();
         }
 
         public class EventViewHolder extends RecyclerView.ViewHolder {
