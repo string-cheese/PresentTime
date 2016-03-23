@@ -1,9 +1,10 @@
 package edu.byu.stringcheese.presenttime;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -18,9 +19,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class AddEventActivity extends AppCompatActivity implements View.OnClickListener {
+import edu.byu.stringcheese.presenttime.database.Profile;
+import edu.byu.stringcheese.presenttime.database.Utils;
+
+public class AddEventActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = "AddEventActivity";
+    private Profile profile;
     Calendar myCalendar = Calendar.getInstance();
     EditText editText;
     /**
@@ -33,6 +38,20 @@ public class AddEventActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
+        if(getIntent().getStringExtra("profileId") != null)
+        {
+            profile = Utils.getProfile(getIntent().getStringExtra("profileId"));
+        }
+        else
+        {
+            Snackbar.make(this.getCurrentFocus(), "Something is wrong, this doesn't exist", Snackbar.LENGTH_LONG)
+                    .setAction("Go Back", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            finish();
+                        }
+                    }).show();
+        }
         editText = (EditText) findViewById(R.id.add_event_date);
 
         findViewById(R.id.add_event_done).setOnClickListener(this);
@@ -146,7 +165,7 @@ public class AddEventActivity extends AppCompatActivity implements View.OnClickL
         if (eventType.equals("Christmas"))
             eventImageId = R.mipmap.gifts;
 
-        Database.getInstance().getProfile(0).addEvent(eventName.toString(), eventDate.toString(), eventImageId, eventAddress);
+        profile.addEvent(eventName, eventDate, eventImageId, eventAddress);
         finish();
     }
 }

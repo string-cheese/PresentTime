@@ -47,7 +47,7 @@ public class SlidingTabsBasicFragment extends Fragment {
      */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        // Get the ViewPager and set it's PagerAdapter so that it can display eventItems
+        // Get the ViewPager and set it's PagerAdapter so that it can display items
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         mViewPager.setAdapter(new SamplePagerAdapter(getFragmentManager()));
 
@@ -83,21 +83,28 @@ public class SlidingTabsBasicFragment extends Fragment {
             // getItem is called to instantiate the fragment for the given page.
 
             Fragment fragment;
+            Bundle bundle = new Bundle();
+            bundle.putString("profileId",MainActivity.myProfile.getId());
             switch (position) {
                 case 0:
                     fragment = new DashboardSectionFragment();
+                    fragment.setArguments(bundle);
                     break;
                 case 1:
                     fragment = new EventsSectionFragment();
+                    fragment.setArguments(bundle);
                     break;
                 case 2:
                     fragment = new FriendsSectionFragment();
+                    fragment.setArguments(bundle);
                     break;
                 case 3:
                     fragment = new ProfileSectionFragment();
+                    fragment.setArguments(bundle);
                     break;
                 default:
                     fragment = new DashboardSectionFragment();
+                    fragment.setArguments(bundle);
                     break;
             }
             /*Bundle args = new Bundle();
