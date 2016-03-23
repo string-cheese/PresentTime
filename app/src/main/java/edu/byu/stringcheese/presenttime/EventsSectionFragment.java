@@ -44,7 +44,7 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
         if(getArguments() != null && getArguments().containsKey("profileId"))
         {
             profile = Utils.getProfile(getArguments().getString("profileId"));
-            recyclerView = (RecyclerView) view.findViewById(R.id.rv);
+            recyclerView = (RecyclerView) view.findViewById(R.id.events_section_rv);
 
             LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
             recyclerView.setLayoutManager(llm);

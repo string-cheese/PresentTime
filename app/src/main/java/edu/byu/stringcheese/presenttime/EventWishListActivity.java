@@ -32,7 +32,7 @@ public class EventWishListActivity extends AppCompatActivity {
         if(getIntent().getStringExtra("eventId") != null) {
             event = Utils.getEvent(getIntent().getStringExtra("eventId"));
             //((TextView)findViewById(R.id.selectedEvent)).setText(event.getName());
-            recyclerView = (RecyclerView) findViewById(R.id.rv);
+            recyclerView = (RecyclerView) findViewById(R.id.event_wish_list_rv);
 
             /*LinearLayoutManager llm = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(llm);
