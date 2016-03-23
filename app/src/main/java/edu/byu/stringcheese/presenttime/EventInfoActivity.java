@@ -9,28 +9,29 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Item;
 import edu.byu.stringcheese.presenttime.database.Utils;
 
-public class EventInfoActivity extends AppCompatActivity {
+public class EventInfoActivity extends AppCompatActivity implements Observer {
     public Event event;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseDatabase.addObserver(this);
         setContentView(R.layout.activity_event_info);
         if(getIntent().getStringExtra("eventId") != null && getIntent().getStringExtra("profileId") != null)
         {
@@ -86,9 +87,29 @@ public class EventInfoActivity extends AppCompatActivity {
         ItemRVAdapter adapter = new ItemRVAdapter(event.getItems());
         recyclerView.setAdapter(adapter);
     }
+
+    @Override
+    public void update(Observable observable, Object data) {
+
+        if(recyclerView.getAdapter() != null)
+        {
+            if(recyclerView.getAdapter() != null)
+            {
+                ItemRVAdapter adapter = (ItemRVAdapter)recyclerView.getAdapter();
+                //recyclerView.removeAllViewsInLayout();
+                adapter.itemsShown.clear();
+                adapter.notifyItemRangeRemoved(0,adapter.itemsShown.size());
+                adapter.itemsShown.addAll(event.getItems());
+                adapter.notifyItemRangeInserted(0,adapter.itemsShown.size());
+                adapter.notifyDataSetChanged();
+                //new refreshAsync().execute((RVAdapter)recyclerView.getAdapter());
+            }
+        }
+    }
+
     class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHolder> {
 
-        List<Item> itemsShown;
+        public List<Item> itemsShown;
 
         ItemRVAdapter(List<Item> items){
             this.itemsShown = items;
@@ -109,11 +130,13 @@ public class EventInfoActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ItemViewHolder itemViewHolder, int i) {
             itemViewHolder.itemName.setText(itemsShown.get(i).getName());
-            itemViewHolder.itemPrice.setText("$"+String.valueOf(itemsShown.get(i).getCost()));
+            itemViewHolder.itemPrice.setText("$" + String.valueOf(itemsShown.get(i).getCost()));
             //itemViewHolder.itemLocation.setText(itemsShown.get(i).getStore());
             itemViewHolder.itemImage.setBackgroundResource(itemsShown.get(i).getImageId());
             itemViewHolder.currentItem = i;
             itemViewHolder.itemId = String.valueOf(itemsShown.get(i).getId());
+            itemViewHolder.profileId = String.valueOf(itemsShown.get(i).getProfileId());
+            itemViewHolder.eventId = String.valueOf(itemsShown.get(i).getEventId());
         }
 
         @Override
@@ -130,6 +153,8 @@ public class EventInfoActivity extends AppCompatActivity {
             RelativeLayout itemImage;
             public int currentItem;
             public String itemId;
+            public String eventId;
+            public String profileId;
 
             ItemViewHolder(final View itemView) {
                 super(itemView);
@@ -137,7 +162,9 @@ public class EventInfoActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(EventInfoActivity.this, ItemInfoActivity.class);
-                        intent.putExtra("itemId", itemId);
+                        intent.putExtra("itemId", String.valueOf(itemId));
+                        intent.putExtra("eventId", String.valueOf(eventId));
+                        intent.putExtra("profileId", String.valueOf(profileId));
                         EventInfoActivity.this.startActivity(intent);
                     }
                 });

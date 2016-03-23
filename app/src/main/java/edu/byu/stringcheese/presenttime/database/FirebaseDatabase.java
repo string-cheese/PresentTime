@@ -119,7 +119,7 @@ public class FirebaseDatabase{
     public static void initializeFirebase(Context context) {
         Firebase.setAndroidContext(context);
         ref = new Firebase("https://crackling-fire-2441.firebaseio.com/present-time-test");
-        FirebaseDatabase.getInstance().fakeData();
+        //FirebaseDatabase.getInstance().fakeData();
         ref.addValueEventListener(getValueEventListener());
         ref.getParent().addChildEventListener(getChildEventListener());
     }

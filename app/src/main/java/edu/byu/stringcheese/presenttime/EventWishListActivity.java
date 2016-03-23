@@ -140,9 +140,9 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(EventWishListActivity.this, ItemInfoActivity.class);
-                        intent.putExtra(String.valueOf("eventId"), itemId);
-                        intent.putExtra(String.valueOf("profileId"), itemId);
-                        intent.putExtra(String.valueOf("itemId"), itemId);
+                        intent.putExtra("eventId", String.valueOf(eventId));
+                        intent.putExtra("profileId", String.valueOf(profileId));
+                        intent.putExtra("itemId", String.valueOf(itemId));
                         EventWishListActivity.this.startActivity(intent);
                     }
                 });
