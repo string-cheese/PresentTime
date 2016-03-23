@@ -1,10 +1,10 @@
 package edu.byu.stringcheese.presenttime;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -19,10 +19,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Profile;
+import edu.byu.stringcheese.presenttime.database.Utils;
 
-public class AddEventActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddEventActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = "AddEventActivity";
     private Profile profile;
@@ -40,7 +40,7 @@ public class AddEventActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_add_event);
         if(getIntent().getStringExtra("profileId") != null)
         {
-            profile = FirebaseDatabase.getInstance().getProfile(getIntent().getStringExtra("profileId"));
+            profile = Utils.getProfile(getIntent().getStringExtra("profileId"));
         }
         else
         {

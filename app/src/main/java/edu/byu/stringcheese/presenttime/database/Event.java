@@ -36,13 +36,13 @@ public class Event {
 
     public String addItem(String name, int cost, String store, int imageID) {
         //add item
-        Firebase eventItems = LoginActivity.ref.child("items");
-        Firebase newItem = eventItems.push();
+        Firebase items = LoginActivity.ref.child("items");
+        Firebase newItem = items.push();
         String key = newItem.getKey();
         newItem.setValue(new Item(name, cost, store, imageID, id, key));
 
         //update profile items list
-        Firebase event = LoginActivity.ref.child("profiles").child(profileId);
+        Firebase event = LoginActivity.ref.child("events").child(id);
         Firebase itemList = event.child("items");
         String itemKey = itemList.push().getKey();
         this.items.put(itemKey, key);

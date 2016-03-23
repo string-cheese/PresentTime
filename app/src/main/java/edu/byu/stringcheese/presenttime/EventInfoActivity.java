@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
+import edu.byu.stringcheese.presenttime.database.Utils;
 
 public class EventInfoActivity extends AppCompatActivity {
     public Event event;
@@ -19,7 +20,7 @@ public class EventInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_info);
         if(getIntent().getStringExtra("eventId") != null)
         {
-            event = FirebaseDatabase.getInstance().getEvent(getIntent().getStringExtra("eventId"));
+            event = Utils.getEvent(getIntent().getStringExtra("eventId"));
         }
         else
         {

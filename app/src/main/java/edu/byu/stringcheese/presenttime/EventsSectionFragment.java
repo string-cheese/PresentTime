@@ -35,25 +35,26 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.events_section_fragment, container, false);
-        if(savedInstanceState != null && savedInstanceState.containsKey("profileId"))
-            profile = FirebaseDatabase.getInstance().getProfile(savedInstanceState.getString("profileId"));
-        else
-        {
-            Snackbar.make(rootView, "Something is wrong, this doesn't exist", Snackbar.LENGTH_LONG).show();
-        }
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if(getArguments() != null && getArguments().containsKey("profileId"))
+        {
+            profile = Utils.getProfile(getArguments().getString("profileId"));
+            recyclerView = (RecyclerView) view.findViewById(R.id.rv);
 
-        recyclerView =(RecyclerView)view.findViewById(R.id.rv);
-
-        LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
-        recyclerView.setLayoutManager(llm);
-        recyclerView.setHasFixedSize(true);
-        initializeAdapter();
+            LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
+            recyclerView.setLayoutManager(llm);
+            recyclerView.setHasFixedSize(true);
+            initializeAdapter();
+        }
+        else
+        {
+            Snackbar.make(view, "Something is wrong, this doesn't exist", Snackbar.LENGTH_LONG).show();
+        }
     }
     private RecyclerView recyclerView;
 
@@ -83,11 +84,14 @@ public class EventsSectionFragment extends android.support.v4.app.Fragment {
 
         @Override
         public void onBindViewHolder(EventViewHolder eventViewHolder, int i) {
-            eventViewHolder.eventName.setText(eventsShown.get(i).getName());
-            eventViewHolder.eventDate.setText(eventsShown.get(i).getDate());
-            eventViewHolder.eventPhoto.setImageResource(eventsShown.get(i).getPhotoId());
-            eventViewHolder.currentItem = i;
-            eventViewHolder.eventId = eventsShown.get(i).getId();
+            if(eventsShown.get(i) != null)
+            {
+                eventViewHolder.eventName.setText(eventsShown.get(i).getName());
+                eventViewHolder.eventDate.setText(eventsShown.get(i).getDate());
+                eventViewHolder.eventPhoto.setImageResource(eventsShown.get(i).getPhotoId());
+                eventViewHolder.currentItem = i;
+                eventViewHolder.eventId = eventsShown.get(i).getId();
+            }
         }
 
         @Override

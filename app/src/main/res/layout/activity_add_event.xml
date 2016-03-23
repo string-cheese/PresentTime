@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="edu.byu.stringcheese.presenttime.AddEventActivity">
+    tools:context="edu.byu.stringcheese.presenttime.AddEventActivity"
+    android:theme="@style/AppTheme">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"

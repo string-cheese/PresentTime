@@ -30,7 +30,7 @@ public class EventWishListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_wish_list);
         if(getIntent().getStringExtra("eventId") != null) {
-            event = FirebaseDatabase.getInstance().getEvent(getIntent().getStringExtra("eventId"));
+            event = Utils.getEvent(getIntent().getStringExtra("eventId"));
             //((TextView)findViewById(R.id.selectedEvent)).setText(event.getName());
             recyclerView = (RecyclerView) findViewById(R.id.rv);
 

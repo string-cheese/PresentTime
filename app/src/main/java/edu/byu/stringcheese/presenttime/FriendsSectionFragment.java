@@ -40,7 +40,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.friends_rv);
         Context context = recyclerView.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        List<Profile> possibleFriends = Utils.getFriends(LoginActivity.myProfile);
+        List<Profile> possibleFriends = Utils.getFriends(MainActivity.myProfile);
         recyclerView.setAdapter(new FriendsListViewAdapter(possibleFriends));
 
     }

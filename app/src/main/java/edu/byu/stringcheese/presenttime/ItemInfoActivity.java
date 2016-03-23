@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Item;
+import edu.byu.stringcheese.presenttime.database.Utils;
 
 /**
  * Created by liukaichi on 3/17/2016.
@@ -21,7 +22,7 @@ public class ItemInfoActivity extends AppCompatActivity {
         setContentView(R.layout.item_info);
         if(getIntent().getStringExtra("itemId") != null)
         {
-            Item item = FirebaseDatabase.getInstance().getItem(getIntent().getStringExtra("itemId"));TextView itemName = (TextView)findViewById(R.id.item_name);
+            Item item = Utils.getItem(getIntent().getStringExtra("itemId"));TextView itemName = (TextView)findViewById(R.id.item_name);
             itemName.setText(item.getName());
             TextView itemPrice = (TextView)findViewById(R.id.item_price);
             itemPrice.setText(String.valueOf(item.getCost()));

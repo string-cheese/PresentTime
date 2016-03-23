@@ -7,7 +7,9 @@ package edu.byu.stringcheese.presenttime.database;
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.byu.stringcheese.presenttime.LoginActivity;
 import edu.byu.stringcheese.presenttime.R;
@@ -16,9 +18,9 @@ import edu.byu.stringcheese.presenttime.R;
  * Created by dtaylor on 3/21/2016.
  */
 public class FirebaseDatabase {
-    private List<Profile> profiles = new ArrayList<>();
-    private List<Event> events = new ArrayList<>();
-    private List<Item> items = new ArrayList<>();
+    private Map<String,Profile> profiles = new HashMap<>();
+    private Map<String,Event> events = new HashMap<>();
+    private Map<String,Item> items = new HashMap<>();
     private static FirebaseDatabase _instance;
 
     public static FirebaseDatabase getInstance()
@@ -48,41 +50,6 @@ public class FirebaseDatabase {
         Profile profile = new Profile(name, email, key);
         newProfile.setValue(profile);
         return profile;
-    }
-
-    public Profile getProfile(String email)
-    {
-        for(Profile profile : profiles)
-        {
-            if(profile.getEmail().equals(email))
-            {
-                return profile;
-            }
-        }
-        return null;
-    }
-
-    public Event getEvent(String eventId) {
-        for(Event event : events)
-        {
-            if(event.getId().equals(eventId))
-            {
-                return event;
-            }
-        }
-        return null;
-    }
-
-    public Item getItem(String itemId)
-    {
-        for(Item item : items)
-        {
-            if(item.getId().equals(itemId))
-            {
-                return item;
-            }
-        }
-        return null;
     }
 
     public void fakeData()
@@ -134,15 +101,15 @@ public class FirebaseDatabase {
         event3a.addItem("Dog4",0,"Cakes And More",R.drawable.ic_launcher);
     }
 
-    public List<Profile> getProfiles() {
+    public Map<String, Profile> getProfiles() {
         return profiles;
     }
 
-    public List<Event> getEvents() {
+    public Map<String, Event> getEvents() {
         return events;
     }
 
-    public List<Item> getItems() {
+    public Map<String, Item> getItems() {
         return items;
     }
 

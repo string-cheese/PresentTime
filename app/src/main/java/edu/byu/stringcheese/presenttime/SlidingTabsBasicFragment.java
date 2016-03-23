@@ -84,7 +84,7 @@ public class SlidingTabsBasicFragment extends Fragment {
 
             Fragment fragment;
             Bundle bundle = new Bundle();
-            bundle.putString("profileId",LoginActivity.myProfile.getId());
+            bundle.putString("profileId",MainActivity.myProfile.getId());
             switch (position) {
                 case 0:
                     fragment = new DashboardSectionFragment();

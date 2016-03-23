@@ -30,8 +30,14 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
+import edu.byu.stringcheese.presenttime.database.Item;
 import edu.byu.stringcheese.presenttime.database.Profile;
+import edu.byu.stringcheese.presenttime.database.Utils;
 
 /**
  * A login screen that offers login via email/password.
@@ -49,7 +55,6 @@ public class LoginActivity extends FragmentActivity implements
     private TextView mStatusTextView;
     private ProgressDialog mProgressDialog;
     public static Firebase ref;
-    public static Profile myProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +64,7 @@ public class LoginActivity extends FragmentActivity implements
         //Firebase setup
         Firebase.setAndroidContext(this);
         initializeFirebase();
-        FirebaseDatabase.getInstance().fakeData();
+        //FirebaseDatabase.getInstance().fakeData();
         //facebook[start]
         callbackManager = CallbackManager.Factory.create();
 
@@ -225,9 +230,9 @@ public class LoginActivity extends FragmentActivity implements
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("email",acct.getEmail());
-            intent.putExtra("name",acct.getDisplayName());
+            intent.putExtra("name", acct.getDisplayName());
             startActivity(intent);
-            finish();
+            //finish();
         } else {
             mStatusTextView.setText(R.string.signed_out);
 
@@ -279,21 +284,41 @@ public class LoginActivity extends FragmentActivity implements
         ref.getParent().addChildEventListener(new ChildEventListener() {
             // Retrieve new posts as they are added to the database
             @Override
-            public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
-                if (snapshot.getKey().equals("present-time")) {
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
+                if (dataSnapshot.getKey().equals("present-time")) {
                     GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
                     };
-                    FirebaseDatabase dbTest = snapshot.getValue(t);
+                    FirebaseDatabase dbTest = dataSnapshot.getValue(t);
                     FirebaseDatabase.setInstance(dbTest);
-                    if (getIntent().getStringExtra("email") != null && getIntent().getStringExtra("name") != null) {
-                        String email = getIntent().getStringExtra("email");
-                        String name = getIntent().getStringExtra("name");
-                        myProfile = FirebaseDatabase.getInstance().getProfile(email);
-                        if (myProfile == null) {
-                            myProfile = FirebaseDatabase.getInstance().addProfile(name, email);
-                        }
+
+                }
+                /*try {
+                    if (dataSnapshot.getKey().equals("present-time")) {
+                        GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
+                        };
+                        FirebaseDatabase dbTest = dataSnapshot.getValue(t);
+                        //FirebaseDatabase db = (FirebaseDatabase) dataSnapshot.getValue();
+                        FirebaseDatabase.setInstance(dbTest);
+                    } else if (dataSnapshot.getKey().equals("events")) {
+                        GenericTypeIndicator<Map<String, Event>> t = new GenericTypeIndicator<Map<String, Event>>() {
+                        };
+                        Map<String, Event> events = dataSnapshot.getValue(t);
+                    } else if (dataSnapshot.getKey().equals("items")) {
+                        GenericTypeIndicator<Map<String, Item>> t = new GenericTypeIndicator<Map<String, Item>>() {
+                        };
+                        Map<String, Item> items = dataSnapshot.getValue(t);
+
+                    } else if (dataSnapshot.getKey().equals("profiles")) {
+                        GenericTypeIndicator<Map<String, Profile>> t = new GenericTypeIndicator<Map<String, Profile>>() {
+                        };
+                        Map<String, Profile> profiles = dataSnapshot.getValue(t);
+
                     }
                 }
+                catch(Exception e)
+                {
+                    Log.e("LoginActivity","error loading: "+dataSnapshot.getKey(),e);
+                }*/
                 //.out.println("Author: " + newPost.getAuthor());
                 //System.out.println("Title: " + newPost.getTitle());
             }
@@ -308,6 +333,20 @@ public class LoginActivity extends FragmentActivity implements
                     FirebaseDatabase dbTest = dataSnapshot.getValue(t);
                     //FirebaseDatabase db = (FirebaseDatabase) dataSnapshot.getValue();
                     FirebaseDatabase.setInstance(dbTest);
+                } else if (dataSnapshot.getKey().equals("events")) {
+                    GenericTypeIndicator<Map<String, Event>> t = new GenericTypeIndicator<Map<String, Event>>() {
+                    };
+                    Map<String, Event> events = dataSnapshot.getValue(t);
+                } else if (dataSnapshot.getKey().equals("items")) {
+                    GenericTypeIndicator<Map<String, Item>> t = new GenericTypeIndicator<Map<String, Item>>() {
+                    };
+                    Map<String, Item> items = dataSnapshot.getValue(t);
+
+                } else if (dataSnapshot.getKey().equals("profiles")) {
+                    GenericTypeIndicator<Map<String, Profile>> t = new GenericTypeIndicator<Map<String, Profile>>() {
+                    };
+                    Map<String, Profile> profiles = dataSnapshot.getValue(t);
+
                 }
             }
 
