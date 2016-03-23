@@ -20,10 +20,7 @@ import com.firebase.client.ValueEventListener;
 
 import java.util.Map;
 
-import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
-import edu.byu.stringcheese.presenttime.database.Item;
-import edu.byu.stringcheese.presenttime.database.Profile;
 import edu.byu.stringcheese.presenttime.database.Utils;
 
 /**
@@ -36,7 +33,7 @@ import edu.byu.stringcheese.presenttime.database.Utils;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    public static Profile myProfile;
+    public static FirebaseDatabase.Profile myProfile;
 
     // Whether the Log Fragment is currently shown
     private boolean mLogShown;

@@ -20,21 +20,19 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
-import edu.byu.stringcheese.presenttime.database.Item;
 import edu.byu.stringcheese.presenttime.database.Utils;
 
 public class EventWishListActivity extends AppCompatActivity implements Observer {
 
-    public Event event;
+    public FirebaseDatabase.Event event;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseDatabase.addObserver(this);
         setContentView(R.layout.activity_event_wish_list);
         if(getIntent().getStringExtra("eventId") != null) {
-            event = Utils.getEvent(getIntent().getStringExtra("eventId"));
+            event = Utils.getProfile(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId")));
             //((TextView)findViewById(R.id.selectedEvent)).setText(event.getName());
             recyclerView = (RecyclerView) findViewById(R.id.rv);
 
@@ -66,7 +64,7 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
     private RecyclerView recyclerView;
 
     private void initializeAdapter(){
-        ItemRVAdapter adapter = new ItemRVAdapter(Utils.getItems(event));
+        ItemRVAdapter adapter = new ItemRVAdapter(event.getItems());
         recyclerView.setAdapter(adapter);
     }
 
@@ -74,16 +72,16 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
     public void update(Observable observable, Object data) {
         if(recyclerView.getAdapter() != null)
         {
-            ((ItemRVAdapter)recyclerView.getAdapter()).updateEventsShown(Utils.getItems(event));
+            ((ItemRVAdapter)recyclerView.getAdapter()).updateEventsShown(event.getItems());
             recyclerView.invalidate();
         }
     }
 
     class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHolder> {
 
-        List<Item> itemsShown;
+        List<FirebaseDatabase.Item> itemsShown;
 
-        ItemRVAdapter(List<Item> items){
+        ItemRVAdapter(List<FirebaseDatabase.Item> items){
             this.itemsShown = items;
         }
 
@@ -102,11 +100,13 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
         @Override
         public void onBindViewHolder(ItemViewHolder itemViewHolder, int i) {
             itemViewHolder.itemName.setText(itemsShown.get(i).getName());
-            itemViewHolder.itemPrice.setText("$"+String.valueOf(itemsShown.get(i).getCost()));
+            itemViewHolder.itemPrice.setText("$" + String.valueOf(itemsShown.get(i).getCost()));
             //itemViewHolder.itemLocation.setText(itemsShown.get(i).getStore());
             itemViewHolder.itemImage.setBackgroundResource(itemsShown.get(i).getImageId());
             itemViewHolder.currentItem = i;
-            itemViewHolder.itemId = itemsShown.get(i).getId();
+            itemViewHolder.eventId = String.valueOf(itemsShown.get(i).getEventId());
+            itemViewHolder.profileId = String.valueOf(itemsShown.get(i).getProfileId());
+            itemViewHolder.itemId = String.valueOf(itemsShown.get(i).getId());
         }
 
         @Override
@@ -114,7 +114,7 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
             return itemsShown.size();
         }
 
-        public void updateEventsShown(ArrayList<Item> items) {
+        public void updateEventsShown(ArrayList<FirebaseDatabase.Item> items) {
             this.itemsShown.clear();
             this.itemsShown.addAll(items);
             notifyDataSetChanged();
@@ -128,6 +128,8 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
             //TextView itemLocation;
             RelativeLayout itemImage;
             public int currentItem;
+            String eventId;
+            String profileId;
             public String itemId;
 
             ItemViewHolder(final View itemView) {
@@ -136,6 +138,8 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(EventWishListActivity.this, ItemInfoActivity.class);
+                        intent.putExtra("eventId", itemId);
+                        intent.putExtra("profileId", itemId);
                         intent.putExtra("itemId", itemId);
                         EventWishListActivity.this.startActivity(intent);
                     }

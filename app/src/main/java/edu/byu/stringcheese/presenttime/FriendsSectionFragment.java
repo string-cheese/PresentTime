@@ -16,7 +16,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
-import edu.byu.stringcheese.presenttime.database.Profile;
 import edu.byu.stringcheese.presenttime.database.Utils;
 
 /**
@@ -45,7 +44,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         recyclerView = (RecyclerView) view.findViewById(R.id.friends_rv);
         Context context = recyclerView.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        List<Profile> friends = Utils.getFriends(MainActivity.myProfile);
+        List<FirebaseDatabase.Profile> friends = Utils.getFriends(MainActivity.myProfile);
         recyclerView.setAdapter(new FriendsListViewAdapter(friends));
 
     }
@@ -60,9 +59,9 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
     }
 
     class FriendsListViewAdapter extends RecyclerView.Adapter<FriendsListViewAdapter.FriendViewHolder> {
-        List<Profile> shownProfiles;
+        List<FirebaseDatabase.Profile> shownProfiles;
 
-        public FriendsListViewAdapter(List<Profile> profiles) {
+        public FriendsListViewAdapter(List<FirebaseDatabase.Profile> profiles) {
             shownProfiles = profiles;
         }
 
@@ -78,7 +77,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         @Override
         public void onBindViewHolder(final FriendViewHolder holder, int position) {
             holder.currentItem = position;
-            holder.profileId = shownProfiles.get(position).getId();
+            holder.profileId = String.valueOf(shownProfiles.get(position).getId());
             holder.friendName.setText(shownProfiles.get(position).getName());
         }
 
@@ -87,7 +86,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
             return shownProfiles.size();
         }
 
-        public void updateEventsShown(ArrayList<Profile> friends) {
+        public void updateEventsShown(ArrayList<FirebaseDatabase.Profile> friends) {
             this.shownProfiles.clear();
             this.shownProfiles.addAll(friends);
             notifyDataSetChanged();

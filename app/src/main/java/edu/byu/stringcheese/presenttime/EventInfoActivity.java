@@ -8,19 +8,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Utils;
 
 public class EventInfoActivity extends AppCompatActivity {
-    public Event event;
+    public FirebaseDatabase.Event event;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_info);
         if(getIntent().getStringExtra("eventId") != null)
         {
-            event = Utils.getEvent(getIntent().getStringExtra("eventId"));
+            event = Utils.getProfile(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId")));
         }
         else
         {

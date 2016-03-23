@@ -1,12 +1,9 @@
 package edu.byu.stringcheese.presenttime;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,14 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
-import edu.byu.stringcheese.presenttime.database.Profile;
 import edu.byu.stringcheese.presenttime.database.Utils;
 
 /**
@@ -31,7 +25,7 @@ import edu.byu.stringcheese.presenttime.database.Utils;
  */
 public class EventsSectionFragment extends Fragment implements Observer {
 
-    private Profile profile;
+    private FirebaseDatabase.Profile profile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +45,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() != null && getArguments().containsKey("profileId"))
         {
-            profile = Utils.getProfile(getArguments().getString("profileId"));
+            profile = Utils.getProfile(Integer.parseInt(getArguments().getString("profileId")));
             recyclerView = (RecyclerView) view.findViewById(R.id.rv);
 
             LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
@@ -66,7 +60,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
     }
     private RecyclerView recyclerView;
     private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(Utils.getEvents(profile));
+        RVAdapter adapter = new RVAdapter(profile.getEvents());
         recyclerView.setAdapter(adapter);
     }
 
@@ -78,7 +72,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
             //recyclerView.removeAllViewsInLayout();
             adapter.eventsShown.clear();
             adapter.notifyItemRangeRemoved(0,adapter.eventsShown.size());
-            adapter.eventsShown.addAll(Utils.getEvents(profile));
+            adapter.eventsShown.addAll(profile.getEvents());
             adapter.notifyItemRangeInserted(0,adapter.eventsShown.size());
             adapter.notifyDataSetChanged();
             //new refreshAsync().execute((RVAdapter)recyclerView.getAdapter());
@@ -87,8 +81,8 @@ public class EventsSectionFragment extends Fragment implements Observer {
 
     class RVAdapter extends RecyclerView.Adapter<RVAdapter.EventViewHolder> {
 
-        public List<Event> eventsShown;
-        RVAdapter(List<Event> events){
+        public List<FirebaseDatabase.Event> eventsShown;
+        RVAdapter(List<FirebaseDatabase.Event> events){
             this.eventsShown = events;
         }
 
@@ -112,7 +106,8 @@ public class EventsSectionFragment extends Fragment implements Observer {
                 eventViewHolder.eventDate.setText(eventsShown.get(i).getDate());
                 eventViewHolder.eventPhoto.setImageResource(eventsShown.get(i).getPhotoId());
                 eventViewHolder.currentItem = i;
-                eventViewHolder.eventId = eventsShown.get(i).getId();
+                eventViewHolder.profileId = String.valueOf(eventsShown.get(i).getProfileId());
+                eventViewHolder.eventId = String.valueOf(eventsShown.get(i).getId());
             }
         }
 
@@ -129,6 +124,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
             ImageView eventPhoto;
             public int currentItem;
             public String eventId;
+            public String profileId;
 
             EventViewHolder(final View itemView) {
                 super(itemView);
@@ -137,6 +133,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), EventInfoActivity.class);
                         intent.putExtra("eventId", eventId);
+                        intent.putExtra("profileId", profileId);
                         getActivity().startActivity(intent);
                     }
                 });

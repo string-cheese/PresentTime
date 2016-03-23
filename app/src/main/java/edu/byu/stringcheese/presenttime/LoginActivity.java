@@ -33,10 +33,7 @@ import com.google.android.gms.common.api.Status;
 
 import java.util.Map;
 
-import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
-import edu.byu.stringcheese.presenttime.database.Item;
-import edu.byu.stringcheese.presenttime.database.Profile;
 
 
 /**
@@ -65,6 +62,7 @@ public class LoginActivity extends FragmentActivity implements
             @Override
             protected LoginActivity doInBackground(LoginActivity... params) {
                 FirebaseDatabase.initializeFirebase(params[0]);
+                FirebaseDatabase.getInstance().fakeData();
                 return params[0];
             }
         }.execute(this);

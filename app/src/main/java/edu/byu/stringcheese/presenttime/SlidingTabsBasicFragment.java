@@ -114,7 +114,7 @@ public class SlidingTabsBasicFragment extends Fragment implements Observer {
             // getItem is called to instantiate the fragment for the given page.
             Fragment fragment;
             Bundle bundle = new Bundle();
-            bundle.putString("profileId",MainActivity.myProfile.getId());
+            bundle.putString("profileId",String.valueOf(MainActivity.myProfile.getId()));
             switch (position) {
                 case 0:
                     fragment = new DashboardSectionFragment();
