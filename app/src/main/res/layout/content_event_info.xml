@@ -28,6 +28,7 @@
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:text="Sam's 25th Birthday Party"
+                    android:fontFamily="sans-serif-light"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="#212121" />
 
@@ -57,6 +58,7 @@
                     android:id="@+id/address_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -79,6 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:fontFamily="sans-serif-bold"
                     android:text="RSVP"
                     android:textColor="@color/colorTextIcons" />
 
@@ -87,6 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:fontFamily="sans-serif-bold"
                     android:text="Donate Funds"
                     android:textColor="@color/colorTextIcons" />
 
