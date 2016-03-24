@@ -37,7 +37,10 @@
                   android:paddingRight="@dimen/horizontal_page_margin"
                   android:paddingTop="@dimen/vertical_page_margin"
                   android:paddingBottom="@dimen/vertical_page_margin"
-                  android:text="@string/app_name" />
+                  android:text="@string/app_name"
+                  android:fontFamily="sans-serif-light"
+                  />
+
         </ScrollView>
 `
     </ViewAnimator>
