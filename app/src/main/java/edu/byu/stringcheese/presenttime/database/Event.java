@@ -2,58 +2,42 @@ package edu.byu.stringcheese.presenttime.database;
 
 import com.firebase.client.Firebase;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
-import edu.byu.stringcheese.presenttime.LoginActivity;
-import edu.byu.stringcheese.presenttime.MainActivity;
-
-/**
- * Created by dtaylor on 3/22/2016.
- */
-public class Event {
-    private HashMap<String, String> items;
+public class Event{
+    private ArrayList<Item> items;
     private String name;
     private String date;
     private int photoId;
-    private String profileId;
     private String location;
-    private String id;
+    private int profileId;
+    private int id;
 
     public Event()
     {
 
     }
 
-    public Event(String name, String date, int photoId, String location, String profileId, String id) {
+    public Event(String name, String date, int photoId, String location, int profileId, int id) {
         this.name = name;
         this.date = date;
         this.photoId = photoId;
-        this.profileId = profileId;
         this.location = location;
+        this.items = new ArrayList<>();
+        this.profileId = profileId;
         this.id = id;
-        this.items = new HashMap<>();
     }
 
-    public String addItem(String name, double cost, String store, int imageID) {
+    public Item addItem(String name, double cost, String store, int imageID) {
         //add item
-        Firebase items = FirebaseDatabase.ref.child("items");
-        Firebase newItem = items.push();
-        String key = newItem.getKey();
-        newItem.setValue(new Item(name, cost, store, imageID, id, key));
-
-        //update profile items list
-        Firebase event = FirebaseDatabase.ref.child("events").child(id);
-        Firebase itemList = event.child("items");
-        String itemKey = itemList.push().getKey();
-        this.items.put(itemKey, key);
-        Map<String,Object> value = new HashMap<>();
-        value.put("items", this.items);
-        event.updateChildren(value);
-        return key;
+        Firebase profile = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId));
+        Item item = new Item(name, cost, store, imageID,profileId,this.id, items.size());
+        this.items.add(item);
+        profile.setValue(Utils.getProfiles().get(profileId));
+        return item;
     }
 
-    public HashMap<String, String> getItems() {
+    public ArrayList<Item> getItems() {
         return items;
     }
 
@@ -69,15 +53,15 @@ public class Event {
         return photoId;
     }
 
-    public String getProfileId() {
-        return profileId;
-    }
-
     public String getLocation() {
         return location;
     }
 
-    public String getId() {
+    public int getProfileId() {
+        return profileId;
+    }
+
+    public int getId() {
         return id;
     }
 }

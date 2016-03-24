@@ -2,74 +2,52 @@ package edu.byu.stringcheese.presenttime.database;
 
 import com.firebase.client.Firebase;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
-import edu.byu.stringcheese.presenttime.LoginActivity;
-import edu.byu.stringcheese.presenttime.MainActivity;
-
-/**
- * Created by dtaylor on 3/22/2016.
- */
 public class Profile
 {
-    private Map<String,String> events = new HashMap<>();
-    private Map<String,String> friends = new HashMap<>();
+    private ArrayList<Event> events = new ArrayList<>();
+    private ArrayList<String> friends = new ArrayList<>();
+    private int id;
     private String name;
     private String email;
-    private String id;
 
     public Profile()
     {
 
     }
 
-    public Profile(String name, String email, String id)
+    public Profile(String name, String email, int id)
     {
         this.name = name;
         this.email = email;
         this.id = id;
     }
 
-    public String addFriend(String value)
+    public Profile addFriend(String email)
     {
         //update profile event list
-        Firebase profile = FirebaseDatabase.ref.child("profiles").child(id);
-        Firebase friends = profile.child("friends");
-        String key = friends.push().getKey();
+        Firebase friends = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("friends");
+        this.friends.add(email);
 
-        this.friends.put(key, value);
-        Map<String,Object> pair = new HashMap<>();
-        pair.put("friends", this.friends);
-        profile.updateChildren(pair);
-        return key;
+        friends.setValue(this.friends);
+        return Utils.getProfileByEmail(email);
     }
 
     public Event addEvent(String eventName, String eventDate, int photoID, String eventAddress) {
         //add event
-        Firebase events = FirebaseDatabase.ref.child("events");
-        Firebase newEvent = events.push();
-        String key = newEvent.getKey();
-        Event event = new Event(eventName,eventDate,photoID,eventAddress,id,key);
-        newEvent.setValue(event);
-
-        //update profile event list
-        Firebase profile = FirebaseDatabase.ref.child("profiles").child(id);
-        Firebase profileEvents = profile.child("events");
-        String profileEventKey = profileEvents.push().getKey();
-        this.events.put(profileEventKey, key);
-        Map<String,Object> value = new HashMap<>();
-        value.put("events", this.events);
-        profile.updateChildren(value);
-
+        Firebase events = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("events");
+        Event event = new Event(eventName,eventDate,photoID,eventAddress, id, this.events.size());
+        this.events.add(event);
+        events.setValue(this.events);
         return event;
     }
 
-    public Map<String, String> getEvents() {
+    public ArrayList<Event> getEvents() {
         return events;
     }
 
-    public Map<String, String> getFriends() {
+    public ArrayList<String> getFriends() {
         return friends;
     }
 
@@ -81,15 +59,7 @@ public class Profile
         return email;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
-    }
-
-    public void addFriendByEmail(String email) {
-        Profile friend = Utils.getProfileByEmail(email);
-        if(friend != null)
-        {
-            this.addFriend(friend.getId());
-        }
     }
 }

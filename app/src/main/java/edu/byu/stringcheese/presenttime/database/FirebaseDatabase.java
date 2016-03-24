@@ -13,8 +13,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,16 +23,14 @@ import edu.byu.stringcheese.presenttime.R;
  * Created by dtaylor on 3/21/2016.
  */
 public class FirebaseDatabase{
-    private Map<String,Profile> profiles = new HashMap<>();
-    private Map<String,Event> events = new HashMap<>();
-    private Map<String,Item> items = new HashMap<>();
+    private ArrayList<Profile> profiles = new ArrayList<>();
     private static FirebaseDatabase _instance;
 
     public static FirebaseDatabase getInstance()
     {
-        if(_instance != null)
-            return _instance;
-        return new FirebaseDatabase();
+        if(_instance == null)
+            _instance = new FirebaseDatabase();
+        return _instance;
     }
 
     public static void setInstance(FirebaseDatabase db)
@@ -51,10 +48,9 @@ public class FirebaseDatabase{
     {
         //add item
         Firebase profiles = FirebaseDatabase.ref.child("profiles");
-        Firebase newProfile = profiles.push();
-        String key = newProfile.getKey();
-        Profile profile = new Profile(name, email, key);
-        newProfile.setValue(profile);
+        Profile profile = new Profile(name, email, Utils.getProfiles().size());
+        Utils.getProfiles().add(profile);
+        profiles.setValue(Utils.getProfiles());
         return profile;
     }
 
@@ -107,19 +103,11 @@ public class FirebaseDatabase{
         event3a.addItem("Dog4",0,"Cakes And More",R.drawable.ic_launcher);
     }
     public void fakeData2() {
-        Utils.getProfileByEmail("justin@cool.com").addFriendByEmail("joe@cool.com");
+        //Utils.getProfileByEmail("justin@cool.com").addFriendByEmail("joe@cool.com");
     }
 
-    public Map<String, Profile> getProfiles() {
+    public ArrayList<Profile> getProfiles() {
         return profiles;
-    }
-
-    public Map<String, Event> getEvents() {
-        return events;
-    }
-
-    public Map<String, Item> getItems() {
-        return items;
     }
 
     public static boolean hasInstance() {
@@ -130,7 +118,8 @@ public class FirebaseDatabase{
 
     public static void initializeFirebase(Context context) {
         Firebase.setAndroidContext(context);
-        ref = new Firebase("https://crackling-fire-2441.firebaseio.com/present-time");
+        ref = new Firebase("https://crackling-fire-2441.firebaseio.com/present-time-test");
+        //FirebaseDatabase.getInstance().fakeData();
         ref.addValueEventListener(getValueEventListener());
         ref.getParent().addChildEventListener(getChildEventListener());
     }
@@ -160,7 +149,11 @@ public class FirebaseDatabase{
         getValueEventListener().addObserver(obs);
     }
 
+
 }
+
+
+//OUTSIDE
 class DatabaseValueEventListener extends Observable implements ValueEventListener {
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -190,9 +183,20 @@ class DatabaseChildEventListener extends Observable implements ChildEventListene
     // Retrieve new posts as they are added to the database
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
-        if (dataSnapshot.getKey().equals("present-time")) {
-            GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
-            };
+        if (dataSnapshot.getKey().equals("present-time-test")) {
+            /*GenericTypeIndicator<Item> t1 = new GenericTypeIndicator<Item>(){};
+            Item item = dataSnapshot.child("profiles").child("0").child("events").child("0").child("items").child("0").getValue(t1);
+
+            GenericTypeIndicator<ArrayList<Item>> t2 = new GenericTypeIndicator<ArrayList<Item>>(){};
+            ArrayList<Item> items = dataSnapshot.child("profiles").child("0").child("events").child("0").child("items").getValue(t2);
+
+            GenericTypeIndicator<ArrayList<Event>> t3 = new GenericTypeIndicator<ArrayList<Event>>() {};
+            ArrayList<Event> events = dataSnapshot.child("profiles").child("0").child("events").getValue(t3);
+
+            GenericTypeIndicator<ArrayList<Profile>> t4 = new GenericTypeIndicator<ArrayList<Profile>>() {};
+            ArrayList<Profile> profiles = dataSnapshot.child("profiles").getValue(t4);*/
+
+            GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {};
             FirebaseDatabase dbTest = dataSnapshot.getValue(t);
             FirebaseDatabase.setInstance(dbTest);
             //NOTIFY OBSERVERS
@@ -203,24 +207,11 @@ class DatabaseChildEventListener extends Observable implements ChildEventListene
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        if (dataSnapshot.getKey().equals("present-time")) {
+        if (dataSnapshot.getKey().equals("present-time-test")) {
             GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
             };
             FirebaseDatabase dbTest = dataSnapshot.getValue(t);
             FirebaseDatabase.setInstance(dbTest);
-        } else if (dataSnapshot.getKey().equals("events")) {
-            GenericTypeIndicator<Map<String, Event>> t = new GenericTypeIndicator<Map<String, Event>>() {
-            };
-            Map<String, Event> events = dataSnapshot.getValue(t);
-        } else if (dataSnapshot.getKey().equals("items")) {
-            GenericTypeIndicator<Map<String, Item>> t = new GenericTypeIndicator<Map<String, Item>>() {
-            };
-            Map<String, Item> items = dataSnapshot.getValue(t);
-
-        } else if (dataSnapshot.getKey().equals("profiles")) {
-            GenericTypeIndicator<Map<String, Profile>> t = new GenericTypeIndicator<Map<String, Profile>>() {
-            };
-            Map<String, Profile> profiles = dataSnapshot.getValue(t);
         }
     }
 

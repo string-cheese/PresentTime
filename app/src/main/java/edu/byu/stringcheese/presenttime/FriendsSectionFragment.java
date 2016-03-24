@@ -78,7 +78,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         @Override
         public void onBindViewHolder(final FriendViewHolder holder, int position) {
             holder.currentItem = position;
-            holder.profileId = shownProfiles.get(position).getId();
+            holder.profileId = String.valueOf(shownProfiles.get(position).getId());
             holder.friendName.setText(shownProfiles.get(position).getName());
         }
 
@@ -107,7 +107,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), FriendInfoActivity.class);
-                        intent.putExtra("profileId", profileId);
+                        intent.putExtra("profileId", String.valueOf(profileId));
                         startActivity(intent);
                     }
                 });

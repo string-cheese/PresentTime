@@ -33,8 +33,8 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
         super.onCreate(savedInstanceState);
         FirebaseDatabase.addObserver(this);
         setContentView(R.layout.activity_event_wish_list);
-        if(getIntent().getStringExtra("eventId") != null) {
-            event = Utils.getEvent(getIntent().getStringExtra("eventId"));
+        if(getIntent().getStringExtra("eventId") != null && getIntent().getStringExtra("profileId") != null) {
+            event = Utils.getProfile(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId")));
             //((TextView)findViewById(R.id.selectedEvent)).setText(event.getName());
             recyclerView = (RecyclerView) findViewById(R.id.event_wish_list_rv);
 
@@ -66,7 +66,7 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
     private RecyclerView recyclerView;
 
     private void initializeAdapter(){
-        ItemRVAdapter adapter = new ItemRVAdapter(Utils.getItems(event));
+        ItemRVAdapter adapter = new ItemRVAdapter(event.getItems());
         recyclerView.setAdapter(adapter);
     }
 
@@ -74,7 +74,7 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
     public void update(Observable observable, Object data) {
         if(recyclerView.getAdapter() != null)
         {
-            ((ItemRVAdapter)recyclerView.getAdapter()).updateEventsShown(Utils.getItems(event));
+            ((ItemRVAdapter)recyclerView.getAdapter()).updateEventsShown(event.getItems());
             recyclerView.invalidate();
         }
     }
@@ -102,11 +102,13 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
         @Override
         public void onBindViewHolder(ItemViewHolder itemViewHolder, int i) {
             itemViewHolder.itemName.setText(itemsShown.get(i).getName());
-            itemViewHolder.itemPrice.setText("$"+String.valueOf(itemsShown.get(i).getCost()));
+            itemViewHolder.itemPrice.setText("$" + String.valueOf(itemsShown.get(i).getCost()));
             //itemViewHolder.itemLocation.setText(itemsShown.get(i).getStore());
             itemViewHolder.itemImage.setBackgroundResource(itemsShown.get(i).getImageId());
             itemViewHolder.currentItem = i;
-            itemViewHolder.itemId = itemsShown.get(i).getId();
+            itemViewHolder.eventId = String.valueOf(itemsShown.get(i).getEventId());
+            itemViewHolder.profileId = String.valueOf(itemsShown.get(i).getProfileId());
+            itemViewHolder.itemId = String.valueOf(itemsShown.get(i).getId());
         }
 
         @Override
@@ -128,6 +130,8 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
             //TextView itemLocation;
             RelativeLayout itemImage;
             public int currentItem;
+            String eventId;
+            String profileId;
             public String itemId;
 
             ItemViewHolder(final View itemView) {
@@ -136,7 +140,9 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(EventWishListActivity.this, ItemInfoActivity.class);
-                        intent.putExtra("itemId", itemId);
+                        intent.putExtra("eventId", String.valueOf(eventId));
+                        intent.putExtra("profileId", String.valueOf(profileId));
+                        intent.putExtra("itemId", String.valueOf(itemId));
                         EventWishListActivity.this.startActivity(intent);
                     }
                 });

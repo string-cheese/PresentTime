@@ -40,7 +40,7 @@ public class AddEventActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_add_event);
         if(getIntent().getStringExtra("profileId") != null)
         {
-            profile = Utils.getProfile(getIntent().getStringExtra("profileId"));
+            profile = Utils.getProfile(Integer.parseInt(getIntent().getStringExtra("profileId")));
         }
         else
         {

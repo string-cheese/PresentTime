@@ -13,7 +13,6 @@ import java.text.NumberFormat;
 
 import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
-import edu.byu.stringcheese.presenttime.database.Utils;
 
 public class AddItemActivity extends AppCompatActivity {
 
@@ -26,7 +25,7 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
         if(getIntent().getStringExtra("eventId") != null)
         {
-            event = Utils.getEvent(getIntent().getStringExtra("eventId"));
+            event = FirebaseDatabase.getInstance().getProfiles().get(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId")));
         }
         else
         {

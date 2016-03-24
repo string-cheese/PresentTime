@@ -1,8 +1,8 @@
 package edu.byu.stringcheese.presenttime;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,12 +15,6 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.GenericTypeIndicator;
-import com.firebase.client.ValueEventListener;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -31,12 +25,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
-import java.util.Map;
-
-import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
-import edu.byu.stringcheese.presenttime.database.Item;
-import edu.byu.stringcheese.presenttime.database.Profile;
 
 
 /**
@@ -60,22 +49,19 @@ public class LoginActivity extends FragmentActivity implements
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
         //Firebase setup
-        new AsyncTask<LoginActivity, LoginActivity, LoginActivity>(){
-
-            @Override
-            protected LoginActivity doInBackground(LoginActivity... params) {
-                FirebaseDatabase.initializeFirebase(params[0]);
-                return params[0];
-            }
-        }.execute(this);
+        FirebaseDatabase.initializeFirebase(this);
         Button debug_login = (Button) findViewById(R.id.debug_login);
         debug_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("email", "justin@cool.com");
-                intent.putExtra("name", "Justin");
-                startActivity(intent);
+                if(FirebaseDatabase.hasInstance()) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("email", "justin@cool.com");
+                    intent.putExtra("name", "Justin");
+                    startActivity(intent);
+                }
+                else
+                    Snackbar.make(v, "Database Not Yet Loaded", Snackbar.LENGTH_SHORT);
             }
         });
         //facebook[start]
@@ -241,7 +227,10 @@ public class LoginActivity extends FragmentActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_in_button:
-                signIn();
+                if(FirebaseDatabase.hasInstance())
+                    signIn();
+                else
+                    Snackbar.make(v,"Database Not Yet Loaded", Snackbar.LENGTH_SHORT);
                 break;
             case R.id.sign_out_button:
                 signOut();

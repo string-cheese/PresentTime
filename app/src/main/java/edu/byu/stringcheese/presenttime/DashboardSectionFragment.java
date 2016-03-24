@@ -45,7 +45,7 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() != null && getArguments().containsKey("profileId"))
         {
-            profile = Utils.getProfile(getArguments().getString("profileId"));
+            profile = Utils.getProfile(Integer.parseInt(getArguments().getString("profileId")));
             recyclerView = (RecyclerView) view.findViewById(R.id.dashboard_upcoming_rv);
 
             LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
@@ -91,7 +91,8 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment {
                 eventViewHolder.eventDate.setText(eventsShown.get(i).getDate());
                 eventViewHolder.eventPhoto.setImageResource(eventsShown.get(i).getPhotoId());
                 eventViewHolder.currentItem = i;
-                eventViewHolder.eventId = eventsShown.get(i).getId();
+                eventViewHolder.profileId = String.valueOf(eventsShown.get(i).getProfileId());
+                eventViewHolder.eventId = String.valueOf(eventsShown.get(i).getId());
             }
         }
 
@@ -108,6 +109,7 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment {
             ImageView eventPhoto;
             public int currentItem;
             public String eventId;
+            public String profileId;
 
             EventViewHolder(final View itemView) {
                 super(itemView);

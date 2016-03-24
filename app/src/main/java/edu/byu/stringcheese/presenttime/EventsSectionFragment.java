@@ -1,12 +1,10 @@
 package edu.byu.stringcheese.presenttime;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -51,7 +48,16 @@ public class EventsSectionFragment extends Fragment implements Observer {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() != null && getArguments().containsKey("profileId"))
         {
-            profile = Utils.getProfile(getArguments().getString("profileId"));
+            profile = Utils.getProfile(Integer.parseInt(getArguments().getString("profileId")));
+            FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), AddEventActivity.class);
+                    intent.putExtra("profileId", String.valueOf(profile.getId()));
+                    getActivity().startActivity(intent);
+                }
+            });
             recyclerView = (RecyclerView) view.findViewById(R.id.events_section_rv);
 
             LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
@@ -66,7 +72,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
     }
     private RecyclerView recyclerView;
     private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(Utils.getEvents(profile));
+        RVAdapter adapter = new RVAdapter(profile.getEvents());
         recyclerView.setAdapter(adapter);
     }
 
@@ -78,7 +84,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
             //recyclerView.removeAllViewsInLayout();
             adapter.eventsShown.clear();
             adapter.notifyItemRangeRemoved(0,adapter.eventsShown.size());
-            adapter.eventsShown.addAll(Utils.getEvents(profile));
+            adapter.eventsShown.addAll(profile.getEvents());
             adapter.notifyItemRangeInserted(0,adapter.eventsShown.size());
             adapter.notifyDataSetChanged();
             //new refreshAsync().execute((RVAdapter)recyclerView.getAdapter());
@@ -112,7 +118,8 @@ public class EventsSectionFragment extends Fragment implements Observer {
                 eventViewHolder.eventDate.setText(eventsShown.get(i).getDate());
                 eventViewHolder.eventPhoto.setImageResource(eventsShown.get(i).getPhotoId());
                 eventViewHolder.currentItem = i;
-                eventViewHolder.eventId = eventsShown.get(i).getId();
+                eventViewHolder.profileId = String.valueOf(eventsShown.get(i).getProfileId());
+                eventViewHolder.eventId = String.valueOf(eventsShown.get(i).getId());
             }
         }
 
@@ -129,6 +136,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
             ImageView eventPhoto;
             public int currentItem;
             public String eventId;
+            public String profileId;
 
             EventViewHolder(final View itemView) {
                 super(itemView);
@@ -136,7 +144,8 @@ public class EventsSectionFragment extends Fragment implements Observer {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), EventInfoActivity.class);
-                        intent.putExtra("eventId", eventId);
+                        intent.putExtra("eventId", String.valueOf(eventId));
+                        intent.putExtra("profileId", String.valueOf(profileId));
                         getActivity().startActivity(intent);
                     }
                 });
