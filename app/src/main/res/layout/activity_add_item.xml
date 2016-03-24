@@ -22,6 +22,7 @@
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <ImageView
+                android:scaleType="centerCrop"
                 android:id="@+id/header_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
