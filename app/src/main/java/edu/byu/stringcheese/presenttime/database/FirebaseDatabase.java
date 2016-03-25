@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.byu.stringcheese.presenttime.R;
-
 /**
  * Created by dtaylor on 3/21/2016.
  */
@@ -35,7 +33,6 @@ public class FirebaseDatabase{
 
     public static void setInstance(FirebaseDatabase db)
     {
-        if(_instance == null)
             _instance = db;
     }
 

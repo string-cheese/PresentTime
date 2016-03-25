@@ -9,7 +9,7 @@ import java.util.Date;
 import edu.byu.stringcheese.presenttime.Utils;
 
 public class Event{
-    private ArrayList<Item> items;
+    private ArrayList<Item> items = new ArrayList<>();
     private String name;
     private Calendar date;
     private int photoId;

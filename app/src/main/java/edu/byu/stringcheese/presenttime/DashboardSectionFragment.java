@@ -14,8 +14,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import edu.byu.stringcheese.presenttime.database.DBAccess;
+import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Profile;
 import edu.byu.stringcheese.presenttime.recyclerviewresources.AbstractDashboardItem;
 import edu.byu.stringcheese.presenttime.recyclerviewresources.DashBoardItem;
@@ -24,13 +27,14 @@ import edu.byu.stringcheese.presenttime.recyclerviewresources.DashboardHeader;
 /**
  * Created by dtaylor on 3/20/2016.
  */
-public class DashboardSectionFragment extends android.support.v4.app.Fragment {
+public class DashboardSectionFragment extends android.support.v4.app.Fragment implements Observer {
     private RecyclerView recyclerView;
     private Profile profile;
 
     @Override
       public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                Bundle savedInstanceState) {
+        FirebaseDatabase.addObserver(this);
         View rootView = inflater.inflate(R.layout.dashboard_section_fragment, container, false);
         return rootView;
     }
@@ -64,6 +68,15 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment {
     private void initializeAdapter(){
         DashboardRVAdapter adapter = new DashboardRVAdapter(DBAccess.getUpcomingEventsItems(profile));
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if(recyclerView.getAdapter() != null)
+        {
+            ((DashboardRVAdapter)recyclerView.getAdapter()).updateEventsShown(DBAccess.getUpcomingEventsItems(profile));
+            recyclerView.invalidate();
+        }
     }
 
     class DashboardRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -127,6 +140,12 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment {
         @Override
         public int getItemCount() {
             return eventsShown.size();
+        }
+
+        public void updateEventsShown(List<AbstractDashboardItem> events) {
+            this.eventsShown.clear();
+            this.eventsShown.addAll(events);
+            notifyDataSetChanged();
         }
 
         public class DashboardHeaderViewHolder extends RecyclerView.ViewHolder {

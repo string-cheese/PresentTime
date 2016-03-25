@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -80,14 +81,8 @@ public class EventsSectionFragment extends Fragment implements Observer {
     public void update(Observable observable, Object data) {
         if(recyclerView.getAdapter() != null)
         {
-            RVAdapter adapter = (RVAdapter)recyclerView.getAdapter();
-            //recyclerView.removeAllViewsInLayout();
-            adapter.eventsShown.clear();
-            adapter.notifyItemRangeRemoved(0,adapter.eventsShown.size());
-            adapter.eventsShown.addAll(profile.getEvents());
-            adapter.notifyItemRangeInserted(0,adapter.eventsShown.size());
-            adapter.notifyDataSetChanged();
-            //new refreshAsync().execute((RVAdapter)recyclerView.getAdapter());
+            ((RVAdapter)recyclerView.getAdapter()).updateEventsShown(DBAccess.getEvents(profile.getId()));
+            recyclerView.invalidate();
         }
     }
 
@@ -126,6 +121,12 @@ public class EventsSectionFragment extends Fragment implements Observer {
         @Override
         public int getItemCount() {
             return eventsShown.size();
+        }
+
+        public void updateEventsShown(ArrayList<Event> events) {
+            this.eventsShown.clear();
+            this.eventsShown.addAll(events);
+            notifyDataSetChanged();
         }
 
         public class EventViewHolder extends RecyclerView.ViewHolder {
