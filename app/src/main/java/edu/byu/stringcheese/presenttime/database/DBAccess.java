@@ -91,6 +91,10 @@ public class DBAccess {
         return result;
     }
 
+    public static void clear() {
+        FirebaseDatabase.getInstance().remove();
+    }
+
     class dateEventSorter implements Comparator<Profile> {
 
         @Override
@@ -132,7 +136,7 @@ public class DBAccess {
 
         Profile profile2 = DBAccess.addProfile("Joe","joe@cool.com", "googleId", "Amazon", "Shooting Games", "December 30th", "August 16th", "Ko Ko's Korean", "Orange");
 
-        Event eventa = profile2.addEvent("Joe's Wedding", "June 15th, 2016", R.drawable.balloon, "an address");
+        Event eventa = profile2.addEvent("Joe first", "June 15th, 2016", R.drawable.balloon, "an address");
         eventa.addItem("Tic",0,"Tac",R.drawable.ic_media_pause, false);
         eventa.addItem("Tac",25,"The Dock",R.drawable.ic_star_black_24dp, false);
         eventa.addItem("Toe",178,"Cakes And More",R.drawable.ic_launcher, false);
@@ -146,8 +150,28 @@ public class DBAccess {
         event3a.addItem("House2", 0, "Toyota", R.drawable.ic_media_pause, false);
         event3a.addItem("Pancake3",0,"The Dock",R.drawable.ic_star_black_24dp, false);
         event3a.addItem("Dog4",0,"Cakes And More",R.drawable.ic_launcher, false);
+
+        Profile profile3 = DBAccess.addProfile("Bob","bob@cool.com", "googleId", "Amazon", "Shooting Games", "December 30th", "August 16th", "Ko Ko's Korean", "Orange");
+
+        Event eventb = profile3.addEvent("Joe's Wedding", "June 11th, 2016", R.drawable.balloon, "an address");
+        eventb.addItem("Tic",0,"Tac",R.drawable.ic_media_pause, false);
+        eventb.addItem("Tac", 25, "The Dock", R.drawable.ic_star_black_24dp, false);
+        eventb.addItem("Toe",178,"Cakes And More",R.drawable.ic_launcher, false);
+
+        Event event2b = profile3.addEvent("Billy's 23th Birthday", "December 17th, 2016", R.drawable.balloon, "1942 columnus");
+        event2b.addItem("Kitty", 65, "Toyota", R.drawable.ic_media_pause, false);
+        event2b.addItem("Dr. Who Stuff",71245000,"The Dock",R.drawable.ic_star_black_24dp, false);
+        event2b.addItem("Monkey", 102340, "Cakes And More", R.drawable.ic_launcher, false);
+
+        Event event3b = profile3.addEvent("Amanda's Graduation", "August 11th, 2016", R.drawable.balloon, "24221 Sagewood dr., Provo Utah");
+        event3b.addItem("House2", 0, "Toyota", R.drawable.ic_media_pause, false);
+        event3b.addItem("Pancake3",0,"The Dock",R.drawable.ic_star_black_24dp, false);
+        event3b.addItem("Dog4",0,"Cakes And More",R.drawable.ic_launcher, false);
+
+
     }
     public static void fakeData2() {
         DBAccess.getProfileByEmail("justin@cool.com").addFriend("joe@cool.com");
+        DBAccess.getProfileByEmail("justin@cool.com").addFriend("bob@cool.com");
     }
 }

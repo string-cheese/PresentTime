@@ -62,14 +62,16 @@ public class FirebaseDatabase{
         return _instance != null;
     }
     public static Firebase ref;
-    public static boolean makeFakeData = false;
+    public static boolean makeFakeData = true;
 
 
     public static void initializeFirebase(Context context) {
         Firebase.setAndroidContext(context);
         ref = new Firebase("https://crackling-fire-2441.firebaseio.com/present-time");
-        if(makeFakeData)
+        if(makeFakeData) {
+            DBAccess.clear();
             DBAccess.fakeData();
+        }
         ref.addValueEventListener(getValueEventListener());
         ref.getParent().addChildEventListener(getChildEventListener());
     }
@@ -100,6 +102,9 @@ public class FirebaseDatabase{
     }
 
 
+    public void remove() {
+        ref.removeValue();
+    }
 }
 
 
