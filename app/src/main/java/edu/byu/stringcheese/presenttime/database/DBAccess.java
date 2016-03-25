@@ -65,8 +65,8 @@ public class DBAccess {
         return getProfile(Integer.parseInt(profileId));
     }
 
-    public static Profile addProfile(String name, String email, String store, String hobbies, String birthday, String anniversary, String restaurant, String favoriteColor) {
-        return FirebaseDatabase.getInstance().addProfile(name, email, store, hobbies, birthday, anniversary, restaurant, favoriteColor);
+    public static Profile addProfile(String name, String email, String googleId, String store, String hobbies, String birthday, String anniversary, String restaurant, String favoriteColor) {
+        return FirebaseDatabase.getInstance().addProfile(name, email, googleId, store, hobbies, birthday, anniversary, restaurant, favoriteColor);
     }
 
     public static ArrayList<Event> getEvents(int profileId) {
@@ -87,7 +87,7 @@ public class DBAccess {
     }
     public static void fakeData()
     {
-        Profile profile = DBAccess.addProfile("Justin", "justin@cool.com", "J. Crew", "Singing, Longboarding, Hacking", "June 7th", "August 12th", "Station 22", "Navy Blue");
+        Profile profile = DBAccess.addProfile("Justin", "justin@cool.com", "googleId", "J. Crew", "Singing, Longboarding, Hacking", "June 7th", "August 12th", "Station 22", "Navy Blue");
 
         Event event = profile.addEvent("Justin's Wedding", "June 15th, 2016", R.mipmap.wedding, "SLC Temple");
         event.addItem("Car",15000,"Toyota",R.mipmap.car, false);
@@ -116,7 +116,7 @@ public class DBAccess {
 
 
 
-        Profile profile2 = DBAccess.addProfile("Joe","joe@cool.com", "Amazon", "Shooting Games", "December 30th", "August 16th", "Ko Ko's Korean", "Orange");
+        Profile profile2 = DBAccess.addProfile("Joe","joe@cool.com", "googleId", "Amazon", "Shooting Games", "December 30th", "August 16th", "Ko Ko's Korean", "Orange");
 
         Event eventa = profile2.addEvent("Joe's Wedding", "June 15th, 2016", R.drawable.balloon, "an address");
         eventa.addItem("Tic",0,"Tac",R.drawable.ic_media_pause, false);

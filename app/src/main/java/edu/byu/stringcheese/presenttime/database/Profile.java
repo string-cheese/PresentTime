@@ -3,6 +3,7 @@ package edu.byu.stringcheese.presenttime.database;
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Profile
 {
@@ -17,13 +18,14 @@ public class Profile
     private String anniversaryDate;
     private String favoriteRestaurant;
     private String favoriteColor;
+    private String googleId;
 
     public Profile()
     {
 
     }
 
-    public Profile(int id, String name, String email, String favoriteStore, String hobbies, String birthDate, String anniversaryDate, String favoriteRestaurant, String favoriteColor) {
+    public Profile(int id, String name, String email, String googleId, String favoriteStore, String hobbies, String birthDate, String anniversaryDate, String favoriteRestaurant, String favoriteColor) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -33,6 +35,7 @@ public class Profile
         this.anniversaryDate = anniversaryDate;
         this.favoriteRestaurant = favoriteRestaurant;
         this.favoriteColor = favoriteColor;
+        this.googleId = googleId;
     }
 
     public Profile addFriend(String email)
@@ -144,5 +147,19 @@ public class Profile
         this.favoriteColor = favoriteColor;
         Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("favoriteColor");
         db.setValue(favoriteColor);
+    }
+
+    public void addFriendByGoogleId(String googleId) {
+        for(Profile profile : DBAccess.getProfiles())
+        {
+            if(profile.getGoogleId().equals(googleId))
+            {
+                addFriend(profile.getEmail());
+            }
+        }
+    }
+
+    public String getGoogleId() {
+        return googleId;
     }
 }

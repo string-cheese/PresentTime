@@ -23,14 +23,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.google.android.gms.plus.model.people.PersonBuffer;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -91,6 +92,7 @@ public class LoginActivity extends FragmentActivity implements
         facebook_login_button.registerCallback(callbackManager, new FacebookLoginCallback());
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope(Scopes.PLUS_LOGIN))
+                .requestScopes(new Scope(Scopes.PLUS_ME))
                 .requestEmail()
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -177,13 +179,41 @@ public class LoginActivity extends FragmentActivity implements
 
                     Profile myProfile = DBAccess.getProfileByEmail(acct.getEmail());
                     if (myProfile == null) {
-                        myProfile = DBAccess.addProfile(acct.getDisplayName(), acct.getEmail(), "", "", person.getBirthday(), "", "", "");
+                        DBAccess.addProfile(acct.getDisplayName(), acct.getEmail(), person.getId(), "", "", person.getBirthday(), "", "", "");
+                        //Get Friends Info
+                        Plus.PeopleApi.loadVisible(mGoogleApiClient, null).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+                            @Override
+                            public void onResult(People.LoadPeopleResult loadPeopleResult) {
+                                if (loadPeopleResult.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
+                                    PersonBuffer personBuffer = loadPeopleResult.getPersonBuffer();
+                                    try {
+                                        int count = personBuffer.getCount();
+                                        for (int i = 0; i < count; i++) {
+                                            DBAccess.getProfileByEmail(acct.getEmail()).addFriendByGoogleId(personBuffer.get(i).getId());
+                                            /*Log.i("person", "Person " + i + " name: " + personBuffer.get(i).getDisplayName() + " - id: " + personBuffer.get(i).getId());
+                                            Log.i("birthday", personBuffer.get(i).getBirthday() + "" + "  hasBday" + personBuffer.get(i).hasBirthday());*/
+                                        }
+                                    } finally {
+
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        intent.putExtra("profileId", String.valueOf(DBAccess.getProfileByEmail(acct.getEmail()).getId()));
+                                        startActivity(intent);
+                                    }
+                                } else {
+                                    Log.i("error", "Error");
+                                }
+                            }
+                        });
                     }
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("profileId", String.valueOf(myProfile.getId()));
-                    startActivity(intent);
+                    else
+                    {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("profileId", String.valueOf(DBAccess.getProfileByEmail(acct.getEmail()).getId()));
+                        startActivity(intent);
+                    }
                 }
             });
+
             //finish();
         } else {
             mStatusTextView.setText(R.string.signed_out);
@@ -196,10 +226,7 @@ public class LoginActivity extends FragmentActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.google_login_button:
-                if(FirebaseDatabase.hasInstance())
                     signIn();
-                else
-                    Snackbar.make(v,"Database Not Yet Loaded", Snackbar.LENGTH_SHORT);
                 break;
             case R.id.sign_out_button:
                 signOut();

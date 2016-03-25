@@ -44,11 +44,11 @@ public class FirebaseDatabase{
 
     }
 
-    public Profile addProfile(String name, String email, String store, String hobbies, String birthday, String annviversary, String restaurant, String favoriteColor)
+    public Profile addProfile(String name, String email, String googleId, String store, String hobbies, String birthday, String annviversary, String restaurant, String favoriteColor)
     {
         //add item
         Firebase profiles = FirebaseDatabase.ref.child("profiles");
-        Profile profile = new Profile(DBAccess.getProfiles().size(), name, email, store, hobbies, birthday, annviversary, restaurant, favoriteColor);
+        Profile profile = new Profile(DBAccess.getProfiles().size(), name, email, googleId, store, hobbies, birthday, annviversary, restaurant, favoriteColor);
         DBAccess.getProfiles().add(profile);
         profiles.setValue(DBAccess.getProfiles());
         return profile;
