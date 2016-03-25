@@ -166,6 +166,7 @@ public class AddEventActivity extends Activity implements View.OnClickListener {
             eventImageId = R.mipmap.gifts;
 
         profile.addEvent(eventName, eventDate, eventImageId, eventAddress);
+        //SlidingTabsBasicFragment.mViewPager.setCurrentItem(1);
         finish();
     }
 }
