@@ -3,6 +3,7 @@ package edu.byu.stringcheese.presenttime;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -51,6 +52,15 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
             profile = DBAccess.getProfile(getArguments().getString("profileId"));
             List<Profile> friends = DBAccess.getFriends(profile);
             recyclerView.setAdapter(new FriendsListViewAdapter(friends));
+            FloatingActionButton addFriendButton = (FloatingActionButton) view.findViewById(R.id.add_friend_fab);
+            addFriendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(),AddFriendActivity.class);
+                    intent.putExtra("profileId", String.valueOf(profile.getId()));
+                    startActivity(intent);
+                }
+            });
         }
 
     }

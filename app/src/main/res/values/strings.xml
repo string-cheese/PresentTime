@@ -126,4 +126,5 @@
     <string name="title_section4">Profile</string>
     <string name="title_activity_friend_info">FriendInfoActivity</string>
     <string name="title_activity_event_wish_list">EventWishListActivity</string>
+    <string name="title_activity_add_friend">AddFriendActivity</string>
 </resources>
