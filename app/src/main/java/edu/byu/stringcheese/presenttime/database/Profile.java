@@ -3,6 +3,7 @@ package edu.byu.stringcheese.presenttime.database;
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Profile
 {
@@ -11,17 +12,30 @@ public class Profile
     private int id;
     private String name;
     private String email;
+    private String favoriteStore;
+    private String hobbies;
+    private String birthDate;
+    private String anniversaryDate;
+    private String favoriteRestaurant;
+    private String favoriteColor;
+    private String googleId;
 
     public Profile()
     {
 
     }
 
-    public Profile(String name, String email, int id)
-    {
+    public Profile(int id, String name, String email, String googleId, String favoriteStore, String hobbies, String birthDate, String anniversaryDate, String favoriteRestaurant, String favoriteColor) {
+        this.id = id;
         this.name = name;
         this.email = email;
-        this.id = id;
+        this.favoriteStore = favoriteStore;
+        this.hobbies = hobbies;
+        this.birthDate = birthDate;
+        this.anniversaryDate = anniversaryDate;
+        this.favoriteRestaurant = favoriteRestaurant;
+        this.favoriteColor = favoriteColor;
+        this.googleId = googleId;
     }
 
     public Profile addFriend(String email)
@@ -31,7 +45,7 @@ public class Profile
         this.friends.add(email);
 
         friends.setValue(this.friends);
-        return Utils.getProfileByEmail(email);
+        return DBAccess.getProfileByEmail(email);
     }
 
     public Event addEvent(String eventName, String eventDate, int photoID, String eventAddress) {
@@ -61,5 +75,91 @@ public class Profile
 
     public int getId() {
         return id;
+    }
+
+    public String getFavoriteStore() {
+        return favoriteStore;
+    }
+
+    public String getHobbies() {
+        return hobbies;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public String getAnniversaryDate() {
+        return anniversaryDate;
+    }
+
+    public String getFavoriteRestaurant() {
+        return favoriteRestaurant;
+    }
+
+    public String getFavoriteColor() {
+        return favoriteColor;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("name");
+        db.setValue(name);
+    }/*
+
+    public void updateEmail(String email) {
+        this.email = email;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("email");
+        db.setValue(email);
+    }*/
+
+    public void updateFavoriteStore(String favoriteStore) {
+        this.favoriteStore = favoriteStore;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("favoriteStore");
+        db.setValue(favoriteStore);
+    }
+
+    public void updateHobbies(String hobbies) {
+        this.hobbies = hobbies;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("hobbies");
+        db.setValue(hobbies);
+    }
+
+    public void updateBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("birthDate");
+        db.setValue(birthDate);
+    }
+
+    public void updateAnniversaryDate(String anniversaryDate) {
+        this.anniversaryDate = anniversaryDate;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("anniversaryDate");
+        db.setValue(anniversaryDate);
+    }
+
+    public void updateFavoriteRestaurant(String favoriteRestaurant) {
+        this.favoriteRestaurant = favoriteRestaurant;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("favoriteRestaurant");
+        db.setValue(favoriteRestaurant);
+    }
+
+    public void updateFavoriteColor(String favoriteColor) {
+        this.favoriteColor = favoriteColor;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("favoriteColor");
+        db.setValue(favoriteColor);
+    }
+
+    public void addFriendByGoogleId(String googleId) {
+        for(Profile profile : DBAccess.getProfiles())
+        {
+            if(profile.getGoogleId().equals(googleId))
+            {
+                addFriend(profile.getEmail());
+            }
+        }
+    }
+
+    public String getGoogleId() {
+        return googleId;
     }
 }

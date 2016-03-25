@@ -2,6 +2,7 @@ package edu.byu.stringcheese.presenttime;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -20,12 +21,24 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.plus.People;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
+import com.google.android.gms.plus.model.people.PersonBuffer;
 
+import java.util.Observable;
+import java.util.Observer;
+
+import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
+import edu.byu.stringcheese.presenttime.database.Profile;
 
 
 /**
@@ -33,15 +46,19 @@ import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
  */
 public class LoginActivity extends FragmentActivity implements
         GoogleApiClient.OnConnectionFailedListener,
-        View.OnClickListener {
+        View.OnClickListener, Observer {
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
 
-    LoginButton loginButton;
-    CallbackManager callbackManager;
+    private LoginButton facebook_login_button;
+    private SignInButton google_login_button;
+    private CallbackManager callbackManager;
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
+    private Button google_logout_button;
+    private Button google_disconnect_button;
+    private Button debug_login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,108 +66,55 @@ public class LoginActivity extends FragmentActivity implements
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
         //Firebase setup
+        FirebaseDatabase.addObserver(this);
         FirebaseDatabase.initializeFirebase(this);
-        Button debug_login = (Button) findViewById(R.id.debug_login);
-        debug_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(FirebaseDatabase.hasInstance()) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("email", "justin@cool.com");
-                    intent.putExtra("name", "Justin");
-                    startActivity(intent);
-                }
-                else
-                    Snackbar.make(v, "Database Not Yet Loaded", Snackbar.LENGTH_SHORT);
-            }
-        });
-        //facebook[start]
-        callbackManager = CallbackManager.Factory.create();
+        debug_login = (Button) findViewById(R.id.debug_login_button);
+        facebook_login_button = (LoginButton) findViewById(R.id.facebook_login_button);
+        google_login_button = (SignInButton) findViewById(R.id.google_login_button);
+        google_logout_button = (Button) findViewById(R.id.sign_out_button);
+        google_disconnect_button = (Button) findViewById(R.id.disconnect_button);
 
 
-        loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions("user_friends");
-        // Other app specific specialization
-
-        // Callback registration
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG,
-                        "User ID: "
-                                + loginResult.getAccessToken().getUserId()
-                                + "\n" +
-                                "Auth Token: "
-                                + loginResult.getAccessToken().getToken()
-                );
-            }
-
-            @Override
-            public void onCancel() {
-                Log.d(TAG, "Login attempt canceled.");
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Log.d(TAG, "Login attempt failed.");
-            }
-
-        });
-        //facebook[end]
-        //google[start]
-        // Views
         mStatusTextView = (TextView) findViewById(R.id.status);
 
+        facebook_login_button.setEnabled(false);
+        google_login_button.setEnabled(false);
+        debug_login.setEnabled(false);
+
         // Button listeners
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
-        findViewById(R.id.disconnect_button).setOnClickListener(this);
+        google_login_button.setOnClickListener(this);
+        google_logout_button.setOnClickListener(this);
+        google_disconnect_button.setOnClickListener(this);
+        debug_login.setOnClickListener(this);
 
-        // [START configure_signin]
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        callbackManager = CallbackManager.Factory.create();
+        facebook_login_button.setReadPermissions("user_friends");
+        facebook_login_button.registerCallback(callbackManager, new FacebookLoginCallback());
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestScopes(new Scope(Scopes.PLUS_LOGIN))
+                .requestScopes(new Scope(Scopes.PLUS_ME))
                 .requestEmail()
-                        //.requestServerAuthCode(getString(R.string.server_client_id))
                 .build();
-        // [END configure_signin]
-
-        // [START build_client]
-        // Build a GoogleApiClient with access to the Google Sign-In API and the
-        // options specified by gso.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .addApi(Plus.API)
                 .build();
-        // [END build_client]
-
-        // [START customize_button]
-        // Customize sign-in button. The sign-in button can be displayed in
-        // multiple sizes and color schemes. It can also be contextually
-        // rendered based on the requested scopes. For example. a red button may
-        // be displayed when Google+ scopes are requested, but a white button
-        // may be displayed when only basic profile is requested. Try adding the
-        // Scopes.PLUS_LOGIN scope to the GoogleSignInOptions to see the
-        // difference.
-        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
-        signInButton.setScopes(gso.getScopeArray());
-        // [END customize_button]
-        //Google[end]
+        google_login_button = (SignInButton) findViewById(R.id.google_login_button);
+        google_login_button.setSize(SignInButton.SIZE_STANDARD);
+        google_login_button.setScopes(gso.getScopeArray());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //facebook[start]
         callbackManager.onActivityResult(requestCode, resultCode, data);
-        //facebook[end]
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
     }
-    // [START handleSignInResult]
+
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
@@ -198,45 +162,86 @@ public class LoginActivity extends FragmentActivity implements
                     }
                 });
     }
-    // [END revokeAccess]
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
-        // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
-    private void updateUI(boolean signedIn, GoogleSignInAccount acct) {
+    private void updateUI(boolean signedIn, final GoogleSignInAccount acct) {
         if (signedIn) {
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+            google_login_button.setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("email",acct.getEmail());
-            intent.putExtra("name", acct.getDisplayName());
-            startActivity(intent);
+            Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+                @Override
+                public void onResult(@NonNull People.LoadPeopleResult loadPeopleResult) {
+                    Person person = loadPeopleResult.getPersonBuffer().get(0);
+
+                    Profile myProfile = DBAccess.getProfileByEmail(acct.getEmail());
+                    if (myProfile == null) {
+                        DBAccess.addProfile(acct.getDisplayName(), acct.getEmail(), person.getId(), "", "", person.getBirthday(), "", "", "");
+                        //Get Friends Info
+                        Plus.PeopleApi.loadVisible(mGoogleApiClient, null).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+                            @Override
+                            public void onResult(People.LoadPeopleResult loadPeopleResult) {
+                                if (loadPeopleResult.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
+                                    PersonBuffer personBuffer = loadPeopleResult.getPersonBuffer();
+                                    try {
+                                        int count = personBuffer.getCount();
+                                        for (int i = 0; i < count; i++) {
+                                            DBAccess.getProfileByEmail(acct.getEmail()).addFriendByGoogleId(personBuffer.get(i).getId());
+                                            /*Log.i("person", "Person " + i + " name: " + personBuffer.get(i).getDisplayName() + " - id: " + personBuffer.get(i).getId());
+                                            Log.i("birthday", personBuffer.get(i).getBirthday() + "" + "  hasBday" + personBuffer.get(i).hasBirthday());*/
+                                        }
+                                    } finally {
+
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        intent.putExtra("profileId", String.valueOf(DBAccess.getProfileByEmail(acct.getEmail()).getId()));
+                                        startActivity(intent);
+                                    }
+                                } else {
+                                    Log.i("error", "Error");
+                                }
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("profileId", String.valueOf(DBAccess.getProfileByEmail(acct.getEmail()).getId()));
+                        startActivity(intent);
+                    }
+                }
+            });
+
             //finish();
         } else {
             mStatusTextView.setText(R.string.signed_out);
 
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+            google_login_button.setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
     }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sign_in_button:
-                if(FirebaseDatabase.hasInstance())
+            case R.id.google_login_button:
                     signIn();
-                else
-                    Snackbar.make(v,"Database Not Yet Loaded", Snackbar.LENGTH_SHORT);
                 break;
             case R.id.sign_out_button:
                 signOut();
                 break;
             case R.id.disconnect_button:
                 revokeAccess();
+                break;
+            case R.id.debug_login_button:
+                if (FirebaseDatabase.hasInstance()) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("email", "justin@cool.com");
+                    intent.putExtra("name", "Justin");
+                    startActivity(intent);
+                } else
+                    Snackbar.make(v, "Database Not Yet Loaded", Snackbar.LENGTH_SHORT);
                 break;
         }
     }
@@ -247,5 +252,25 @@ public class LoginActivity extends FragmentActivity implements
         //signIn();
     }
 
+    @Override
+    public void update(Observable observable, Object data) {
+        facebook_login_button.setEnabled(true);
+        google_login_button.setEnabled(true);
+        debug_login.setEnabled(true);
+    }
+
+    private class FacebookLoginCallback implements FacebookCallback<LoginResult> {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+            }
+
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+            }
+    }
 }
 

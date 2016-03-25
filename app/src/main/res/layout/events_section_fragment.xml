@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -17,13 +15,12 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:clickable="true"
         android:onClick="addEvent"
-        app:rippleColor="@color/colorPrimaryDark"
-        app:layout_anchor="@id/events_section_rv"
-        app:layout_anchorGravity="top|end"
-        android:layout_gravity="top|right"
-        app:backgroundTint="@color/colorAccent"/>
+        android:src="@drawable/ic_add" />
+
 </android.support.design.widget.CoordinatorLayout>

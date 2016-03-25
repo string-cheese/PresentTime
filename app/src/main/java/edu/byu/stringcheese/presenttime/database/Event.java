@@ -28,12 +28,12 @@ public class Event{
         this.id = id;
     }
 
-    public Item addItem(String name, double cost, String store, int imageID) {
+    public Item addItem(String name, double cost, String store, int imageID, boolean purchased) {
         //add item
         Firebase profile = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId));
-        Item item = new Item(name, cost, store, imageID,profileId,this.id, items.size());
+        Item item = new Item(name, cost, store, imageID,profileId,this.id, items.size(), purchased);
         this.items.add(item);
-        profile.setValue(Utils.getProfiles().get(profileId));
+        profile.setValue(DBAccess.getProfiles().get(profileId));
         return item;
     }
 
@@ -63,5 +63,29 @@ public class Event{
 
     public int getId() {
         return id;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(id)).child("name");
+        db.setValue(name);
+    }
+
+    public void updateDate(String date) {
+        this.date = date;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(id)).child("date");
+        db.setValue(date);
+    }
+
+    public void updatePhotoId(int photoId) {
+        this.photoId = photoId;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(id)).child("photoId");
+        db.setValue(photoId);
+    }
+
+    public void updateLocation(String location) {
+        this.location = location;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(id)).child("location");
+        db.setValue(location);
     }
 }

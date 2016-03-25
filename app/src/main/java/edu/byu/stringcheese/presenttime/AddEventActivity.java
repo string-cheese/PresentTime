@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import edu.byu.stringcheese.presenttime.database.Profile;
-import edu.byu.stringcheese.presenttime.database.Utils;
+import edu.byu.stringcheese.presenttime.database.DBAccess;
 
 public class AddEventActivity extends Activity implements View.OnClickListener {
 
@@ -40,7 +40,7 @@ public class AddEventActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_add_event);
         if(getIntent().getStringExtra("profileId") != null)
         {
-            profile = Utils.getProfile(Integer.parseInt(getIntent().getStringExtra("profileId")));
+            profile = DBAccess.getProfile(Integer.parseInt(getIntent().getStringExtra("profileId")));
         }
         else
         {
@@ -166,6 +166,7 @@ public class AddEventActivity extends Activity implements View.OnClickListener {
             eventImageId = R.mipmap.gifts;
 
         profile.addEvent(eventName, eventDate, eventImageId, eventAddress);
+        //SlidingTabsBasicFragment.mViewPager.setCurrentItem(1);
         finish();
     }
 }

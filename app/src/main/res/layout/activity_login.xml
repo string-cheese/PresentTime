@@ -61,7 +61,7 @@
             android:textColor="@android:color/black"
             android:textSize="14sp" />
         <Button
-            android:id="@+id/debug_login"
+            android:id="@+id/debug_login_button"
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:textColor="@color/colorTextIcons"
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.gms.common.SignInButton
-                android:id="@+id/sign_in_button"
+                android:id="@+id/google_login_button"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
@@ -92,11 +92,11 @@
                 tools:visibility="visible" />
 
             <com.facebook.login.widget.LoginButton
-                android:id="@+id/login_button"
+                android:id="@+id/facebook_login_button"
                 android:layout_width="200dp"
                 android:layout_height="100dp"
                 android:height="500dp"
-                android:layout_below="@id/sign_in_button"
+                android:layout_below="@id/google_login_button"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp" />
         </LinearLayout>
@@ -117,7 +117,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/sign_out"
+                android:text="@string/google_logout_button"
                 android:theme="@style/ThemeOverlay.MyDarkButton" />
 
             <Button
@@ -125,7 +125,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/disconnect"
+                android:text="@string/google_disconnect_button"
                 android:theme="@style/ThemeOverlay.MyDarkButton" />
         </LinearLayout>
 

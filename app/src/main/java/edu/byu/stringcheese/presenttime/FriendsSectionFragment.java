@@ -3,6 +3,7 @@ package edu.byu.stringcheese.presenttime;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,13 +18,14 @@ import java.util.Observer;
 
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Profile;
-import edu.byu.stringcheese.presenttime.database.Utils;
+import edu.byu.stringcheese.presenttime.database.DBAccess;
 
 /**
  * Created by dtaylor on 3/20/2016.
  */
 public class FriendsSectionFragment extends android.support.v4.app.Fragment implements Observer {
     private RecyclerView recyclerView = null;
+    private Profile profile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,8 +47,21 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         recyclerView = (RecyclerView) view.findViewById(R.id.friends_rv);
         Context context = recyclerView.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        List<Profile> friends = Utils.getFriends(MainActivity.myProfile);
-        recyclerView.setAdapter(new FriendsListViewAdapter(friends));
+        if(getArguments()!=null && getArguments().getString("profileId") != null)
+        {
+            profile = DBAccess.getProfile(getArguments().getString("profileId"));
+            List<Profile> friends = DBAccess.getFriends(profile);
+            recyclerView.setAdapter(new FriendsListViewAdapter(friends));
+            FloatingActionButton addFriendButton = (FloatingActionButton) view.findViewById(R.id.add_friend_fab);
+            addFriendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(),AddFriendActivity.class);
+                    intent.putExtra("profileId", String.valueOf(profile.getId()));
+                    startActivity(intent);
+                }
+            });
+        }
 
     }
 
@@ -54,7 +69,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
     public void update(Observable observable, Object data) {
         if(recyclerView.getAdapter() != null)
         {
-            ((FriendsListViewAdapter)recyclerView.getAdapter()).updateEventsShown(Utils.getFriends(MainActivity.myProfile));
+            ((FriendsListViewAdapter)recyclerView.getAdapter()).updateEventsShown(DBAccess.getFriends(profile));
             recyclerView.invalidate();
         }
     }

@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Item;
-import edu.byu.stringcheese.presenttime.database.Utils;
 
 public class EventWishListActivity extends AppCompatActivity implements Observer {
 
@@ -34,7 +34,7 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
         FirebaseDatabase.addObserver(this);
         setContentView(R.layout.activity_event_wish_list);
         if(getIntent().getStringExtra("eventId") != null && getIntent().getStringExtra("profileId") != null) {
-            event = Utils.getProfile(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId")));
+            event = DBAccess.getProfile(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId")));
             //((TextView)findViewById(R.id.selectedEvent)).setText(event.getName());
             recyclerView = (RecyclerView) findViewById(R.id.event_wish_list_rv);
 
