@@ -35,6 +35,12 @@ public class Profile
         this.favoriteColor = favoriteColor;
     }
 
+    public void remove()
+    {
+        Firebase profile = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id));
+        profile.removeValue();
+    }
+
     public Profile addFriend(String email)
     {
         //update profile event list
