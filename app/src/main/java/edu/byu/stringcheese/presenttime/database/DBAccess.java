@@ -141,12 +141,12 @@ public class DBAccess {
         eventa.addItem("Tac",25,"The Dock",R.drawable.ic_star_black_24dp, false);
         eventa.addItem("Toe",178,"Cakes And More",R.drawable.ic_launcher, false);
 
-        Event event2a = profile2.addEvent("Billy's 23th Birthday", "December 17th, 2016", R.drawable.balloon, "1942 columnus");
+        Event event2a = profile2.addEvent("Joe second", "December 17th, 2016", R.drawable.balloon, "1942 columnus");
         event2a.addItem("Kitty", 65, "Toyota", R.drawable.ic_media_pause, false);
         event2a.addItem("Dr. Who Stuff",71245000,"The Dock",R.drawable.ic_star_black_24dp, false);
         event2a.addItem("Monkey",102340,"Cakes And More",R.drawable.ic_launcher, false);
 
-        Event event3a = profile2.addEvent("Amanda's Graduation", "August 11th, 2016", R.drawable.balloon, "24221 Sagewood dr., Provo Utah");
+        Event event3a = profile2.addEvent("Joe third", "August 11th, 2016", R.drawable.balloon, "24221 Sagewood dr., Provo Utah");
         event3a.addItem("House2", 0, "Toyota", R.drawable.ic_media_pause, false);
         event3a.addItem("Pancake3",0,"The Dock",R.drawable.ic_star_black_24dp, false);
         event3a.addItem("Dog4",0,"Cakes And More",R.drawable.ic_launcher, false);

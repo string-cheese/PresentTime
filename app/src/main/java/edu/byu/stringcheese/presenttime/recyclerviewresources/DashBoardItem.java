@@ -34,8 +34,8 @@ public class DashBoardItem extends AbstractDashboardItem {
     }
 
     @Override
-    public String getDate() {
-        return event.getDate();
+    public String getDateAsString() {
+        return event.getDateAsString();
     }
 
     @Override

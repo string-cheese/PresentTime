@@ -3,11 +3,15 @@ package edu.byu.stringcheese.presenttime.database;
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import edu.byu.stringcheese.presenttime.Utils;
 
 public class Event{
     private ArrayList<Item> items;
     private String name;
-    private String date;
+    private Calendar date;
     private int photoId;
     private String location;
     private int profileId;
@@ -20,7 +24,7 @@ public class Event{
 
     public Event(String name, String date, int photoId, String location, int profileId, int id) {
         this.name = name;
-        this.date = date;
+        this.date = Utils.parseDate(date);
         this.photoId = photoId;
         this.location = location;
         this.items = new ArrayList<>();
@@ -45,8 +49,11 @@ public class Event{
         return name;
     }
 
-    public String getDate() {
+    public Calendar getDate() {
         return date;
+    }
+    public String getDateAsString(){
+        return Utils.stringifyDate(date);
     }
 
     public int getPhotoId() {
@@ -72,6 +79,11 @@ public class Event{
     }
 
     public void updateDate(String date) {
+        this.date = Utils.parseDate(date);
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(id)).child("date");
+        db.setValue(date);
+    }
+    public void updateDate(Calendar date) {
         this.date = date;
         Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(id)).child("date");
         db.setValue(date);
@@ -88,4 +100,5 @@ public class Event{
         Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(id)).child("location");
         db.setValue(location);
     }
+
 }

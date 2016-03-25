@@ -27,7 +27,7 @@ public class DashboardHeader extends AbstractDashboardItem {
     }
 
     @Override
-    public String getDate() {
+    public String getDateAsString() {
         Log.e(TAG, "Bad request of AbstractDashboardItem made!");
         return "";
     }

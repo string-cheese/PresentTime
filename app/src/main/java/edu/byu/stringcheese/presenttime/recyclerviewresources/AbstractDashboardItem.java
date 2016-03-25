@@ -16,7 +16,7 @@ public abstract class AbstractDashboardItem {
 
     abstract public String getName();
 
-    abstract public String getDate();
+    abstract public String getDateAsString();
 
     abstract public int getPhotoId();
 
