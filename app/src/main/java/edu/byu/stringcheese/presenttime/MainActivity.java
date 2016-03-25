@@ -13,7 +13,7 @@ import com.firebase.client.Firebase;
 
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Profile;
-import edu.byu.stringcheese.presenttime.database.Utils;
+import edu.byu.stringcheese.presenttime.database.DBAccess;
 
 /**
  * A simple launcher activity containing a summary sample description, sample log and a custom
@@ -49,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
             }
             if(FirebaseDatabase.hasInstance())
             {
-                myProfile = Utils.getProfileByEmail(email);
+                myProfile = DBAccess.getProfileByEmail(email);
                 if (myProfile == null) {
-                    myProfile = FirebaseDatabase.getInstance().addProfile(name, email);
+                    myProfile = DBAccess.addProfile(name, email, "", "", "", "", "", "");
                 }
             }
         }

@@ -12,7 +12,7 @@ import android.widget.EditText;
 import java.text.NumberFormat;
 
 import edu.byu.stringcheese.presenttime.database.Event;
-import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
+import edu.byu.stringcheese.presenttime.database.DBAccess;
 
 public class AddItemActivity extends AppCompatActivity {
 
@@ -25,7 +25,9 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
         if(getIntent().getStringExtra("eventId") != null)
         {
-            event = FirebaseDatabase.getInstance().getProfiles().get(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId")));
+            String profileId = getIntent().getStringExtra("profileId");
+            String eventId = getIntent().getStringExtra("eventId");
+            event = DBAccess.getEvent(profileId, eventId);
         }
         else
         {
@@ -85,7 +87,7 @@ public class AddItemActivity extends AppCompatActivity {
         String itemName = ((EditText) findViewById(R.id.add_item_name)).getText().toString();
         double itemPrice = Double.parseDouble(((EditText) findViewById(R.id.add_item_price)).getText().toString().replaceAll("[^\\d.]+", ""));
         String itemLocation = ((EditText) findViewById(R.id.add_item_location)).getText().toString();
-        event.addItem(itemName, itemPrice, itemLocation, R.drawable.balloon);
+        event.addItem(itemName, itemPrice, itemLocation, R.drawable.balloon, false);
         finish();
     }
 }

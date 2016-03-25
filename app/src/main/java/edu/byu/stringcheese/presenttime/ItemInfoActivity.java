@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import edu.byu.stringcheese.presenttime.database.Item;
-import edu.byu.stringcheese.presenttime.database.Utils;
+import edu.byu.stringcheese.presenttime.database.DBAccess;
 
 /**
  * Created by liukaichi on 3/17/2016.
@@ -21,7 +21,7 @@ public class ItemInfoActivity extends AppCompatActivity {
         setContentView(R.layout.item_info);
         if(getIntent().getStringExtra("itemId") != null && getIntent().getStringExtra("profileId") != null && getIntent().getStringExtra("eventId") != null)
         {
-            Item item = Utils.getProfiles().get(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId"))).getItems().get(Integer.parseInt(getIntent().getStringExtra("itemId")));
+            Item item = DBAccess.getProfiles().get(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId"))).getItems().get(Integer.parseInt(getIntent().getStringExtra("itemId")));
             TextView itemName = (TextView)findViewById(R.id.item_name);
             itemName.setText(item.getName());
             TextView itemPrice = (TextView)findViewById(R.id.item_price);

@@ -15,9 +15,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.Profile;
-import edu.byu.stringcheese.presenttime.database.Utils;
 
 /**
  * Created by dtaylor on 3/20/2016.
@@ -45,7 +45,7 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() != null && getArguments().containsKey("profileId"))
         {
-            profile = Utils.getProfile(Integer.parseInt(getArguments().getString("profileId")));
+            profile = DBAccess.getProfile(Integer.parseInt(getArguments().getString("profileId")));
             recyclerView = (RecyclerView) view.findViewById(R.id.dashboard_upcoming_rv);
 
             LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
@@ -60,7 +60,7 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment {
     }
 
     private void initializeAdapter(){
-        DashboardRVAdapter adapter = new DashboardRVAdapter(Utils.getUpcomingEvents(profile));
+        DashboardRVAdapter adapter = new DashboardRVAdapter(DBAccess.getUpcomingEvents(profile));
         recyclerView.setAdapter(adapter);
     }
 

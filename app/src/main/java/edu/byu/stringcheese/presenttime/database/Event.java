@@ -28,12 +28,12 @@ public class Event{
         this.id = id;
     }
 
-    public Item addItem(String name, double cost, String store, int imageID) {
+    public Item addItem(String name, double cost, String store, int imageID, boolean purchased) {
         //add item
         Firebase profile = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId));
-        Item item = new Item(name, cost, store, imageID,profileId,this.id, items.size());
+        Item item = new Item(name, cost, store, imageID,profileId,this.id, items.size(), purchased);
         this.items.add(item);
-        profile.setValue(Utils.getProfiles().get(profileId));
+        profile.setValue(DBAccess.getProfiles().get(profileId));
         return item;
     }
 

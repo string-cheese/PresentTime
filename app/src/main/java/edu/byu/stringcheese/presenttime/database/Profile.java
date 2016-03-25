@@ -11,17 +11,28 @@ public class Profile
     private int id;
     private String name;
     private String email;
+    private String favoriteStore;
+    private String hobbies;
+    private String birthDate;
+    private String anniversaryDate;
+    private String favoriteRestaurant;
+    private String favoriteColor;
 
     public Profile()
     {
 
     }
 
-    public Profile(String name, String email, int id)
-    {
+    public Profile(int id, String name, String email, String favoriteStore, String hobbies, String birthDate, String anniversaryDate, String favoriteRestaurant, String favoriteColor) {
+        this.id = id;
         this.name = name;
         this.email = email;
-        this.id = id;
+        this.favoriteStore = favoriteStore;
+        this.hobbies = hobbies;
+        this.birthDate = birthDate;
+        this.anniversaryDate = anniversaryDate;
+        this.favoriteRestaurant = favoriteRestaurant;
+        this.favoriteColor = favoriteColor;
     }
 
     public Profile addFriend(String email)
@@ -31,7 +42,7 @@ public class Profile
         this.friends.add(email);
 
         friends.setValue(this.friends);
-        return Utils.getProfileByEmail(email);
+        return DBAccess.getProfileByEmail(email);
     }
 
     public Event addEvent(String eventName, String eventDate, int photoID, String eventAddress) {
@@ -61,5 +72,29 @@ public class Profile
 
     public int getId() {
         return id;
+    }
+
+    public String getFavoriteStore() {
+        return favoriteStore;
+    }
+
+    public String getHobbies() {
+        return hobbies;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public String getAnniversaryDate() {
+        return anniversaryDate;
+    }
+
+    public String getFavoriteRestaurant() {
+        return favoriteRestaurant;
+    }
+
+    public String getFavoriteColor() {
+        return favoriteColor;
     }
 }

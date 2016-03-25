@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Profile;
-import edu.byu.stringcheese.presenttime.database.Utils;
 
 /**
  * Created by dtaylor on 3/20/2016.
@@ -48,7 +48,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() != null && getArguments().containsKey("profileId"))
         {
-            profile = Utils.getProfile(Integer.parseInt(getArguments().getString("profileId")));
+            profile = DBAccess.getProfile(Integer.parseInt(getArguments().getString("profileId")));
             FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override

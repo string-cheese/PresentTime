@@ -17,7 +17,7 @@ import java.util.Observer;
 
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Profile;
-import edu.byu.stringcheese.presenttime.database.Utils;
+import edu.byu.stringcheese.presenttime.database.DBAccess;
 
 /**
  * Created by dtaylor on 3/20/2016.
@@ -45,7 +45,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         recyclerView = (RecyclerView) view.findViewById(R.id.friends_rv);
         Context context = recyclerView.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        List<Profile> friends = Utils.getFriends(MainActivity.myProfile);
+        List<Profile> friends = DBAccess.getFriends(MainActivity.myProfile);
         recyclerView.setAdapter(new FriendsListViewAdapter(friends));
 
     }
@@ -54,7 +54,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
     public void update(Observable observable, Object data) {
         if(recyclerView.getAdapter() != null)
         {
-            ((FriendsListViewAdapter)recyclerView.getAdapter()).updateEventsShown(Utils.getFriends(MainActivity.myProfile));
+            ((FriendsListViewAdapter)recyclerView.getAdapter()).updateEventsShown(DBAccess.getFriends(MainActivity.myProfile));
             recyclerView.invalidate();
         }
     }

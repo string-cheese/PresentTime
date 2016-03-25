@@ -44,66 +44,14 @@ public class FirebaseDatabase{
 
     }
 
-    public Profile addProfile(String name, String email)
+    public Profile addProfile(String name, String email, String store, String hobbies, String birthday, String annviversary, String restaurant, String favoriteColor)
     {
         //add item
         Firebase profiles = FirebaseDatabase.ref.child("profiles");
-        Profile profile = new Profile(name, email, Utils.getProfiles().size());
-        Utils.getProfiles().add(profile);
-        profiles.setValue(Utils.getProfiles());
+        Profile profile = new Profile(DBAccess.getProfiles().size(), name, email, store, hobbies, birthday, annviversary, restaurant, favoriteColor);
+        DBAccess.getProfiles().add(profile);
+        profiles.setValue(DBAccess.getProfiles());
         return profile;
-    }
-
-    public void fakeData()
-    {
-        Profile profile = addProfile("Justin","justin@cool.com");
-
-        Event event = profile.addEvent("Justin's Wedding", "June 15th, 2016", R.mipmap.wedding, "SLC Temple");
-        event.addItem("Car",15000,"Toyota",R.mipmap.car);
-        event.addItem("Boat",7000,"The Dock",R.mipmap.boat);
-        event.addItem("Cake",100,"Cakes And More",R.mipmap.cake);
-        event.addItem("Cake2",100,"Cakes And More",R.mipmap.cake);
-        event.addItem("Cake3", 100, "Cakes And More", R.mipmap.cake);
-        event.addItem("Cake4", 100, "Cakes And More", R.mipmap.cake);
-
-        Event event2 = profile.addEvent("Sam's 25th Birthday", "December 17th, 2016", R.mipmap.balloon, "Buffalo Wild Wings");
-        event2.addItem("House",105000,"Toyota",R.mipmap.house);
-        event2.addItem("Pancake",7000,"The Dock",R.mipmap.pancake);
-        event2.addItem("Dog",100,"Cakes And More",R.mipmap.dog);
-        event2.addItem("Mouse", 100, "Cakes And More", R.mipmap.mouse);
-        event2.addItem("Card Game", 100, "Cakes And More", R.mipmap.card);
-        event2.addItem("Bike", 100, "Cakes And More", R.mipmap.bike);
-
-        Event event3 = profile.addEvent("Amanda's Graduation", "August 11th, 2016", R.mipmap.graduation, "BYU");
-        event3.addItem("House2",105000,"Toyota",R.drawable.ic_media_pause);
-        event3.addItem("Pancake3",7000,"The Dock",R.drawable.ic_star_black_24dp);
-        event3.addItem("Dog4",100,"Cakes And More",R.drawable.ic_launcher);
-        event3.addItem("Mouse5",100,"Cakes And More",R.drawable.ic_launcher);
-        event3.addItem("Card Game6", 100, "Cakes And More", R.drawable.ic_launcher);
-        event3.addItem("Bike7", 100, "Cakes And More", R.drawable.ic_launcher);
-
-
-
-
-        Profile profile2 = addProfile("Joe","joe@cool.com");
-
-        Event eventa = profile2.addEvent("Joe's Wedding", "June 15th, 2016", R.drawable.balloon, "an address");
-        eventa.addItem("Tic",0,"Tac",R.drawable.ic_media_pause);
-        eventa.addItem("Tac",25,"The Dock",R.drawable.ic_star_black_24dp);
-        eventa.addItem("Toe",178,"Cakes And More",R.drawable.ic_launcher);
-
-        Event event2a = profile2.addEvent("Billy's 23th Birthday", "December 17th, 2016", R.drawable.balloon, "1942 columnus");
-        event2a.addItem("Kitty", 65, "Toyota", R.drawable.ic_media_pause);
-        event2a.addItem("Dr. Who Stuff",71245000,"The Dock",R.drawable.ic_star_black_24dp);
-        event2a.addItem("Monkey",102340,"Cakes And More",R.drawable.ic_launcher);
-
-        Event event3a = profile2.addEvent("Amanda's Graduation", "August 11th, 2016", R.drawable.balloon, "24221 Sagewood dr., Provo Utah");
-        event3a.addItem("House2", 0, "Toyota", R.drawable.ic_media_pause);
-        event3a.addItem("Pancake3",0,"The Dock",R.drawable.ic_star_black_24dp);
-        event3a.addItem("Dog4",0,"Cakes And More",R.drawable.ic_launcher);
-    }
-    public void fakeData2() {
-        //Utils.getProfileByEmail("justin@cool.com").addFriendByEmail("joe@cool.com");
     }
 
     public ArrayList<Profile> getProfiles() {
@@ -114,12 +62,14 @@ public class FirebaseDatabase{
         return _instance != null;
     }
     public static Firebase ref;
+    private static boolean makeFakeData = false;
 
 
     public static void initializeFirebase(Context context) {
         Firebase.setAndroidContext(context);
-        ref = new Firebase("https://crackling-fire-2441.firebaseio.com/present-time-test");
-        //FirebaseDatabase.getInstance().fakeData();
+        ref = new Firebase("https://crackling-fire-2441.firebaseio.com/present-time");
+        if(makeFakeData)
+            DBAccess.fakeData();
         ref.addValueEventListener(getValueEventListener());
         ref.getParent().addChildEventListener(getChildEventListener());
     }
@@ -155,17 +105,22 @@ public class FirebaseDatabase{
 
 //OUTSIDE
 class DatabaseValueEventListener extends Observable implements ValueEventListener {
+    private boolean makeFakeData = false;
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        System.out.println("There are " + dataSnapshot.getChildrenCount() + " blog posts");
+        //System.out.println("There are " + dataSnapshot.getChildrenCount() + " blog posts");
         if (dataSnapshot.getKey() != null && dataSnapshot.getKey().equals("present-time")) {
-            GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
-            };
+            GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {};
             FirebaseDatabase dbTest = dataSnapshot.getValue(t);
             FirebaseDatabase.setInstance(dbTest);
             //NOTIFY OBSERVERS
             setChanged();
             notifyObservers();
+            if(makeFakeData)
+            {
+                DBAccess.fakeData2();
+                makeFakeData = false;
+            }
         }
                 /*for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     //Database db = postSnapshot.getValue(Database.class);
@@ -208,8 +163,7 @@ class DatabaseChildEventListener extends Observable implements ChildEventListene
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         if (dataSnapshot.getKey().equals("present-time-test")) {
-            GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {
-            };
+            GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {};
             FirebaseDatabase dbTest = dataSnapshot.getValue(t);
             FirebaseDatabase.setInstance(dbTest);
         }
