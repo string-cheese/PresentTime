@@ -69,6 +69,10 @@ public class DBAccess {
         return FirebaseDatabase.getInstance().addProfile(name, email, store, hobbies, birthday, anniversary, restaurant, favoriteColor);
     }
 
+    public static ArrayList<Event> getEvents(int profileId) {
+        return getProfile(profileId).getEvents();
+    }
+
     class dateEventSorter implements Comparator<Profile> {
 
         @Override

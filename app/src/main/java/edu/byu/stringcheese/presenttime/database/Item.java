@@ -1,5 +1,7 @@
 package edu.byu.stringcheese.presenttime.database;
 
+import com.firebase.client.Firebase;
+
 public class Item
 {
     private int eventId;
@@ -56,5 +58,35 @@ public class Item
 
     public boolean isPurchased() {
         return purchased;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(eventId)).child("items").child(String.valueOf(id)).child("name");
+        db.setValue(name);
+    }
+
+    public void updateCost(double cost) {
+        this.cost = cost;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(eventId)).child("items").child(String.valueOf(id)).child("cost");
+        db.setValue(cost);
+    }
+
+    public void updateStore(String store) {
+        this.store = store;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(eventId)).child("items").child(String.valueOf(id)).child("store");
+        db.setValue(store);
+    }
+
+    public void updateImageId(int imageId) {
+        this.imageId = imageId;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(eventId)).child("items").child(String.valueOf(id)).child("imageId");
+        db.setValue(imageId);
+    }
+
+    public void updatePurchased(boolean purchased) {
+        this.purchased = purchased;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(eventId)).child("items").child(String.valueOf(id)).child("purchased");
+        db.setValue(purchased);
     }
 }

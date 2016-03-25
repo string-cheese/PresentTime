@@ -64,4 +64,28 @@ public class Event{
     public int getId() {
         return id;
     }
+
+    public void updateName(String name) {
+        this.name = name;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(id)).child("name");
+        db.setValue(name);
+    }
+
+    public void updateDate(String date) {
+        this.date = date;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(id)).child("date");
+        db.setValue(date);
+    }
+
+    public void updatePhotoId(int photoId) {
+        this.photoId = photoId;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(id)).child("photoId");
+        db.setValue(photoId);
+    }
+
+    public void updateLocation(String location) {
+        this.location = location;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(id)).child("location");
+        db.setValue(location);
+    }
 }

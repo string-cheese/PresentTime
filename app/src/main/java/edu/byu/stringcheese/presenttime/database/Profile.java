@@ -35,12 +35,6 @@ public class Profile
         this.favoriteColor = favoriteColor;
     }
 
-    public void remove()
-    {
-        Firebase profile = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id));
-        profile.removeValue();
-    }
-
     public Profile addFriend(String email)
     {
         //update profile event list
@@ -102,5 +96,53 @@ public class Profile
 
     public String getFavoriteColor() {
         return favoriteColor;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("name");
+        db.setValue(name);
+    }/*
+
+    public void updateEmail(String email) {
+        this.email = email;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("email");
+        db.setValue(email);
+    }*/
+
+    public void updateFavoriteStore(String favoriteStore) {
+        this.favoriteStore = favoriteStore;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("favoriteStore");
+        db.setValue(favoriteStore);
+    }
+
+    public void updateHobbies(String hobbies) {
+        this.hobbies = hobbies;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("hobbies");
+        db.setValue(hobbies);
+    }
+
+    public void updateBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("birthDate");
+        db.setValue(birthDate);
+    }
+
+    public void updateAnniversaryDate(String anniversaryDate) {
+        this.anniversaryDate = anniversaryDate;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("anniversaryDate");
+        db.setValue(anniversaryDate);
+    }
+
+    public void updateFavoriteRestaurant(String favoriteRestaurant) {
+        this.favoriteRestaurant = favoriteRestaurant;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("favoriteRestaurant");
+        db.setValue(favoriteRestaurant);
+    }
+
+    public void updateFavoriteColor(String favoriteColor) {
+        this.favoriteColor = favoriteColor;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("favoriteColor");
+        db.setValue(favoriteColor);
     }
 }
