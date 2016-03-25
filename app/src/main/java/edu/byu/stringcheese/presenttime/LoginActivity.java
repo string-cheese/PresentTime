@@ -237,9 +237,16 @@ public class LoginActivity extends FragmentActivity implements
             case R.id.debug_login_button:
                 if (FirebaseDatabase.hasInstance()) {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("email", "justin@cool.com");
-                    intent.putExtra("name", "Justin");
-                    startActivity(intent);
+                    Profile profile = DBAccess.getProfileByEmail("justin@cool.com");
+                    if(profile != null) {
+                        intent.putExtra("profileId", String.valueOf(profile.getId()));
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        //Snackbar.make(LoginActivit)
+                        Log.e(TAG, "DEBUG DATA NOT ADDED");
+                    }
                 } else
                     Snackbar.make(v, "Database Not Yet Loaded", Snackbar.LENGTH_SHORT);
                 break;

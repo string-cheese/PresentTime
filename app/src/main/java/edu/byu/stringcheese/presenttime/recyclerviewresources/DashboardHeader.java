@@ -51,7 +51,6 @@ public class DashboardHeader extends AbstractDashboardItem {
     }
 
     public String getLabel() {
-        Log.e(TAG, "Bad request of AbstractDashboardItem made!");
         return label;
     }
 }

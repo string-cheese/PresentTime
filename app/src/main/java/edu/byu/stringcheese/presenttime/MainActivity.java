@@ -36,20 +36,19 @@ public class MainActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("profileId") != null) {
             String id = getIntent().getStringExtra("profileId");
             myProfile = DBAccess.getProfile(id);
-        }
-        if (savedInstanceState == null) {
 
-            /**TEST ONLY**/
-            myProfile = DBAccess.getProfile(0);
+            if (savedInstanceState == null) {
 
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("profileId", String.valueOf(myProfile.getId()));
-            fragment.setArguments(bundle);
-            transaction.replace(R.id.sample_content_fragment, fragment);
-            transaction.commit();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("profileId", String.valueOf(myProfile.getId()));
+                fragment.setArguments(bundle);
+                transaction.replace(R.id.sample_content_fragment, fragment);
+                transaction.commit();
+            }
         }
+
     }
 
     @Override
