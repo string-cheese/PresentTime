@@ -62,7 +62,7 @@ public class FirebaseDatabase{
         return _instance != null;
     }
     public static Firebase ref;
-    private static boolean makeFakeData = false;
+    public static boolean makeFakeData = false;
 
 
     public static void initializeFirebase(Context context) {
@@ -105,7 +105,6 @@ public class FirebaseDatabase{
 
 //OUTSIDE
 class DatabaseValueEventListener extends Observable implements ValueEventListener {
-    private boolean makeFakeData = false;
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         //System.out.println("There are " + dataSnapshot.getChildrenCount() + " blog posts");
@@ -116,10 +115,10 @@ class DatabaseValueEventListener extends Observable implements ValueEventListene
             //NOTIFY OBSERVERS
             setChanged();
             notifyObservers();
-            if(makeFakeData)
+            if(FirebaseDatabase.makeFakeData)
             {
                 DBAccess.fakeData2();
-                makeFakeData = false;
+                FirebaseDatabase.makeFakeData = false;
             }
         }
                 /*for (DataSnapshot postSnapshot : snapshot.getChildren()) {
