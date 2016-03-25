@@ -3,9 +3,7 @@ package edu.byu.stringcheese.presenttime.database;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Dictionary;
 import java.util.List;
-import java.util.Map;
 
 import edu.byu.stringcheese.presenttime.R;
 import edu.byu.stringcheese.presenttime.recyclerviewresources.AbstractDashboardItem;
@@ -93,6 +91,10 @@ public class DBAccess {
 
     public static void clear() {
         FirebaseDatabase.getInstance().remove();
+    }
+
+    public static ArrayList<Item> getItems(Event event) {
+        return DBAccess.getEvent(String.valueOf(event.getProfileId()),String.valueOf(event.getId())).getItems();
     }
 
     class dateEventSorter implements Comparator<Profile> {

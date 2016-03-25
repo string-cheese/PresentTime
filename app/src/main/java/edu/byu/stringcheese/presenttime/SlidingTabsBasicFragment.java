@@ -37,6 +37,7 @@ public class SlidingTabsBasicFragment extends Fragment implements Observer {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        FirebaseDatabase.addObserver(this);
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
@@ -77,7 +78,8 @@ public class SlidingTabsBasicFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object data) {
-
+        mViewPager.setCurrentItem(mViewPager.getCurrentItem());
+        mViewPager.updateViewLayout(mViewPager.getChildAt(mViewPager.getCurrentItem()),mViewPager.getChildAt(mViewPager.getCurrentItem()).getLayoutParams());
     }
 
     /**

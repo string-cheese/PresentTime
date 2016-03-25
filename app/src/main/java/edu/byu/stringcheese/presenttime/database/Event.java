@@ -5,7 +5,7 @@ import com.firebase.client.Firebase;
 import java.util.ArrayList;
 
 public class Event{
-    private ArrayList<Item> items;
+    private ArrayList<Item> items = new ArrayList<>();
     private String name;
     private String date;
     private int photoId;

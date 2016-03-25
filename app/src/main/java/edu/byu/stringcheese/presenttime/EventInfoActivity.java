@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -95,14 +96,8 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
         {
             if(recyclerView.getAdapter() != null)
             {
-                ItemRVAdapter adapter = (ItemRVAdapter)recyclerView.getAdapter();
-                //recyclerView.removeAllViewsInLayout();
-                adapter.itemsShown.clear();
-                adapter.notifyItemRangeRemoved(0,adapter.itemsShown.size());
-                adapter.itemsShown.addAll(event.getItems());
-                adapter.notifyItemRangeInserted(0,adapter.itemsShown.size());
-                adapter.notifyDataSetChanged();
-                //new refreshAsync().execute((RVAdapter)recyclerView.getAdapter());
+                ((ItemRVAdapter)recyclerView.getAdapter()).updateEventsShown(DBAccess.getItems(event));
+                recyclerView.invalidate();
             }
         }
     }
@@ -142,6 +137,12 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
         @Override
         public int getItemCount() {
             return itemsShown.size();
+        }
+
+        public void updateEventsShown(ArrayList<Item> items) {
+            this.itemsShown.clear();
+            this.itemsShown.addAll(items);
+            notifyDataSetChanged();
         }
 
         public class ItemViewHolder extends RecyclerView.ViewHolder {
