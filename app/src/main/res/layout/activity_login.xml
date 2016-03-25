@@ -25,8 +25,7 @@
             android:layout_height="48dp"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="@dimen/g_top_margin"
-            android:contentDescription="PresentTime Icon"
-            android:src="@drawable/ic_redeem_white_24dp" />
+            android:contentDescription="PresentTime Icon"/>
 
         <TextView
             android:id="@+id/title_text"

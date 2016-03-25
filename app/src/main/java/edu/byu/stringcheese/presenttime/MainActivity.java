@@ -38,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
             myProfile = DBAccess.getProfile(id);
         }
         if (savedInstanceState == null) {
+
+            /**TEST ONLY**/
+            myProfile = DBAccess.getProfile(0);
+
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
             Bundle bundle = new Bundle();

@@ -3,10 +3,14 @@ package edu.byu.stringcheese.presenttime.database;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 
 import edu.byu.stringcheese.presenttime.R;
+import edu.byu.stringcheese.presenttime.recyclerviewresources.AbstractDashboardItem;
+import edu.byu.stringcheese.presenttime.recyclerviewresources.DashBoardItem;
+import edu.byu.stringcheese.presenttime.recyclerviewresources.DashboardHeader;
 
 /**
  * Created by dtaylor on 3/22/2016.
@@ -75,6 +79,16 @@ public class DBAccess {
 
     public static List<Profile> getFriends(String profileId) {
         return getFriends(getProfile(profileId));
+    }
+
+    public static List<AbstractDashboardItem> getUpcomingEventsItems(Profile profile) {
+        List<AbstractDashboardItem> result = new ArrayList<>();
+        result.add(new DashboardHeader("Upcoming Events"));
+        for (Event event : getProfile(profile.getId()).getEvents())
+        {
+            result.add(new DashBoardItem(event));
+        }
+        return result;
     }
 
     class dateEventSorter implements Comparator<Profile> {

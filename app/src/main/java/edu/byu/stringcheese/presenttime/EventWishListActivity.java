@@ -148,7 +148,7 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
                 });
                 item_cv = (CardView)itemView.findViewById(R.id.cv);
                 itemName = (TextView)itemView.findViewById(R.id.item_name);
-                itemPrice = (TextView)itemView.findViewById(R.id.item_cost);
+                itemPrice = (TextView)itemView.findViewById(R.id.item_price);
                 itemImage = (RelativeLayout)itemView.findViewById(R.id.item_image);
             }
         }

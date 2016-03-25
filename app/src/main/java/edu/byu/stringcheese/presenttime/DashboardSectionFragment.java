@@ -16,8 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.stringcheese.presenttime.database.DBAccess;
-import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.Profile;
+import edu.byu.stringcheese.presenttime.recyclerviewresources.AbstractDashboardItem;
+import edu.byu.stringcheese.presenttime.recyclerviewresources.DashBoardItem;
+import edu.byu.stringcheese.presenttime.recyclerviewresources.DashboardHeader;
 
 /**
  * Created by dtaylor on 3/20/2016.
@@ -60,15 +62,20 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment {
     }
 
     private void initializeAdapter(){
-        DashboardRVAdapter adapter = new DashboardRVAdapter(DBAccess.getUpcomingEvents(profile));
+        DashboardRVAdapter adapter = new DashboardRVAdapter(DBAccess.getUpcomingEventsItems(profile));
         recyclerView.setAdapter(adapter);
     }
 
-    class DashboardRVAdapter extends RecyclerView.Adapter<DashboardRVAdapter.EventViewHolder> {
+    class DashboardRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-        List<Event> eventsShown = new ArrayList<>();
-        DashboardRVAdapter(List<Event> events){
+        List<AbstractDashboardItem> eventsShown = new ArrayList<>();
+        DashboardRVAdapter(List<AbstractDashboardItem> events){
             this.eventsShown = events;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return eventsShown.get(position).getType();
         }
 
         @Override
@@ -77,28 +84,62 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment {
         }
 
         @Override
-        public EventViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.event_template, viewGroup, false);//$$$
-            EventViewHolder eventViewHolder = new EventViewHolder(v);
-            return eventViewHolder;
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+
+            if (viewType == AbstractDashboardItem.TYPE_HEADER) {
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_header, viewGroup, false);//$$$
+                DashboardHeaderViewHolder dashboardHeaderViewHolder = new DashboardHeaderViewHolder(v);
+                return dashboardHeaderViewHolder;
+            } else {
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.event_template, viewGroup, false);//$$$
+                EventViewHolder eventViewHolder = new EventViewHolder(v);
+                return eventViewHolder;
+            }
+
         }
 
         @Override
-        public void onBindViewHolder(EventViewHolder eventViewHolder, int i) {
-            if(eventsShown.get(i) != null)
-            {
-                eventViewHolder.eventName.setText(eventsShown.get(i).getName());
-                eventViewHolder.eventDate.setText(eventsShown.get(i).getDate());
-                eventViewHolder.eventPhoto.setImageResource(eventsShown.get(i).getPhotoId());
-                eventViewHolder.currentItem = i;
-                eventViewHolder.profileId = String.valueOf(eventsShown.get(i).getProfileId());
-                eventViewHolder.eventId = String.valueOf(eventsShown.get(i).getId());
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int i) {
+            int type = getItemViewType(i);
+            if (type == AbstractDashboardItem.TYPE_HEADER) {
+                DashboardHeader header = (DashboardHeader) DBAccess.getUpcomingEventsItems(profile).get(i);
+                DashboardHeaderViewHolder headerHolder = (DashboardHeaderViewHolder) holder;
+                headerHolder.label.setText(header.getLabel());
+            } else {
+                DashBoardItem item = (DashBoardItem) eventsShown.get(i);
+                EventViewHolder eventViewHolder = (EventViewHolder) holder;
+                if(item != null)
+                {
+                    eventViewHolder.eventName.setText(eventsShown.get(i).getName());
+                    eventViewHolder.eventDate.setText(eventsShown.get(i).getDate());
+                    eventViewHolder.eventPhoto.setImageResource(eventsShown.get(i).getPhotoId());
+                    eventViewHolder.currentItem = i;
+                    eventViewHolder.profileId = String.valueOf(eventsShown.get(i).getProfileId());
+                    eventViewHolder.eventId = String.valueOf(eventsShown.get(i).getId());
+                }
+
+                // your logic here
             }
+
+
         }
 
         @Override
         public int getItemCount() {
             return eventsShown.size();
+        }
+
+        public class DashboardHeaderViewHolder extends RecyclerView.ViewHolder {
+
+            TextView label;
+            View line;
+
+            DashboardHeaderViewHolder(final View itemView) {
+                super(itemView);
+
+                label = (TextView)itemView.findViewById(R.id.list_header);
+                line = itemView.findViewById(R.id.header_line);
+            }
         }
 
         public class EventViewHolder extends RecyclerView.ViewHolder {
@@ -117,7 +158,8 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), EventInfoActivity.class);
-                        intent.putExtra("eventId", eventId);
+                        intent.putExtra("eventId", String.valueOf(eventId));
+                        intent.putExtra("profileId", String.valueOf(profileId));
                         getActivity().startActivity(intent);
                     }
                 });
