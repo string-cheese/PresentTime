@@ -25,10 +25,7 @@ import edu.byu.stringcheese.presenttime.database.DBAccess;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    public static Profile myProfile;
-
-    // Whether the Log Fragment is currently shown
-    private boolean mLogShown;
+    private Profile myProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,28 +33,16 @@ public class MainActivity extends AppCompatActivity {
         initializeLogging();
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_main);
-        if (getIntent().getStringExtra("email") != null && getIntent().getStringExtra("name") != null) {
-            String email = getIntent().getStringExtra("email");
-            String name = getIntent().getStringExtra("name");
-            while(!FirebaseDatabase.hasInstance()){
-                try {
-                    Log.d(TAG, "waiting for database...");
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(FirebaseDatabase.hasInstance())
-            {
-                myProfile = DBAccess.getProfileByEmail(email);
-                if (myProfile == null) {
-                    myProfile = DBAccess.addProfile(name, email, "", "", "", "", "", "");
-                }
-            }
+        if (getIntent().getStringExtra("profileId") != null) {
+            String id = getIntent().getStringExtra("profileId");
+            myProfile = DBAccess.getProfile(id);
         }
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("profileId", String.valueOf(myProfile.getId()));
+            fragment.setArguments(bundle);
             transaction.replace(R.id.sample_content_fragment, fragment);
             transaction.commit();
         }
@@ -89,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     public void addEvent(View view) {
         Log.d(TAG, "trying to add an item");
         Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
-        intent.putExtra("profileId", String.valueOf(MainActivity.myProfile.getId()));
+        intent.putExtra("profileId", String.valueOf(myProfile.getId()));
         MainActivity.this.startActivity(intent);
         Log.d(TAG, "I started an activity");
         Log.d(TAG, intent.toString());

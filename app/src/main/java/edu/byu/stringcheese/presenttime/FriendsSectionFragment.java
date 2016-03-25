@@ -24,6 +24,7 @@ import edu.byu.stringcheese.presenttime.database.DBAccess;
  */
 public class FriendsSectionFragment extends android.support.v4.app.Fragment implements Observer {
     private RecyclerView recyclerView = null;
+    private Profile profile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,8 +46,12 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         recyclerView = (RecyclerView) view.findViewById(R.id.friends_rv);
         Context context = recyclerView.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        List<Profile> friends = DBAccess.getFriends(MainActivity.myProfile);
-        recyclerView.setAdapter(new FriendsListViewAdapter(friends));
+        if(getArguments()!=null && getArguments().getString("profileId") != null)
+        {
+            profile = DBAccess.getProfile(getArguments().getString("profileId"));
+            List<Profile> friends = DBAccess.getFriends(profile);
+            recyclerView.setAdapter(new FriendsListViewAdapter(friends));
+        }
 
     }
 
@@ -54,7 +59,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
     public void update(Observable observable, Object data) {
         if(recyclerView.getAdapter() != null)
         {
-            ((FriendsListViewAdapter)recyclerView.getAdapter()).updateEventsShown(DBAccess.getFriends(MainActivity.myProfile));
+            ((FriendsListViewAdapter)recyclerView.getAdapter()).updateEventsShown(DBAccess.getFriends(profile));
             recyclerView.invalidate();
         }
     }

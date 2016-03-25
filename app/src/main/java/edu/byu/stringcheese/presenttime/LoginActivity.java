@@ -2,6 +2,7 @@ package edu.byu.stringcheese.presenttime;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -20,15 +21,23 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.plus.People;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
+import edu.byu.stringcheese.presenttime.database.Profile;
 
 
 /**
@@ -81,11 +90,13 @@ public class LoginActivity extends FragmentActivity implements
         facebook_login_button.setReadPermissions("user_friends");
         facebook_login_button.registerCallback(callbackManager, new FacebookLoginCallback());
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestScopes(new Scope(Scopes.PLUS_LOGIN))
                 .requestEmail()
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .addApi(Plus.API)
                 .build();
         google_login_button = (SignInButton) findViewById(R.id.google_login_button);
         google_login_button.setSize(SignInButton.SIZE_STANDARD);
@@ -155,14 +166,24 @@ public class LoginActivity extends FragmentActivity implements
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
-    private void updateUI(boolean signedIn, GoogleSignInAccount acct) {
+    private void updateUI(boolean signedIn, final GoogleSignInAccount acct) {
         if (signedIn) {
             google_login_button.setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("email",acct.getEmail());
-            intent.putExtra("name", acct.getDisplayName());
-            startActivity(intent);
+            Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+                @Override
+                public void onResult(@NonNull People.LoadPeopleResult loadPeopleResult) {
+                    Person person = loadPeopleResult.getPersonBuffer().get(0);
+
+                    Profile myProfile = DBAccess.getProfileByEmail(acct.getEmail());
+                    if (myProfile == null) {
+                        myProfile = DBAccess.addProfile(acct.getDisplayName(), acct.getEmail(), "", "", person.getBirthday(), "", "", "");
+                    }
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("profileId", String.valueOf(myProfile.getId()));
+                    startActivity(intent);
+                }
+            });
             //finish();
         } else {
             mStatusTextView.setText(R.string.signed_out);

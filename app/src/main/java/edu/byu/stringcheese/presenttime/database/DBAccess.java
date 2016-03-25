@@ -73,6 +73,10 @@ public class DBAccess {
         return getProfile(profileId).getEvents();
     }
 
+    public static List<Profile> getFriends(String profileId) {
+        return getFriends(getProfile(profileId));
+    }
+
     class dateEventSorter implements Comparator<Profile> {
 
         @Override
