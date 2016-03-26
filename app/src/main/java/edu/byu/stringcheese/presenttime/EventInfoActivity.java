@@ -49,7 +49,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
             if (getResources().getConfiguration().orientation == getResources().getConfiguration().ORIENTATION_LANDSCAPE) {
                 numberOfColumns = 3;
             }
-            GridLayoutManager man = new GridLayoutManager(this, numberOfColumns, GridLayoutManager.VERTICAL, false);
+            CustomGridLayoutManager man = new CustomGridLayoutManager(recyclerView.getContext(), numberOfColumns, GridLayoutManager.VERTICAL, false);
             this.recyclerView.setLayoutManager(man);
             int spacingInPixels = Math.round(-10 * (getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
             recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
@@ -86,6 +86,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
 
     private void initializeAdapter(){
         ItemRVAdapter adapter = new ItemRVAdapter(event.getItems());
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(adapter);
     }
 

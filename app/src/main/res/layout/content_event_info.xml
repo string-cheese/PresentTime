@@ -4,19 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="edu.byu.stringcheese.presenttime.EventInfoActivity"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_event_info">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:nestedScrollingEnabled="true">
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:nestedScrollingEnabled="false">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:padding="@dimen/activity_horizontal_margin">
@@ -97,10 +104,12 @@
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:id="@+id/event_info_rv"
                 />
         </LinearLayout>
+</RelativeLayout>
 
 </android.support.v4.widget.NestedScrollView>
