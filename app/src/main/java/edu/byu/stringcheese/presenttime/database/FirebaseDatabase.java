@@ -14,6 +14,7 @@ import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -151,6 +152,9 @@ class DatabaseChildEventListener extends Observable implements ChildEventListene
 
             GenericTypeIndicator<ArrayList<Profile>> t4 = new GenericTypeIndicator<ArrayList<Profile>>() {};
             ArrayList<Profile> profiles = dataSnapshot.child("profiles").getValue(t4);*/
+            GenericTypeIndicator<Date> t3 = new GenericTypeIndicator<Date>() {};
+            Date date = dataSnapshot.child("profiles").child("0").child("events").child("0").child("date").getValue(t3);
+
 
             GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {};
             FirebaseDatabase dbTest = dataSnapshot.getValue(t);

@@ -8,7 +8,7 @@ import java.util.Date;
 
 import edu.byu.stringcheese.presenttime.Utils;
 
-public class Event{
+public class Event implements Comparable<Event>{
     private ArrayList<Item> items = new ArrayList<>();
     private String name;
     private Calendar date;
@@ -52,7 +52,8 @@ public class Event{
     public Calendar getDate() {
         return date;
     }
-    public String getDateAsString(){
+
+    public String dateAsString(){
         return Utils.stringifyDate(date);
     }
 
@@ -101,4 +102,8 @@ public class Event{
         db.setValue(location);
     }
 
+    @Override
+    public int compareTo(Event another) {
+        return another.date.getTime().compareTo(this.date.getTime());
+    }
 }

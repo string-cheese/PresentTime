@@ -16,21 +16,25 @@ public class Utils {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d yyyy");
 
     public static Calendar parseDate(String date) {
+        Calendar calendar = Calendar.getInstance();
         try {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(dateFormat.parse(date.replaceAll("st|nd|rd|th", "")));
+            String array[] = date.split(" ");
+            array[1] = array[1].replaceAll("\\dst|nd|rd|th|,", "");
+
+            Date calDate = dateFormat.parse(String.format("%s %s %s", array[0],array[1],array[2]));
+            calendar.setTime(calDate);
             return calendar;
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         Log.e(TAG, "Your date wasn't parsed correctly");
-        return null;
+        return calendar;
     }
 
     public static String stringifyDate(Calendar calendar)
     {
         String dayNumberSuffix = getDayNumberSuffix(calendar.get(Calendar.DAY_OF_MONTH));
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d'" + dayNumberSuffix + "', yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d'" + dayNumberSuffix + "' yyyy");
         return dateFormat.format(calendar.getTime());
     }
 

@@ -2,10 +2,13 @@ package edu.byu.stringcheese.presenttime.database;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import edu.byu.stringcheese.presenttime.R;
+import edu.byu.stringcheese.presenttime.Utils;
 import edu.byu.stringcheese.presenttime.recyclerviewresources.AbstractDashboardItem;
 import edu.byu.stringcheese.presenttime.recyclerviewresources.DashBoardItem;
 import edu.byu.stringcheese.presenttime.recyclerviewresources.DashboardHeader;
@@ -14,7 +17,7 @@ import edu.byu.stringcheese.presenttime.recyclerviewresources.DashboardHeader;
  * Created by dtaylor on 3/22/2016.
  */
 public class DBAccess {
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("M dd/yy");
+    private static final int NUM_UPCOMING_EVENTS_SHOWN = 3;
 
     public static ArrayList<Profile> getFriends(Profile profile) {
         ArrayList<Profile> friends = new ArrayList<>();
@@ -45,16 +48,6 @@ public class DBAccess {
         return FirebaseDatabase.getInstance().getProfiles();
     }
 
-    public static List<Event> getUpcomingEvents(Profile profile) {
-        ArrayList<Event> events = new ArrayList<>();
-        ArrayList<Profile> friends = getFriends(profile);
-        for (Profile friend : friends) {
-            //TODO: change this.
-        }
-
-        return events;
-    }
-
     public static Event getEvent(String profileId, String eventId) {
         return getEvents(profileId).get(Integer.parseInt(eventId));
     }
@@ -82,9 +75,20 @@ public class DBAccess {
     public static List<AbstractDashboardItem> getUpcomingEventsItems(Profile profile) {
         List<AbstractDashboardItem> result = new ArrayList<>();
         result.add(new DashboardHeader("Upcoming Events"));
-        for (Event event : getProfile(profile.getId()).getEvents())
+
+        List<Event> allEvents = new ArrayList<>();
+        for (Profile friend: getFriends(profile))
         {
-            result.add(new DashBoardItem(event));
+            allEvents.addAll(friend.getEvents());
+        }
+
+        Collections.sort(allEvents, Collections.reverseOrder());
+
+        for (int i = 0; i < NUM_UPCOMING_EVENTS_SHOWN; i++)
+        {
+            if (allEvents.size() == i) break;
+            result.add(new DashBoardItem(allEvents.get(i)));
+
         }
         return result;
     }
@@ -97,14 +101,6 @@ public class DBAccess {
         return DBAccess.getEvent(String.valueOf(event.getProfileId()),String.valueOf(event.getId())).getItems();
     }
 
-    class dateEventSorter implements Comparator<Profile> {
-
-        @Override
-        public int compare(Profile lhs, Profile rhs) {
-
-            return 0;
-        }
-    }
     public static void fakeData()
     {
         Profile profile = DBAccess.addProfile("Justin", "justin@cool.com", "googleId", "J. Crew", "Singing, Longboarding, Hacking", "June 7th", "August 12th", "Station 22", "Navy Blue");
@@ -143,29 +139,29 @@ public class DBAccess {
         eventa.addItem("Tac",25,"The Dock",R.drawable.ic_star_black_24dp, false);
         eventa.addItem("Toe",178,"Cakes And More",R.drawable.ic_launcher, false);
 
-        Event event2a = profile2.addEvent("Joe second", "December 17th, 2016", R.drawable.balloon, "1942 columnus");
+        Event event2a = profile2.addEvent("Joe second", "August 11th, 2016", R.drawable.balloon, "1942 columnus");
         event2a.addItem("Kitty", 65, "Toyota", R.drawable.ic_media_pause, false);
         event2a.addItem("Dr. Who Stuff",71245000,"The Dock",R.drawable.ic_star_black_24dp, false);
         event2a.addItem("Monkey",102340,"Cakes And More",R.drawable.ic_launcher, false);
 
-        Event event3a = profile2.addEvent("Joe third", "August 11th, 2016", R.drawable.balloon, "24221 Sagewood dr., Provo Utah");
+        Event event3a = profile2.addEvent("Joe third", "December 16th, 2016", R.drawable.balloon, "24221 Sagewood dr., Provo Utah");
         event3a.addItem("House2", 0, "Toyota", R.drawable.ic_media_pause, false);
         event3a.addItem("Pancake3",0,"The Dock",R.drawable.ic_star_black_24dp, false);
         event3a.addItem("Dog4",0,"Cakes And More",R.drawable.ic_launcher, false);
 
         Profile profile3 = DBAccess.addProfile("Bob","bob@cool.com", "googleId", "Amazon", "Shooting Games", "December 30th", "August 16th", "Ko Ko's Korean", "Orange");
 
-        Event eventb = profile3.addEvent("Joe's Wedding", "June 11th, 2016", R.drawable.balloon, "an address");
+        Event eventb = profile3.addEvent("Bob first", "June 11th, 2016", R.drawable.balloon, "an address");
         eventb.addItem("Tic",0,"Tac",R.drawable.ic_media_pause, false);
         eventb.addItem("Tac", 25, "The Dock", R.drawable.ic_star_black_24dp, false);
         eventb.addItem("Toe",178,"Cakes And More",R.drawable.ic_launcher, false);
 
-        Event event2b = profile3.addEvent("Billy's 23th Birthday", "December 17th, 2016", R.drawable.balloon, "1942 columnus");
+        Event event2b = profile3.addEvent("Bob second", "August 11th, 2016", R.drawable.balloon, "1942 columnus");
         event2b.addItem("Kitty", 65, "Toyota", R.drawable.ic_media_pause, false);
         event2b.addItem("Dr. Who Stuff",71245000,"The Dock",R.drawable.ic_star_black_24dp, false);
         event2b.addItem("Monkey", 102340, "Cakes And More", R.drawable.ic_launcher, false);
 
-        Event event3b = profile3.addEvent("Amanda's Graduation", "August 11th, 2016", R.drawable.balloon, "24221 Sagewood dr., Provo Utah");
+        Event event3b = profile3.addEvent("Bob's third", "December 17th, 2016", R.drawable.balloon, "24221 Sagewood dr., Provo Utah");
         event3b.addItem("House2", 0, "Toyota", R.drawable.ic_media_pause, false);
         event3b.addItem("Pancake3",0,"The Dock",R.drawable.ic_star_black_24dp, false);
         event3b.addItem("Dog4",0,"Cakes And More",R.drawable.ic_launcher, false);
