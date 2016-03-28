@@ -75,7 +75,8 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(EventInfoActivity.this, AddItemActivity.class);
+                //Intent intent = new Intent(EventInfoActivity.this, AddItemActivity.class);
+                Intent intent = new Intent(EventInfoActivity.this, ItemSearchActivity.class);
                 intent.putExtra("eventId", String.valueOf(event.getId()));
                 intent.putExtra("profileId", String.valueOf(event.getProfileId()));
                 startActivity(intent);
@@ -97,8 +98,11 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
         {
             if(recyclerView.getAdapter() != null)
             {
-                ((ItemRVAdapter)recyclerView.getAdapter()).updateEventsShown(DBAccess.getItems(event));
-                recyclerView.invalidate();
+                ArrayList<Item> items = DBAccess.getItems(event);
+                if(items!=null) {
+                    ((ItemRVAdapter) recyclerView.getAdapter()).updateEventsShown(items);
+                    recyclerView.invalidate();
+                }
             }
         }
     }

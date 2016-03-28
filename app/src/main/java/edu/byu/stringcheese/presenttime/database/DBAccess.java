@@ -26,7 +26,10 @@ public class DBAccess {
 
     public static Profile getProfile(int profileId)
     {
-        return FirebaseDatabase.getInstance().getProfiles().get(profileId);
+        ArrayList<Profile> profiles = FirebaseDatabase.getInstance().getProfiles();
+        if(profiles.size() > profileId)
+        return profiles.get(profileId);
+        return null;
     }
 
     public static Profile getProfileByEmail(String email) {
@@ -45,7 +48,10 @@ public class DBAccess {
     }
 
     public static Event getEvent(String profileId, String eventId) {
-        return getEvents(profileId).get(Integer.parseInt(eventId));
+        ArrayList<Event> events = getEvents(profileId);
+        if(events != null)
+            return events.get(Integer.parseInt(eventId));
+        return null;
     }
 
     private static ArrayList<Event> getEvents(String profileId) {
@@ -61,7 +67,10 @@ public class DBAccess {
     }
 
     public static ArrayList<Event> getEvents(int profileId) {
-        return getProfile(profileId).getEvents();
+        Profile profile = getProfile(profileId);
+        if(profile != null)
+            return profile.getEvents();
+        return null;
     }
 
     public static List<Profile> getFriends(String profileId) {
@@ -75,7 +84,12 @@ public class DBAccess {
         List<Event> allEvents = new ArrayList<>();
         for (Profile friend: getFriends(profile))
         {
-            allEvents.addAll(friend.getEvents());
+            if(friend != null) {
+                ArrayList<Event> events = friend.getEvents();
+                if (events != null) {
+                    allEvents.addAll(events);
+                }
+            }
         }
 
         Collections.sort(allEvents, Collections.reverseOrder());
@@ -94,7 +108,10 @@ public class DBAccess {
     }
 
     public static ArrayList<Item> getItems(Event event) {
-        return DBAccess.getEvent(String.valueOf(event.getProfileId()),String.valueOf(event.getId())).getItems();
+        Event actualEvent = DBAccess.getEvent(String.valueOf(event.getProfileId()),String.valueOf(event.getId()));
+        if(actualEvent != null)
+            return actualEvent.getItems();
+        return null;
     }
 
     public static void fakeData()

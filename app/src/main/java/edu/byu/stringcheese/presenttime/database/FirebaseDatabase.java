@@ -60,7 +60,7 @@ public class FirebaseDatabase{
         return _instance != null;
     }
     public static Firebase ref;
-    public static boolean makeFakeData = true;
+    public static boolean makeFakeData = false;
 
 
     public static void initializeFirebase(Context context) {
@@ -140,7 +140,7 @@ class DatabaseChildEventListener extends Observable implements ChildEventListene
     // Retrieve new posts as they are added to the database
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
-        if (dataSnapshot.getKey().equals("present-time-test")) {
+        if (dataSnapshot.getKey().equals("present-time")) {
             /*GenericTypeIndicator<Item> t1 = new GenericTypeIndicator<Item>(){};
             Item item = dataSnapshot.child("profiles").child("0").child("events").child("0").child("items").child("0").getValue(t1);
 
@@ -167,7 +167,7 @@ class DatabaseChildEventListener extends Observable implements ChildEventListene
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        if (dataSnapshot.getKey().equals("present-time-test")) {
+        if (dataSnapshot.getKey().equals("present-time")) {
             GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {};
             FirebaseDatabase dbTest = dataSnapshot.getValue(t);
             FirebaseDatabase.setInstance(dbTest);
