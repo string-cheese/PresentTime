@@ -20,12 +20,12 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="150dp"
                 android:id="@+id/event_photo"
                 android:src="@mipmap/wedding"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="16dp"
-                android:cropToPadding="false"
+                android:cropToPadding="true"
                 android:scaleType="centerCrop"
                 android:layout_alignParentStart="true" />
             <RelativeLayout

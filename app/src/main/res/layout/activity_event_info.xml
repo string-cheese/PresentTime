@@ -9,8 +9,9 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="218dp"
+        android:layout_height="300dp"
         android:fitsSystemWindows="true"
+        android:paddingBottom="10dp"
         android:background="@color/colorPrimary"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -24,31 +25,24 @@
 
             <ImageView
                 android:scaleType="centerCrop"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@mipmap/justin_profile"
+                android:src="@drawable/balloon"
+                android:paddingBottom="20dp"
                 app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier=".7" />
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:layout_collapseParallaxMultiplier=".7"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-        <include layout="@layout/content_event_info"></include>
+    <include layout="@layout/content_event_info"></include>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/event_info_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_white_24dp"
+        android:src="@drawable/camera"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
 
