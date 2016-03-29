@@ -24,20 +24,19 @@
     <ViewAnimator
           android:id="@+id/sample_output"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content">
+          android:layout_height="56dp">
 
         <ScrollView
               android:fontFamily="sans-serif-thin"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="56dp">
         </ScrollView>
 `
     </ViewAnimator>
 
     <View
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:background="@android:color/darker_gray" />
+          android:layout_height="1dp" />
 
     <FrameLayout
           android:fontFamily="sans-serif-light"
