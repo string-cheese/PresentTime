@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:baselineAligned="false"
     android:orientation="horizontal"
-    android:weightSum="2">
+    android:weightSum="2"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:padding="16dp">
 

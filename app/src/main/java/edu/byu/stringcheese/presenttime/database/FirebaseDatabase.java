@@ -59,12 +59,13 @@ public class FirebaseDatabase{
         return _instance != null;
     }
     public static Firebase ref;
-    public static boolean makeFakeData = true;
+    public static boolean makeFakeData = false;
+    public static String databaseName = "present-time";
 
 
     public static void initializeFirebase(Context context) {
         Firebase.setAndroidContext(context);
-        ref = new Firebase("https://crackling-fire-2441.firebaseio.com/present-time");
+        ref = new Firebase("https://crackling-fire-2441.firebaseio.com/"+FirebaseDatabase.databaseName);
         if(makeFakeData) {
             DBAccess.clear();
             DBAccess.fakeData();
@@ -110,7 +111,7 @@ class DatabaseValueEventListener extends Observable implements ValueEventListene
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         //System.out.println("There are " + dataSnapshot.getChildrenCount() + " blog posts");
-        if (dataSnapshot.getKey() != null && dataSnapshot.getKey().equals("present-time")) {
+        if (dataSnapshot.getKey() != null && dataSnapshot.getKey().equals(FirebaseDatabase.databaseName)) {
             GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {};
             FirebaseDatabase dbTest = dataSnapshot.getValue(t);
             FirebaseDatabase.setInstance(dbTest);
@@ -135,7 +136,7 @@ class DatabaseChildEventListener extends Observable implements ChildEventListene
     // Retrieve new posts as they are added to the database
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
-        if (dataSnapshot.getKey().equals("present-time")) {
+        if (dataSnapshot.getKey().equals(FirebaseDatabase.databaseName)) {
             GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {};
             FirebaseDatabase dbTest = dataSnapshot.getValue(t);
             FirebaseDatabase.setInstance(dbTest);
@@ -147,7 +148,7 @@ class DatabaseChildEventListener extends Observable implements ChildEventListene
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        if (dataSnapshot.getKey().equals("present-time-test")) {
+        if (dataSnapshot.getKey().equals(FirebaseDatabase.databaseName)) {
             GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {};
             FirebaseDatabase dbTest = dataSnapshot.getValue(t);
             FirebaseDatabase.setInstance(dbTest);
