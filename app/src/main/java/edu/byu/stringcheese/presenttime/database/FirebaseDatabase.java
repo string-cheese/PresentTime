@@ -14,7 +14,6 @@ import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -124,10 +123,6 @@ class DatabaseValueEventListener extends Observable implements ValueEventListene
                 FirebaseDatabase.makeFakeData = false;
             }
         }
-                /*for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    //Database db = postSnapshot.getValue(Database.class);
-                    //System.out.println(post.getAuthor() + " - " + post.getTitle());
-                }*/
     }
 
     @Override
@@ -141,21 +136,6 @@ class DatabaseChildEventListener extends Observable implements ChildEventListene
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
         if (dataSnapshot.getKey().equals("present-time")) {
-            /*GenericTypeIndicator<Item> t1 = new GenericTypeIndicator<Item>(){};
-            Item item = dataSnapshot.child("profiles").child("0").child("events").child("0").child("items").child("0").getValue(t1);
-
-            GenericTypeIndicator<ArrayList<Item>> t2 = new GenericTypeIndicator<ArrayList<Item>>(){};
-            ArrayList<Item> items = dataSnapshot.child("profiles").child("0").child("events").child("0").child("items").getValue(t2);
-
-            GenericTypeIndicator<ArrayList<Event>> t3 = new GenericTypeIndicator<ArrayList<Event>>() {};
-            ArrayList<Event> events = dataSnapshot.child("profiles").child("0").child("events").getValue(t3);
-
-            GenericTypeIndicator<ArrayList<Profile>> t4 = new GenericTypeIndicator<ArrayList<Profile>>() {};
-            ArrayList<Profile> profiles = dataSnapshot.child("profiles").getValue(t4);*/
-            GenericTypeIndicator<Date> t3 = new GenericTypeIndicator<Date>() {};
-            Date date = dataSnapshot.child("profiles").child("0").child("events").child("0").child("date").getValue(t3);
-
-
             GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {};
             FirebaseDatabase dbTest = dataSnapshot.getValue(t);
             FirebaseDatabase.setInstance(dbTest);
@@ -171,6 +151,8 @@ class DatabaseChildEventListener extends Observable implements ChildEventListene
             GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {};
             FirebaseDatabase dbTest = dataSnapshot.getValue(t);
             FirebaseDatabase.setInstance(dbTest);
+            setChanged();
+            notifyObservers();
         }
     }
 
