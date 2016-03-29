@@ -119,9 +119,9 @@ public class DBAccess {
         Profile profile = DBAccess.addProfile("Justin", "justin@cool.com", "googleId", "Cotton On", "Singing, Longboarding, Hacking", "June 7th", "August 12th", "Station 22", "Navy Blue");
 
         Event event = profile.addEvent("Justin's Wedding", "June 15th, 2016", R.drawable.wedding, "SLC Temple");
-        event.addItem("Amazon Gift Card",10000,"Amazon",R.mipmap.car, false);
-        event.addItem("Target Gift Card",7000,"Target",R.mipmap.boat, false);
-        event.addItem("IKEA Gift Card",100,"IKEA",R.mipmap.cake, false);
+        event.addItem("F150",100000,"Ford",R.mipmap.f150, false);
+        event.addItem("Apple Watch",400,"Apple",R.mipmap.applewatch, false);
+        event.addItem("KitchenAid Mixer",230,"Kohls",R.mipmap.kitchenaid, false);
 
 
         Profile profile2 = DBAccess.addProfile("Amanda","amanda@cool.com", "googleId", "J. Crew", "Design, Hiking, Music, Videography, Travel", "June 7th", "NA", "Station 22", "Teal");
