@@ -73,16 +73,22 @@ public class EventsSectionFragment extends Fragment implements Observer {
     }
     private RecyclerView recyclerView;
     private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(profile.getEvents());
-        recyclerView.setAdapter(adapter);
+        ArrayList<Event> events = profile.getEvents();
+        if(events != null) {
+            RVAdapter adapter = new RVAdapter(events);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     @Override
     public void update(Observable observable, Object data) {
         if(recyclerView.getAdapter() != null)
         {
-            ((RVAdapter)recyclerView.getAdapter()).updateEventsShown(DBAccess.getEvents(profile.getId()));
-            recyclerView.invalidate();
+            ArrayList<Event> events = DBAccess.getEvents(profile.getId());
+            if(events != null) {
+                ((RVAdapter) recyclerView.getAdapter()).updateEventsShown(events);
+                recyclerView.invalidate();
+            }
         }
     }
 
