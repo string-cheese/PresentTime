@@ -147,7 +147,7 @@ class DatabaseChildEventListener extends Observable implements ChildEventListene
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        if (dataSnapshot.getKey().equals("present-time")) {
+        if (dataSnapshot.getKey().equals("present-time-test")) {
             GenericTypeIndicator<FirebaseDatabase> t = new GenericTypeIndicator<FirebaseDatabase>() {};
             FirebaseDatabase dbTest = dataSnapshot.getValue(t);
             FirebaseDatabase.setInstance(dbTest);

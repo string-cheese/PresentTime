@@ -71,8 +71,21 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
         address.setText(event.getLocation());
 
         //FLOATING ACTION BUTTON
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_info_fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_photo_fab);
         fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Intent intent = new Intent(EventInfoActivity.this, AddItemActivity.class);
+                Intent intent = new Intent(EventInfoActivity.this, ItemSearchActivity.class);
+                intent.putExtra("eventId", String.valueOf(event.getId()));
+                intent.putExtra("profileId", String.valueOf(event.getProfileId()));
+                startActivity(intent);
+            }
+        });
+
+        //FLOATING ACTION BUTTON
+        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.add_item_fab);
+        fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Intent intent = new Intent(EventInfoActivity.this, AddItemActivity.class);
