@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         card_view:contentPadding="16dp"
         card_view:cardElevation="2dp"
-        app:cardUseCompatPadding="true"
-        card_view:cardCornerRadius="5dp">
+        app:cardUseCompatPadding="true">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -41,7 +40,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:freezesText="true"
-                android:text="Sam's '25' Birthday that is really really really lame" />
+                android:text="Sam's '25' Birthday" />
             <TextView
                 android:id="@+id/event_template_date"
                 style="@style/Base.TextAppearance.AppCompat.Body1"

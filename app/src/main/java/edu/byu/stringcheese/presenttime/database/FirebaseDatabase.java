@@ -59,7 +59,7 @@ public class FirebaseDatabase{
         return _instance != null;
     }
     public static Firebase ref;
-    public static boolean makeFakeData = false;
+    public static boolean makeFakeData = true;
     public static String databaseName = "present-time-test";
 
 
