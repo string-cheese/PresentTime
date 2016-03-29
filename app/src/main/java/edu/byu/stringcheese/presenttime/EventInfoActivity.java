@@ -14,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,12 +39,17 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
         {
             event = DBAccess.getProfile(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId")));
 
-            //((TextView)findViewById(R.id.selectedEvent)).setText(event.getName());
+            if (getIntent().hasExtra("eventOwnerId") &&
+                    getIntent().getStringExtra("eventOwnerId").equals(getIntent().getStringExtra("profileId")))
+            {
+                initializeOwnerViews();
+            } else
+            {
+                initializeFriendViews();
+            }
+
             recyclerView = (RecyclerView) findViewById(R.id.event_info_rv);
 
-            /*LinearLayoutManager llm = new LinearLayoutManager(this);
-            recyclerView.setLayoutManager(llm);
-            recyclerView.setHasFixedSize(true);*/
             int numberOfColumns = 2;
             //Check your orientation in your OnCreate
             if (getResources().getConfiguration().orientation == getResources().getConfiguration().ORIENTATION_LANDSCAPE) {
@@ -70,27 +76,8 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
         TextView address = (TextView) findViewById(R.id.address_text_view);
         address.setText(event.getLocation());
 
-        //FLOATING ACTION BUTTON
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_photo_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view,"This should allow you to take a picture or get a photo from phone",Snackbar.LENGTH_LONG).show();
-            }
-        });
 
-        //FLOATING ACTION BUTTON
-        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.add_item_fab);
-        fab2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Intent intent = new Intent(EventInfoActivity.this, AddItemActivity.class);
-                Intent intent = new Intent(EventInfoActivity.this, ItemSearchActivity.class);
-                intent.putExtra("eventId", String.valueOf(event.getId()));
-                intent.putExtra("profileId", String.valueOf(event.getProfileId()));
-                startActivity(intent);
-            }
-        });
+      
     }
     private RecyclerView recyclerView;
 
@@ -115,6 +102,48 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
             }
         }
     }
+
+
+    private void initializeFriendViews() {
+
+
+        //FLOATING ACTION BUTTON
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_photo_fab);
+        ((ViewGroup)fab.getParent()).removeView(fab);
+
+        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.add_item_fab);
+        ((ViewGroup)fab2.getParent()).removeView(fab2);
+    }
+
+    private void initializeOwnerViews() {
+
+        //BUTTON LINEAR LAYOUT
+        LinearLayout buttonsLayout = (LinearLayout) findViewById(R.id.event_photo_fab);
+        ((ViewGroup)buttonsLayout.getParent()).removeView(buttonsLayout);
+
+        //FLOATING ACTION BUTTON
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_photo_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "This should allow you to take a picture or get a photo from phone", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        //FLOATING ACTION BUTTON
+        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.add_item_fab);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Intent intent = new Intent(EventInfoActivity.this, AddItemActivity.class);
+                Intent intent = new Intent(EventInfoActivity.this, ItemSearchActivity.class);
+                intent.putExtra("eventId", String.valueOf(event.getId()));
+                intent.putExtra("profileId", String.valueOf(event.getProfileId()));
+                startActivity(intent);
+            }
+        });
+    }
+
 
     class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHolder> {
 
@@ -179,6 +208,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
                         Intent intent = new Intent(EventInfoActivity.this, ItemInfoActivity.class);
                         intent.putExtra("itemId", String.valueOf(itemId));
                         intent.putExtra("eventId", String.valueOf(eventId));
+                        intent.putExtra("eventOwnerId", getIntent().getStringExtra("eventOwnerId"));
                         intent.putExtra("profileId", String.valueOf(profileId));
                         EventInfoActivity.this.startActivity(intent);
                     }
