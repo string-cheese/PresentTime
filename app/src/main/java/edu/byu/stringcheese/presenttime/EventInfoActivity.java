@@ -14,7 +14,6 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -115,6 +114,23 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
     private void initializeOwnerViews() {
         LinearLayout donateFundsLayout = (LinearLayout) findViewById(R.id.donate_button_layout);
         ((ViewGroup)donateFundsLayout.getParent()).removeView(donateFundsLayout);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_photo_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v,"This should allow you to take a picture or get a photo from phone",Snackbar.LENGTH_LONG).show();
+            }
+        });
+        FloatingActionButton addItemButton = (FloatingActionButton)findViewById(R.id.add_item_fab);
+        addItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventInfoActivity.this, ItemSearchActivity.class);
+                intent.putExtra("eventId", String.valueOf(event.getId()));
+                intent.putExtra("profileId", String.valueOf(event.getProfileId()));
+                startActivity(intent);
+            }
+        });
 
     }
 
