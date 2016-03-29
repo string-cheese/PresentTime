@@ -127,7 +127,7 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment im
                     eventViewHolder.eventDate.setText(eventsShown.get(i).getDateAsString());
                     eventViewHolder.eventPhoto.setImageResource(eventsShown.get(i).getPhotoId());
                     eventViewHolder.currentItem = i;
-                    eventViewHolder.profileId = String.valueOf(eventsShown.get(i).getProfileId());
+                    eventViewHolder.eventOwnerId = String.valueOf(eventsShown.get(i).getProfileId());
                     eventViewHolder.eventId = String.valueOf(eventsShown.get(i).getId());
                 }
 
@@ -169,7 +169,7 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment im
             ImageView eventPhoto;
             public int currentItem;
             public String eventId;
-            public String profileId;
+            public String eventOwnerId;
 
             EventViewHolder(final View itemView) {
                 super(itemView);
@@ -178,7 +178,8 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment im
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), EventInfoActivity.class);
                         intent.putExtra("eventId", String.valueOf(eventId));
-                        intent.putExtra("profileId", String.valueOf(profileId));
+                        intent.putExtra("eventOwnerId", String.valueOf(eventOwnerId));
+                        intent.putExtra("profileId", getArguments().getString("profileId"));
                         getActivity().startActivity(intent);
                     }
                 });

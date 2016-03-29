@@ -1,11 +1,18 @@
 package edu.byu.stringcheese.presenttime;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import edu.byu.stringcheese.presenttime.database.Item;
@@ -15,21 +22,31 @@ import edu.byu.stringcheese.presenttime.database.DBAccess;
  * Created by liukaichi on 3/17/2016.
  */
 public class ItemInfoActivity extends AppCompatActivity {
+    Item thisItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_info);
         if(getIntent().getStringExtra("itemId") != null && getIntent().getStringExtra("profileId") != null && getIntent().getStringExtra("eventId") != null)
         {
-            Item item = DBAccess.getProfiles().get(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId"))).getItems().get(Integer.parseInt(getIntent().getStringExtra("itemId")));
+            thisItem = DBAccess.getProfiles().get(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId"))).getItems().get(Integer.parseInt(getIntent().getStringExtra("itemId")));
             TextView itemName = (TextView)findViewById(R.id.item_name);
-            itemName.setText(item.getName());
+            itemName.setText(thisItem.getName());
             TextView itemPrice = (TextView)findViewById(R.id.item_price);
-            itemPrice.setText(String.valueOf(item.getCost()));
+            itemPrice.setText(String.valueOf(thisItem.getCost()));
             TextView itemLocation = (TextView)findViewById(R.id.item_location);
-            itemLocation.setText(item.getStore());
-            ImageView itemImage = (ImageView)findViewById(R.id.item_image);
-            itemImage.setImageResource(item.getImageId());
+            itemLocation.setText(thisItem.getStore());
+            ImageView itemImage = (ImageView)findViewById(R.id.item_info_image);
+            itemImage.setImageResource(thisItem.getImageId());
+
+            if (getIntent().hasExtra("eventOwnerId") &&
+                    getIntent().getStringExtra("eventOwnerId").equals(getIntent().getStringExtra("profileId")))
+            {
+                initializeOwnerViews();
+            } else
+            {
+                initializeFriendViews();
+            }
         }
         else
         {
@@ -44,7 +61,7 @@ public class ItemInfoActivity extends AppCompatActivity {
 
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.item_info_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,5 +69,56 @@ public class ItemInfoActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    private void initializeFriendViews() {
+        //FLOATING ACTION BUTTON
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_photo_fab);
+        ((ViewGroup)fab.getParent()).removeView(fab);
+
+        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.add_item_fab);
+        ((ViewGroup)fab2.getParent()).removeView(fab2);
+
+        final Button buyItemButton = (Button) findViewById(R.id.buy_item_button);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        buyItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.setMessage("Are you sure you want to buy this item?");
+                builder.setPositiveButton("Buy!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        thisItem.updatePurchased(true);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    private void initializeOwnerViews() {
+
+        Button buyItemButton = (Button) findViewById(R.id.buy_item_button);
+        ((ViewGroup)buyItemButton.getParent()).removeView(buyItemButton);
+
+        //EDIT ITEM TEXT
+        TextView editItemText = (TextView) findViewById(R.id.edit_item_text);
+        ((ViewGroup)editItemText.getParent()).removeView(editItemText);
+
+        //FLOATING ACTION BUTTON
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.item_info_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "This should allow you to take a picture or get a photo from phone", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
     }
 }

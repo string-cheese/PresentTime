@@ -14,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,7 +38,6 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
         setContentView(R.layout.activity_event_info);
         if(getIntent().getStringExtra("eventId") != null && getIntent().getStringExtra("profileId") != null)
         {
-            event = DBAccess.getProfile(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId")));
 
             if (getIntent().hasExtra("eventOwnerId") &&
                     getIntent().getStringExtra("eventOwnerId").equals(getIntent().getStringExtra("profileId")))
@@ -47,6 +47,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
             {
                 initializeFriendViews();
             }
+            event = DBAccess.getProfile(Integer.parseInt(getIntent().getStringExtra("eventOwnerId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId")));
 
             recyclerView = (RecyclerView) findViewById(R.id.event_info_rv);
 
@@ -105,43 +106,16 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
 
 
     private void initializeFriendViews() {
-
-
         //FLOATING ACTION BUTTON
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_photo_fab);
         ((ViewGroup)fab.getParent()).removeView(fab);
 
-        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.add_item_fab);
-        ((ViewGroup)fab2.getParent()).removeView(fab2);
     }
 
     private void initializeOwnerViews() {
+        LinearLayout donateFundsLayout = (LinearLayout) findViewById(R.id.donate_button_layout);
+        ((ViewGroup)donateFundsLayout.getParent()).removeView(donateFundsLayout);
 
-        //BUTTON LINEAR LAYOUT
-        LinearLayout buttonsLayout = (LinearLayout) findViewById(R.id.event_photo_fab);
-        ((ViewGroup)buttonsLayout.getParent()).removeView(buttonsLayout);
-
-        //FLOATING ACTION BUTTON
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_photo_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "This should allow you to take a picture or get a photo from phone", Snackbar.LENGTH_LONG).show();
-            }
-        });
-
-        //FLOATING ACTION BUTTON
-        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.add_item_fab);
-        fab2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Intent intent = new Intent(EventInfoActivity.this, AddItemActivity.class);
-                Intent intent = new Intent(EventInfoActivity.this, ItemSearchActivity.class);
-                intent.putExtra("eventId", String.valueOf(event.getId()));
-                intent.putExtra("profileId", String.valueOf(event.getProfileId()));
-                startActivity(intent);
-            }
-        });
     }
 
 

@@ -49,16 +49,17 @@ public class EventsSectionFragment extends Fragment implements Observer {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() != null && getArguments().containsKey("profileId"))
         {
-            profile = DBAccess.getProfile(Integer.parseInt(getArguments().getString("profileId")));
-            FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), AddEventActivity.class);
-                    intent.putExtra("profileId", String.valueOf(profile.getId()));
-                    getActivity().startActivity(intent);
-                }
-            });
+            if (getArguments().containsKey("eventOwnerId") &&
+                    !getArguments().getString("eventOwnerId").equals(getArguments().getString("profileId")))
+            {
+                initializeFriendViews(view);
+            } else
+            {
+
+                initializeOwnerViews(view);
+            }
+
+
             recyclerView = (RecyclerView) view.findViewById(R.id.events_section_rv);
 
             LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
@@ -71,6 +72,29 @@ public class EventsSectionFragment extends Fragment implements Observer {
             Snackbar.make(view, "Something is wrong, this doesn't exist", Snackbar.LENGTH_LONG).show();
         }
     }
+
+    private void initializeFriendViews(View view) {
+        profile = DBAccess.getProfile(Integer.parseInt(getArguments().getString("eventOwnerId")));
+
+        FloatingActionButton addEventFAB = (FloatingActionButton) view.findViewById(R.id.add_event_fab);
+        ((ViewGroup) addEventFAB.getParent()).removeView(addEventFAB);
+    }
+
+    private void initializeOwnerViews(View view) {
+        profile = DBAccess.getProfile(Integer.parseInt(getArguments().getString("profileId")));
+        getArguments().putString("eventOwnerId", getArguments().getString("profileId"));
+
+        FloatingActionButton addEventFAB = (FloatingActionButton) view.findViewById(R.id.add_event_fab);
+        addEventFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddEventActivity.class);
+                intent.putExtra("profileId", String.valueOf(profile.getId()));
+                getActivity().startActivity(intent);
+            }
+        });
+    }
+
     private RecyclerView recyclerView;
     private void initializeAdapter(){
         ArrayList<Event> events = profile.getEvents();
@@ -119,7 +143,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
                 eventViewHolder.eventDate.setText(eventsShown.get(i).dateAsString());
                 eventViewHolder.eventPhoto.setImageResource(eventsShown.get(i).getPhotoId());
                 eventViewHolder.currentItem = i;
-                eventViewHolder.profileId = String.valueOf(eventsShown.get(i).getProfileId());
+                eventViewHolder.eventOwnerId = String.valueOf(eventsShown.get(i).getProfileId());
                 eventViewHolder.eventId = String.valueOf(eventsShown.get(i).getId());
             }
         }
@@ -143,7 +167,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
             ImageView eventPhoto;
             public int currentItem;
             public String eventId;
-            public String profileId;
+            public String eventOwnerId;
 
             EventViewHolder(final View itemView) {
                 super(itemView);
@@ -152,7 +176,8 @@ public class EventsSectionFragment extends Fragment implements Observer {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), EventInfoActivity.class);
                         intent.putExtra("eventId", String.valueOf(eventId));
-                        intent.putExtra("profileId", String.valueOf(profileId));
+                        intent.putExtra("profileId", getArguments().getString("profileId"));
+                        intent.putExtra("eventOwnerId", String.valueOf(eventOwnerId));
                         getActivity().startActivity(intent);
                     }
                 });

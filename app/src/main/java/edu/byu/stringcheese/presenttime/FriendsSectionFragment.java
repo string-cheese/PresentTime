@@ -93,7 +93,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         @Override
         public void onBindViewHolder(final FriendViewHolder holder, int position) {
             holder.currentItem = position;
-            holder.profileId = String.valueOf(shownProfiles.get(position).getId());
+            holder.eventOwnerId = String.valueOf(shownProfiles.get(position).getId());
             holder.friendName.setText(shownProfiles.get(position).getName());
         }
 
@@ -111,7 +111,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         public class FriendViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
             public final TextView friendName;
-            public String profileId;
+            public String eventOwnerId;
             public int currentItem;
 
             public FriendViewHolder(View view) {
@@ -122,7 +122,9 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), FriendInfoActivity.class);
-                        intent.putExtra("profileId", String.valueOf(profileId));
+                        intent.putExtra("eventOwnerId", String.valueOf(eventOwnerId));
+                        intent.putExtra("profileId", getArguments().getString("profileId"));
+
                         startActivity(intent);
                     }
                 });

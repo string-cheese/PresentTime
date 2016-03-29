@@ -25,6 +25,7 @@ public class FriendInfoActivity extends AppCompatActivity {
             EventsSectionFragment myFragment = new EventsSectionFragment();
             Bundle args = new Bundle();
             args.putString("profileId", getIntent().getStringExtra("profileId"));
+            args.putString("eventOwnerId", getIntent().getStringExtra("eventOwnerId"));
             myFragment.setArguments(args);
             t.add(layout.getId(), myFragment, "myFirstFragment");
             t.commit();
