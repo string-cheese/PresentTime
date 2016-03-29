@@ -75,11 +75,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(EventInfoActivity.this, AddItemActivity.class);
-                Intent intent = new Intent(EventInfoActivity.this, ItemSearchActivity.class);
-                intent.putExtra("eventId", String.valueOf(event.getId()));
-                intent.putExtra("profileId", String.valueOf(event.getProfileId()));
-                startActivity(intent);
+                Snackbar.make(view,"This should allow you to take a picture or get a photo from phone",Snackbar.LENGTH_LONG).show();
             }
         });
 
