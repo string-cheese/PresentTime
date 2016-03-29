@@ -116,73 +116,52 @@ public class DBAccess {
 
     public static void fakeData()
     {
-        Profile profile = DBAccess.addProfile("Justin", "justin@cool.com", "googleId", "J. Crew", "Singing, Longboarding, Hacking", "June 7th", "August 12th", "Station 22", "Navy Blue");
+        Profile profile = DBAccess.addProfile("Justin", "justin@cool.com", "googleId", "Cotton On", "Singing, Longboarding, Hacking", "June 7th", "August 12th", "Station 22", "Navy Blue");
 
         Event event = profile.addEvent("Justin's Wedding", "June 15th, 2016", R.mipmap.wedding, "SLC Temple");
-        event.addItem("Car",15000,"Toyota",R.mipmap.car, false);
-        event.addItem("Boat",7000,"The Dock",R.mipmap.boat, false);
-        event.addItem("Cake",100,"Cakes And More",R.mipmap.cake, false);
-        event.addItem("Cake2",100,"Cakes And More",R.mipmap.cake, false);
-        event.addItem("Cake3", 100, "Cakes And More", R.mipmap.cake, false);
-        event.addItem("Cake4", 100, "Cakes And More", R.mipmap.cake, false);
-
-        Event event2 = profile.addEvent("Sam's 25th Birthday", "December 17th, 2016", R.mipmap.balloon, "Buffalo Wild Wings");
-        event2.addItem("House",105000,"Toyota",R.mipmap.house, false);
-        event2.addItem("Pancake",7000,"The Dock",R.mipmap.pancake, false);
-        event2.addItem("Dog",100,"Cakes And More",R.mipmap.dog, false);
-        event2.addItem("Mouse", 100, "Cakes And More", R.mipmap.mouse, false);
-        event2.addItem("Card Game", 100, "Cakes And More", R.mipmap.card, false);
-        event2.addItem("Bike", 100, "Cakes And More", R.mipmap.bike, false);
-
-        Event event3 = profile.addEvent("Amanda's Graduation", "August 11th, 2016", R.mipmap.graduation, "BYU");
-        event3.addItem("House2",105000,"Toyota",R.drawable.ic_star_black_24dp, false);
-        event3.addItem("Pancake3",7000,"The Dock",R.drawable.ic_star_black_24dp, false);
-        event3.addItem("Dog4",100,"Cakes And More",R.drawable.ic_launcher, false);
-        event3.addItem("Mouse5",100,"Cakes And More",R.drawable.ic_launcher, false);
-        event3.addItem("Card Game6", 100, "Cakes And More", R.drawable.ic_launcher, false);
-        event3.addItem("Bike7", 100, "Cakes And More", R.drawable.ic_launcher, false);
+        event.addItem("Amazon Gift Card",10000,"Amazon",R.mipmap.car, false);
+        event.addItem("Target Gift Card",7000,"Target",R.mipmap.boat, false);
+        event.addItem("IKEA Gift Card",100,"IKEA",R.mipmap.cake, false);
 
 
+        Profile profile2 = DBAccess.addProfile("Amanda","amanda@cool.com", "googleId", "J. Crew", "Design, Hiking, Music, Videography, Travel", "June 7th", "NA", "Station 22", "Teal");
 
+        Event eventa = profile2.addEvent("Amanda's Graduation", "August 11th, 2016", R.drawable.graduation, "BYU Wilkinson Ballroom");
+        eventa.addItem("MacBook Pro",2500,"Apple",R.drawable.ic_star_black_24dp, false);
+        eventa.addItem("Arvo Watch",90,"ArvoWear",R.drawable.ic_star_black_24dp, false);
+        eventa.addItem("Phantom 4 Drone",1999,"Scheels",R.drawable.ic_launcher, false);
 
-        Profile profile2 = DBAccess.addProfile("Joe","joe@cool.com", "googleId", "Amazon", "Shooting Games", "December 30th", "August 16th", "Ko Ko's Korean", "Orange");
+        Event event2a = profile2.addEvent("Amanda's '22' Birthday", "June 7th, 2016", R.drawable.birthday, "Belmont Condos");
+        event2a.addItem("Phantom 4", 1999, "Scheels", R.drawable.ic_star_black_24dp, false);
+        event2a.addItem("Audi a4",59999,"Audi",R.drawable.ic_star_black_24dp, false);
+        event2a.addItem("MacBook Pro",2500,"Apple",R.drawable.ic_launcher, false);
 
-        Event eventa = profile2.addEvent("Joe first", "June 15th, 2016", R.drawable.balloon, "an address");
-        eventa.addItem("Tic",0,"Tac",R.drawable.ic_star_black_24dp, false);
-        eventa.addItem("Tac",25,"The Dock",R.drawable.ic_star_black_24dp, false);
-        eventa.addItem("Toe",178,"Cakes And More",R.drawable.ic_launcher, false);
+        Event event3a = profile2.addEvent("Amanda's Christmas", "December 25th, 2016", R.drawable.christmas, "Draper, UT");
+        event3a.addItem("Apple Watch", 0, "Apple", R.drawable.ic_star_black_24dp, false);
+        event3a.addItem("Hunter Boots",0,"Hunter",R.drawable.ic_star_black_24dp, false);
+        event3a.addItem("iPhone 6s",0,"Apple",R.drawable.ic_launcher, false);
 
-        Event event2a = profile2.addEvent("Joe second", "August 11th, 2016", R.drawable.balloon, "1942 columnus");
-        event2a.addItem("Kitty", 65, "Toyota", R.drawable.ic_star_black_24dp, false);
-        event2a.addItem("Dr. Who Stuff",71245000,"The Dock",R.drawable.ic_star_black_24dp, false);
-        event2a.addItem("Monkey",102340,"Cakes And More",R.drawable.ic_launcher, false);
+        Profile profile3 = DBAccess.addProfile("Sam","sam@cool.com", "googleId", "Amazon", "Business Startups", "December 17th", "NA", "Bam Bam's BBQ", "Army Green");
 
-        Event event3a = profile2.addEvent("Joe third", "December 16th, 2016", R.drawable.balloon, "24221 Sagewood dr., Provo Utah");
-        event3a.addItem("House2", 0, "Toyota", R.drawable.ic_star_black_24dp, false);
-        event3a.addItem("Pancake3",0,"The Dock",R.drawable.ic_star_black_24dp, false);
-        event3a.addItem("Dog4",0,"Cakes And More",R.drawable.ic_launcher, false);
+        Event eventb = profile3.addEvent("Sam's '25' Birthday", "December 17th, 2016", R.drawable.birthday, "Buffalo Wild Wings");
+        eventb.addItem("F150",100000,"Ford",R.drawable.ic_star_black_24dp, false);
+        eventb.addItem("Clothing", 225, "Banana Republic", R.drawable.ic_star_black_24dp, false);
+        eventb.addItem("Boots",478,"Allen Edmund",R.drawable.ic_launcher, false);
 
-        Profile profile3 = DBAccess.addProfile("Bob","bob@cool.com", "googleId", "Amazon", "Shooting Games", "December 30th", "August 16th", "Ko Ko's Korean", "Orange");
+        Event event2b = profile3.addEvent("Sam's Wedding", "October 7th, 2016", R.mipmap.wedding, "SLC Temple");
+        event2b.addItem("Puppy", 600, "Humane Society of Utah", R.drawable.ic_star_black_24dp, false);
+        event2b.addItem("DoorMat",20,"Target",R.drawable.ic_star_black_24dp, false);
+        event2b.addItem("KitchenAid Mixer", 230, "Kohls", R.drawable.ic_launcher, false);
 
-        Event eventb = profile3.addEvent("Bob first", "June 11th, 2016", R.drawable.balloon, "an address");
-        eventb.addItem("Tic",0,"Tac",R.drawable.ic_star_black_24dp, false);
-        eventb.addItem("Tac", 25, "The Dock", R.drawable.ic_star_black_24dp, false);
-        eventb.addItem("Toe",178,"Cakes And More",R.drawable.ic_launcher, false);
-
-        Event event2b = profile3.addEvent("Bob second", "August 11th, 2016", R.drawable.balloon, "1942 columnus");
-        event2b.addItem("Kitty", 65, "Toyota", R.drawable.ic_star_black_24dp, false);
-        event2b.addItem("Dr. Who Stuff",71245000,"The Dock",R.drawable.ic_star_black_24dp, false);
-        event2b.addItem("Monkey", 102340, "Cakes And More", R.drawable.ic_launcher, false);
-
-        Event event3b = profile3.addEvent("Bob's third", "December 17th, 2016", R.drawable.balloon, "24221 Sagewood dr., Provo Utah");
-        event3b.addItem("House2", 0, "Toyota", R.drawable.ic_star_black_24dp, false);
-        event3b.addItem("Pancake3",0,"The Dock",R.drawable.ic_star_black_24dp, false);
-        event3b.addItem("Dog4",0,"Cakes And More",R.drawable.ic_launcher, false);
+        Event event3b = profile3.addEvent("Sam's Bachelor Party", "October 6th, 2016", R.drawable.balloon, "24221 Sagewood Dr., Provo Utah");
+        event3b.addItem("Dr. Pepper", 10, "Target", R.drawable.ic_star_black_24dp, false);
+        event3b.addItem("Balloons",10,"Zurchers",R.drawable.ic_star_black_24dp, false);
+        event3b.addItem("Pizza",50,"SLAB Pizza",R.drawable.ic_launcher, false);
 
 
     }
     public static void fakeData2() {
-        DBAccess.getProfileByEmail("justin@cool.com").addFriend("joe@cool.com");
-        DBAccess.getProfileByEmail("justin@cool.com").addFriend("bob@cool.com");
+        DBAccess.getProfileByEmail("justin@cool.com").addFriend("sam@cool.com");
+        DBAccess.getProfileByEmail("justin@cool.com").addFriend("amanda@cool.com");
     }
 }
