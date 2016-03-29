@@ -60,7 +60,7 @@ public class FirebaseDatabase{
     }
     public static Firebase ref;
     public static boolean makeFakeData = false;
-    public static String databaseName = "present-time";
+    public static String databaseName = "present-time-test";
 
 
     public static void initializeFirebase(Context context) {

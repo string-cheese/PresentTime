@@ -66,8 +66,8 @@ public class Utils {
         }
     }
 
-    public static void searchItemAsync(String content, ItemSearchListener itemSearchListener) {
-        new ItemSearchAsync(itemSearchListener).execute(content);
+    public static void searchItemAsync(String content, int max_items, ItemSearchListener itemSearchListener) {
+        new ItemSearchAsync(itemSearchListener).execute(content, String.valueOf(max_items));
     }
 
 

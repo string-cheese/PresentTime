@@ -33,6 +33,7 @@ import edu.byu.stringcheese.presenttime.database.Item;
 public class ItemSearchActivity extends AppCompatActivity {
     // Search EditText
     EditText inputSearch;
+    public static int max_items = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +86,6 @@ public class ItemSearchActivity extends AppCompatActivity {
                     else
                         store = "Manufacturer";
                     items.add(new Item(name,cost,store,R.mipmap.bike,-1,-1,-1,false));
-                    if(i > 10)
-                        break;
                 }
                 if (items != null) {
                     ((SearchItemAdapter) recyclerView.getAdapter()).updateEventsShown(items);
@@ -172,7 +171,7 @@ public class ItemSearchActivity extends AppCompatActivity {
     }
 
     private void search(String content) {
-        Utils.searchItemAsync(content, new ItemSearchListener(){
+        Utils.searchItemAsync(content, max_items, new ItemSearchListener(){
 
             @Override
             public void onSearchComplete(JSONObject jsonObject) {

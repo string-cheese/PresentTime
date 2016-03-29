@@ -34,7 +34,7 @@ public class ItemSearchAsync extends AsyncTask<String, Object, JSONObject>
                     .append(API_BASE)
                     .append(endpoint)
                     .append("?q=")
-                    .append(URLEncoder.encode("{\"search\":\"" + params[0] + "\"}", "UTF-8"))
+                    .append(URLEncoder.encode("{\"search\":\"" + params[0] + "\",\"offset\":"+params[1]+"}", "UTF-8"))
                     .toString();
             URL url = new URL(req);
             url = url.toURI().normalize().toURL();

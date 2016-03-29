@@ -183,9 +183,9 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment im
                     }
                 });
                 cv = (CardView)itemView.findViewById(R.id.cv);
-                eventName = (TextView)itemView.findViewById(R.id.event_name);
-                eventDate = (TextView)itemView.findViewById(R.id.event_date);
-                eventPhoto = (ImageView)itemView.findViewById(R.id.event_photo);
+                eventName = (TextView)itemView.findViewById(R.id.event_template_name);
+                eventDate = (TextView)itemView.findViewById(R.id.event_template_date);
+                eventPhoto = (ImageView)itemView.findViewById(R.id.event_template_photo);
             }
         }
     }
