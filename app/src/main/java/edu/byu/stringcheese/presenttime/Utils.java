@@ -1,11 +1,22 @@
 package edu.byu.stringcheese.presenttime;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
-import java.text.ParseException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import oauth.signpost.OAuthConsumer;
+import oauth.signpost.basic.DefaultOAuthConsumer;
+import oauth.signpost.http.HttpResponse;
 
 /**
  * Created by liukaichi on 3/25/2016.
@@ -54,4 +65,10 @@ public class Utils {
                 return "th";
         }
     }
+
+    public static void searchItemAsync(String content, ItemSearchListener itemSearchListener) {
+        new ItemSearchAsync(itemSearchListener).execute(content);
+    }
+
+
 }
