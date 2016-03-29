@@ -26,13 +26,20 @@
             android:padding="16dp"
             android:weightSum="1">
 
-            <TextView
+            <edu.byu.stringcheese.presenttime.ScollingTextView
                 android:id="@+id/item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:fontFamily="sans-serif-light"
-                android:text="Dog"
+                android:text="IPhone that is really really cool"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:scrollHorizontally="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:freezesText="true"
                 android:textSize="30sp" />
 
             <TextView

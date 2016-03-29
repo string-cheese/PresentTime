@@ -27,14 +27,21 @@
                 android:src="@drawable/balloon"
                 android:scaleType="centerCrop"/>
 
-            <TextView
+            <edu.byu.stringcheese.presenttime.ScollingTextView
                 android:id="@+id/event_template_name"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:layout_width="wrap_content"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_below="@id/event_template_photo"
-                android:text="Sam's '25' Birthday!" />
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:scrollHorizontally="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:freezesText="true"
+                android:text="Sam's '25' Birthday that is really really really lame" />
             <TextView
                 android:id="@+id/event_template_date"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
