@@ -119,9 +119,9 @@ public class DBAccess {
         Profile profile = DBAccess.addProfile("Justin", "justin@cool.com", "googleId", "Cotton On", "Singing, Longboarding, Hacking", "June 7th", "August 12th", "Station 22", "Navy Blue");
 
         Event event = profile.addEvent("Justin's Wedding", "June 15th, 2016", R.drawable.wedding, "SLC Temple");
-        event.addItem("F150",100000,"Ford",R.mipmap.f150, false);
-        event.addItem("Apple Watch",400,"Apple",R.mipmap.applewatch, false);
-        event.addItem("KitchenAid Mixer",230,"Kohls",R.mipmap.kitchenaid, false);
+        event.addItem("F150",100000,"Ford",R.drawable.f150, false);
+        event.addItem("Apple Watch",400,"Apple",R.drawable.applewatch, false);
+        event.addItem("KitchenAid Mixer",230,"Kohls",R.drawable.kitchenaid, false);
 
 
         Profile profile2 = DBAccess.addProfile("Amanda","amanda@cool.com", "googleId", "J. Crew", "Design, Hiking, Music, Videography, Travel", "June 7th", "NA", "Station 22", "Teal");
@@ -148,7 +148,7 @@ public class DBAccess {
         eventb.addItem("iPhone 6s Plus", 900, "Apple", R.drawable.iphone, false);
         eventb.addItem("MacBook Pro",2500,"Apple",R.drawable.macbook, false);
 
-        Event event2b = profile3.addEvent("Sam's Wedding", "October 7th, 2016", R.mipmap.wedding, "SLC Temple");
+        Event event2b = profile3.addEvent("Sam's Wedding", "October 7th, 2016", R.drawable.wedding, "SLC Temple");
         event2b.addItem("Puppy", 600, "Humane Society of Utah", R.drawable.puppy, false);
         event2b.addItem("Phantom 4 Drone",2000,"Scheels",R.drawable.drone, false);
         event2b.addItem("KitchenAid Mixer", 230, "Kohls", R.drawable.kitchenaid, false);
