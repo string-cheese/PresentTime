@@ -3,6 +3,7 @@ package edu.byu.stringcheese.presenttime;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -160,7 +161,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
             itemViewHolder.itemName.setText(itemsShown.get(i).getName());
             itemViewHolder.itemPrice.setText("$" + String.valueOf(itemsShown.get(i).getCost()));
             //itemViewHolder.itemLocation.setText(itemsShown.get(i).getStore());
-            itemViewHolder.itemImage.setBackgroundResource(itemsShown.get(i).getImageId());
+            itemViewHolder.itemImage.setBackground(new BitmapDrawable(getResources(),BitmapUtils.decodeStringToBitmap(itemsShown.get(i).getEncodedImage())));
             itemViewHolder.currentItem = i;
             itemViewHolder.itemId = String.valueOf(itemsShown.get(i).getId());
             itemViewHolder.profileId = String.valueOf(itemsShown.get(i).getProfileId());

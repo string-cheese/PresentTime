@@ -1,5 +1,6 @@
 package edu.byu.stringcheese.presenttime;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,11 +9,12 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import java.text.NumberFormat;
 
-import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
+import edu.byu.stringcheese.presenttime.database.Event;
 
 public class AddItemActivity extends AppCompatActivity {
 
@@ -87,7 +89,7 @@ public class AddItemActivity extends AppCompatActivity {
         String itemName = ((EditText) findViewById(R.id.add_item_name)).getText().toString();
         double itemPrice = Double.parseDouble(((EditText) findViewById(R.id.add_item_price)).getText().toString().replaceAll("[^\\d.]+", ""));
         String itemLocation = ((EditText) findViewById(R.id.add_item_location)).getText().toString();
-        event.addItem(itemName, itemPrice, itemLocation, R.drawable.balloon, false);
+        event.addItem(itemName, itemPrice, itemLocation, BitmapUtils.encodeBitmapToString(((BitmapDrawable) ((ImageView) findViewById(R.id.item_image)).getDrawable()).getBitmap()), false);
         finish();
     }
 }

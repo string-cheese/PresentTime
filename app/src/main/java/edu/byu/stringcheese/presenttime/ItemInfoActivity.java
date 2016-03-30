@@ -1,9 +1,7 @@
 package edu.byu.stringcheese.presenttime;
 
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,11 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import edu.byu.stringcheese.presenttime.database.Item;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
+import edu.byu.stringcheese.presenttime.database.Item;
 
 /**
  * Created by liukaichi on 3/17/2016.
@@ -37,7 +34,7 @@ public class ItemInfoActivity extends AppCompatActivity {
             TextView itemLocation = (TextView)findViewById(R.id.item_location);
             itemLocation.setText(thisItem.getStore());
             ImageView itemImage = (ImageView)findViewById(R.id.item_info_image);
-            itemImage.setImageResource(thisItem.getImageId());
+            itemImage.setImageBitmap(BitmapUtils.decodeStringToBitmap(thisItem.getEncodedImage()));
 
             if (getIntent().hasExtra("eventOwnerId") &&
                     getIntent().getStringExtra("eventOwnerId").equals(getIntent().getStringExtra("profileId")))

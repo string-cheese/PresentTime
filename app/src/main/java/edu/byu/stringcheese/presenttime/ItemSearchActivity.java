@@ -1,5 +1,6 @@
 package edu.byu.stringcheese.presenttime;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -11,23 +12,17 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.stringcheese.presenttime.database.DBAccess;
-import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.Item;
 
 public class ItemSearchActivity extends AppCompatActivity {
@@ -85,7 +80,7 @@ public class ItemSearchActivity extends AppCompatActivity {
                         store = item.getJSONArray("sitedetails").getJSONObject(0).getString("name");
                     else
                         store = "Manufacturer";
-                    items.add(new Item(name,cost,store,R.mipmap.bike,-1,-1,-1,false));
+                    items.add(new Item(name,cost,store,BitmapUtils.encodeResourceToString(getResources(), R.mipmap.bike, 512, 512),-1,-1,-1,false));
                 }
                 if (items != null) {
                     ((SearchItemAdapter) recyclerView.getAdapter()).updateEventsShown(items);
@@ -124,7 +119,7 @@ public class ItemSearchActivity extends AppCompatActivity {
             {
                 eventViewHolder.itemName.setText(searchItemsShown.get(i).getName());
                 eventViewHolder.itemCost.setText(String.valueOf(searchItemsShown.get(i).getCost()));
-                eventViewHolder.itemImage.setBackgroundResource(searchItemsShown.get(i).getImageId());
+                eventViewHolder.itemImage.setBackground(new BitmapDrawable(getResources(), BitmapUtils.decodeStringToBitmap(searchItemsShown.get(i).getEncodedImage())));
                 eventViewHolder.itemStore.setText(searchItemsShown.get(i).getStore());
                 eventViewHolder.selectedItem = i;
             }
@@ -157,7 +152,7 @@ public class ItemSearchActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         String profileId = getIntent().getStringExtra("profileId");
                         String eventId = getIntent().getStringExtra("eventId");
-                        DBAccess.getEvent(profileId, eventId).addItem(itemName.getText().toString(), Double.parseDouble(itemCost.getText().toString()), itemStore.getText().toString(), R.mipmap.bike, false);
+                        DBAccess.getEvent(profileId, eventId).addItem(itemName.getText().toString(), Double.parseDouble(itemCost.getText().toString()), itemStore.getText().toString(), BitmapUtils.encodeResourceToString(getResources(),R.mipmap.bike,512,512), false);
                         finish();
                     }
                 });

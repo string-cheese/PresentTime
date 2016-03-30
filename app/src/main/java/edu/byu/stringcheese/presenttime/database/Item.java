@@ -10,18 +10,18 @@ public class Item
     private String name;
     private double cost;
     private String store;
-    private int imageId;
+    private String encodedImage;
     private boolean purchased;
     public Item()
     {
 
     }
-    public Item(String name, double cost, String location, int image, int profileId, int eventId, int id, boolean purchased)
+    public Item(String name, double cost, String location, String encodedImage, int profileId, int eventId, int id, boolean purchased)
     {
         this.name = name;
         this.cost = cost;
         this.store = location;
-        this.imageId = image;
+        this.encodedImage = encodedImage;
         this.profileId = profileId;
         this.eventId = eventId;
         this.id = id;
@@ -40,8 +40,8 @@ public class Item
         return store;
     }
 
-    public int getImageId() {
-        return imageId;
+    public String getEncodedImage() {
+        return encodedImage;
     }
 
     public int getId() {
@@ -78,10 +78,10 @@ public class Item
         db.setValue(store);
     }
 
-    public void updateImageId(int imageId) {
-        this.imageId = imageId;
-        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(eventId)).child("items").child(String.valueOf(id)).child("imageId");
-        db.setValue(imageId);
+    public void updateEncodedImage(String encodedImage) {
+        this.encodedImage = encodedImage;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(eventId)).child("items").child(String.valueOf(id)).child("encodedImage");
+        db.setValue(encodedImage);
     }
 
     public void updatePurchased(boolean purchased) {

@@ -2,6 +2,7 @@ package edu.byu.stringcheese.presenttime;
 
 import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -104,7 +105,7 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
             itemViewHolder.itemName.setText(itemsShown.get(i).getName());
             itemViewHolder.itemPrice.setText("$" + String.valueOf(itemsShown.get(i).getCost()));
             //itemViewHolder.itemLocation.setText(itemsShown.get(i).getStore());
-            itemViewHolder.itemImage.setBackgroundResource(itemsShown.get(i).getImageId());
+            itemViewHolder.itemImage.setBackground(new BitmapDrawable(getResources(), BitmapUtils.decodeStringToBitmap(itemsShown.get(i).getEncodedImage())));
             itemViewHolder.currentItem = i;
             itemViewHolder.eventId = String.valueOf(itemsShown.get(i).getEventId());
             itemViewHolder.profileId = String.valueOf(itemsShown.get(i).getProfileId());

@@ -31,10 +31,10 @@ public class Event implements Comparable<Event>{
         this.id = id;
     }
 
-    public Item addItem(String name, double cost, String store, int imageID, boolean purchased) {
+    public Item addItem(String name, double cost, String store, String encodedImage, boolean purchased) {
         //add item
         Firebase profile = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId));
-        Item item = new Item(name, cost, store, imageID,profileId,this.id, items.size(), purchased);
+        Item item = new Item(name, cost, store, encodedImage,profileId,this.id, items.size(), purchased);
         this.items.add(item);
         profile.setValue(DBAccess.getProfiles().get(profileId));
         return item;
@@ -89,7 +89,7 @@ public class Event implements Comparable<Event>{
         db.setValue(date);
     }
 
-    public void updatePhotoId(String encodedImage) {
+    public void updateEncodedImage(String encodedImage) {
         this.encodedImage = encodedImage;
         Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(id)).child("encodedImage");
         db.setValue(encodedImage);
