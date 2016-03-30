@@ -1,6 +1,7 @@
 package edu.byu.stringcheese.presenttime;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class ProfileSectionFragment extends android.support.v4.app.Fragment {
         TextView favorite_store_text = (TextView) view.findViewById(R.id.profile_favorite_store);
         TextView favorite_hobbies_text = (TextView) view.findViewById(R.id.profile_hobbies);
         TextView favorite_restaurant_text = (TextView) view.findViewById(R.id.profile_restaurant);
-        ImageView profile_image_view = (ImageView) view.findViewById(R.id.profile_image);
+        final ImageView profile_image_view = (ImageView) view.findViewById(R.id.profile_image);
 
         String profileId = getArguments().getString("profileId");
         profile = DBAccess.getProfile(profileId);
@@ -50,5 +51,13 @@ public class ProfileSectionFragment extends android.support.v4.app.Fragment {
         favorite_hobbies_text.setText(profile.getHobbies());
         favorite_restaurant_text.setText(profile.getFavoriteRestaurant());
         profile_image_view.setImageBitmap(BitmapUtils.decodeStringToBitmap(profile.getEncodedProfileImage()));
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.profile_photo_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //profile.updateEncodedProfileImage();
+                //profile_image_view.setImageBitmap(BitmapUtils.decodeStringToBitmap(profile.getEncodedProfileImage()));
+            }
+        });
     }
 }

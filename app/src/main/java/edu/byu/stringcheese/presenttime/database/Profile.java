@@ -45,12 +45,19 @@ public class Profile
 
     public Profile addFriend(String email)
     {
-        //update profile event list
-        Firebase friends = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("friends");
-        this.friends.add(email);
+        if(DBAccess.getProfileByEmail(email) != null) {
+            //update profile event list
+            Firebase friends = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("friends");
+            this.friends.add(email);
 
-        friends.setValue(this.friends);
-        return DBAccess.getProfileByEmail(email);
+            friends.setValue(this.friends);
+            return DBAccess.getProfileByEmail(email);
+        }
+        else
+        {
+            //friend doesn't exist
+            return null;
+        }
     }
 
     public Event addEvent(String eventName, String eventDate, String encodedImage, String eventAddress) {
@@ -166,5 +173,11 @@ public class Profile
 
     public String getGoogleId() {
         return googleId;
+    }
+
+    public void updateEncodedProfileImage(String encodedProfileImage) {
+        this.encodedProfileImage = encodedProfileImage;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("encodedProfileImage");
+        db.setValue(favoriteColor);
     }
 }
