@@ -127,7 +127,7 @@ public class DBAccess {
         event.addItem("KitchenAid Mixer",230,"Kohls",BitmapUtils.encodeResourceToString(resources,R.drawable.kitchenaid, 512, 512), false);
 
 
-        Profile profile2 = DBAccess.addProfile("Amanda","amanda@cool.com", "googleId", "J. Crew", "Design, Hiking, Music, Videography, Travel", "June 7th", "NA", "Station 22", "Teal", BitmapUtils.encodeResourceToString(resources,R.drawable.justin_profile, 512, 512));
+        Profile profile2 = DBAccess.addProfile("Amanda","amanda@cool.com", "googleId", "J. Crew", "Design, Hiking, Music, Videography, Travel", "June 7th", "NA", "Station 22", "Teal", BitmapUtils.encodeResourceToString(resources,R.mipmap.ic_amanda, 512, 512));
 
         Event eventa = profile2.addEvent("Amanda's Graduation", "August 11th, 2016", BitmapUtils.encodeResourceToString(resources,R.drawable.graduation, 512, 512), "BYU Wilkinson Ballroom");
         eventa.addItem("MacBook Pro",2500,"Apple",BitmapUtils.encodeResourceToString(resources,R.drawable.macbook, 512, 512), false);
@@ -144,7 +144,7 @@ public class DBAccess {
         event3a.addItem("Puppy",600,"Humane Society of Utah",BitmapUtils.encodeResourceToString(resources,R.drawable.puppy, 512, 512), false);
         event3a.addItem("iPhone 6s",0,"Apple",BitmapUtils.encodeResourceToString(resources,R.drawable.iphone, 512, 512), false);
 
-        Profile profile3 = DBAccess.addProfile("Sam","sam@cool.com", "googleId", "Amazon", "Business Startups", "December 17th", "NA", "Bam Bam's BBQ", "Army Green", BitmapUtils.encodeResourceToString(resources,R.drawable.justin_profile, 512, 512));
+        Profile profile3 = DBAccess.addProfile("Sam","sam@cool.com", "googleId", "Amazon", "Business Startups", "December 17th", "NA", "Bam Bam's BBQ", "Army Green", BitmapUtils.encodeResourceToString(resources,R.mipmap.david_profile, 512, 512));
 
         Event eventb = profile3.addEvent("Sam's '25' Birthday", "December 17th, 2016", BitmapUtils.encodeResourceToString(resources,R.drawable.balloon, 512, 512), "Buffalo Wild Wings");
         eventb.addItem("F150",100000,"Ford",BitmapUtils.encodeResourceToString(resources,R.drawable.f150, 512, 512), false);
