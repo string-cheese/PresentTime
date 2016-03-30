@@ -151,7 +151,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
 
         @Override
         public ItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.event_item_template, viewGroup, false);//$$$
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.template_event_item, viewGroup, false);//$$$
             ItemViewHolder itemViewHolder = new ItemViewHolder(v);
             return itemViewHolder;
         }

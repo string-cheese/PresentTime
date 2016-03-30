@@ -40,7 +40,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.events_section_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_events, container, false);
         return rootView;
     }
 
@@ -130,7 +130,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
 
         @Override
         public EventViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.event_template, viewGroup, false);//$$$
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.template_event, viewGroup, false);//$$$
             EventViewHolder eventViewHolder = new EventViewHolder(v);
             return eventViewHolder;
         }

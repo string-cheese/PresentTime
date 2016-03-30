@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -23,22 +24,15 @@
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
             <ImageView
-                android:id="@+id/item_image"
+                android:id="@+id/item_info_image"
                 android:scaleType="centerCrop"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@mipmap/macbook"
+                android:src="@mipmap/bike"
                 android:paddingBottom="20dp"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier=".7"/>
-
-            <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            app:layout_collapseMode="pin"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -48,8 +42,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="edu.byu.stringcheese.presenttime.AddItemActivity"
-        tools:showIn="@layout/activity_add_item">
+        tools:context="edu.byu.stringcheese.presenttime.ItemInfoActivity"
+        tools:showIn="@layout/activity_item_info">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,15 +59,26 @@
                 android:padding="@dimen/activity_horizontal_margin">
 
                 <TextView
+                    android:id="@+id/edit_item_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:elegantTextHeight="false"
                     android:layout_centerVertical="true"
-                    android:text="ADD ITEM"
+                    android:text="EDIT ITEM"
                     android:fontFamily="sans-serif-light"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/colorPrimaryText"
                     android:layout_alignParentStart="true" />
+                <Button
+                    android:id="@+id/buy_item_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Buy Item"
+                    android:textColor="@color/colorTextIcons"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true" />
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -91,21 +96,21 @@
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     />
 
-                <EditText
-                    android:id="@+id/add_item_name"
+                <TextView
+                    android:id="@+id/item_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_toEndOf="@id/itemIcon"
                     android:layout_toRightOf="@id/itemIcon"
-                    android:hint="Bike"
+                    android:hint="Camera"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/colorPrimaryText" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/add_item_name"
+                    android:layout_below="@id/item_name"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="8dp"
@@ -131,8 +136,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
-                <EditText
-                    android:id="@+id/add_item_price"
+                <TextView
+                    android:id="@+id/item_price"
                     android:inputType="numberDecimal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -146,7 +151,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/add_item_price"
+                    android:layout_below="@id/item_price"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="8dp"
@@ -174,8 +179,8 @@
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:visibility="visible" />
 
-                <EditText
-                    android:id="@+id/add_item_location"
+                <TextView
+                    android:id="@+id/item_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -189,7 +194,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/add_item_location"
+                    android:layout_below="@id/item_location"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="8dp"
@@ -223,6 +228,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/switch1"
                     android:checked="true"
+                    android:editable="false"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true" />
                 <!--android:backgroundTint="@color/blue_grey_500"-->
@@ -236,19 +242,18 @@
                 android:orientation="vertical"
                 android:padding="@dimen/activity_horizontal_margin">
 
-                <Button
-                    android:id="@+id/add_item_done"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Done"
-                    android:onClick="addNewItem"
-                    android:textColor="@color/colorTextIcons"
-                    android:theme="@style/AppTheme"/>
-
             </LinearLayout>
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/item_info_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/camera"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end" />
 
 </android.support.design.widget.CoordinatorLayout>

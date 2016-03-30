@@ -23,7 +23,7 @@ public class ItemInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_info);
+        setContentView(R.layout.activity_item_info);
         if(getIntent().getStringExtra("itemId") != null && getIntent().getStringExtra("profileId") != null && getIntent().getStringExtra("eventId") != null)
         {
             thisItem = DBAccess.getProfiles().get(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId"))).getItems().get(Integer.parseInt(getIntent().getStringExtra("itemId")));

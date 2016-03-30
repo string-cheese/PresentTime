@@ -35,7 +35,7 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment im
       public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                Bundle savedInstanceState) {
         FirebaseDatabase.addObserver(this);
-        View rootView = inflater.inflate(R.layout.dashboard_section_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
         return rootView;
     }
 
@@ -100,11 +100,11 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment im
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
             if (viewType == AbstractDashboardItem.TYPE_HEADER) {
-                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_header, viewGroup, false);//$$$
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.template_dashboard_header, viewGroup, false);//$$$
                 DashboardHeaderViewHolder dashboardHeaderViewHolder = new DashboardHeaderViewHolder(v);
                 return dashboardHeaderViewHolder;
             } else {
-                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.event_template, viewGroup, false);//$$$
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.template_event, viewGroup, false);//$$$
                 EventViewHolder eventViewHolder = new EventViewHolder(v);
                 return eventViewHolder;
             }

@@ -37,7 +37,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.friends_section_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
         return rootView;
     }
 
@@ -84,7 +84,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         @Override
         public FriendViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.friend_template, parent, false);
+                    .inflate(R.layout.template_friend, parent, false);
 
 
             return new FriendViewHolder(view);

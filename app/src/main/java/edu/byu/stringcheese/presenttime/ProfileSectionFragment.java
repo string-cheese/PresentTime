@@ -20,7 +20,7 @@ public class ProfileSectionFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.profile_section_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         /*TextView dummyTextView = (TextView) rootView.findViewById(R.id.section_label);
         dummyTextView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));*/
         return rootView;

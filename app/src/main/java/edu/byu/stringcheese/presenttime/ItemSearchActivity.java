@@ -108,7 +108,7 @@ public class ItemSearchActivity extends AppCompatActivity {
 
         @Override
         public EventViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_item_template, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.template_search_item, viewGroup, false);
             EventViewHolder eventViewHolder = new EventViewHolder(v);
             return eventViewHolder;
         }
