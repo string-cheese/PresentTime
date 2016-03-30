@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Profile;
-import edu.byu.stringcheese.presenttime.database.DBAccess;
 
 /**
  * Created by dtaylor on 3/20/2016.
@@ -95,6 +95,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
             holder.currentItem = position;
             holder.eventOwnerId = String.valueOf(shownProfiles.get(position).getId());
             holder.friendName.setText(shownProfiles.get(position).getName());
+            holder.friendImage.setImageBitmap(BitmapUtils.decodeStringToBitmap(shownProfiles.get(position).getEncodedProfileImage()));
         }
 
         @Override
@@ -111,6 +112,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         public class FriendViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
             public final TextView friendName;
+            public CircularImageView friendImage;
             public String eventOwnerId;
             public int currentItem;
 
@@ -118,6 +120,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
                 super(view);
                 mView = view;
                 friendName = (TextView) view.findViewById(R.id.friend_name);
+                friendImage = (CircularImageView) view.findViewById(R.id.friend_image_circle);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

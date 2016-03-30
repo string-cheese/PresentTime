@@ -11,18 +11,18 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView"
+        <edu.byu.stringcheese.presenttime.CircularImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/friend_image_circle"
             android:contentDescription="Profile Picture"
-            android:src="@mipmap/profile" />
+            android:src="@mipmap/justin_profile" />
         <TextView
             android:id="@+id/friend_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Joe Bob"
-            android:layout_toEndOf="@id/imageView"
+            android:layout_toEndOf="@id/friend_image_circle"
             android:fontFamily="sans-serif-light"
             android:layout_marginLeft="@dimen/text_margin"
             android:layout_marginRight="@dimen/text_margin"
