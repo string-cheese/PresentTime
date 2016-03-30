@@ -2,7 +2,8 @@ package edu.byu.stringcheese.presenttime;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -11,9 +12,8 @@ import android.view.View;
 
 import com.firebase.client.Firebase;
 
-import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
-import edu.byu.stringcheese.presenttime.database.Profile;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
+import edu.byu.stringcheese.presenttime.database.Profile;
 
 /**
  * A simple launcher activity containing a summary sample description, sample log and a custom
@@ -39,13 +39,13 @@ public class MainActivity extends AppCompatActivity {
 
             if (savedInstanceState == null) {
 
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("profileId", String.valueOf(myProfile.getId()));
-                fragment.setArguments(bundle);
-                transaction.replace(R.id.sample_content_fragment, fragment);
-                transaction.commit();
+                ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+                viewPager.setAdapter(new MainFragmentPagerAdapter(getSupportFragmentManager(),
+                        MainActivity.this));
+
+                // Give the TabLayout the ViewPager
+                TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+                tabLayout.setupWithViewPager(viewPager);
             }
         }
 
