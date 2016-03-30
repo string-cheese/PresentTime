@@ -87,7 +87,8 @@ class MainFragmentPagerAdapter extends FragmentPagerAdapter {
                 return context.getString(R.string.title_section3).toUpperCase(l);
             case 3:
                 return context.getString(R.string.title_section4).toUpperCase(l);
+            default:
+                return context.getString(R.string.title_section1).toUpperCase(l);
         }
-        return null;
     }
 }

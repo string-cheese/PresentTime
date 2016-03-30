@@ -23,7 +23,7 @@
     <string name="server_client_id1">215116722613-k07goj5i46to2p4amh9eepn9i7tn7qr3.apps.googleusercontent.com</string>
     <string name="server_client_id2">215116722613-mgj55d06uh48sdit5uj2e83g7qptp305.apps.googleusercontent.com</string>
     <string name="facebook_app_id">448944155304709</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">PresentTime</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

@@ -6,8 +6,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.firebase.client.Firebase;
@@ -30,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeLogging();
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_main);
         if (getIntent().getStringExtra("profileId") != null) {
@@ -49,27 +46,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
-    /** Create a chain of targets that will receive log data */
-    public void initializeLogging() {
-        Log.i(TAG, "Ready");
     }
 
 
