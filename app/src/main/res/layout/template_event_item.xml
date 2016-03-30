@@ -25,7 +25,7 @@
 
             android:weightSum="1">
 
-            <edu.byu.stringcheese.presenttime.ScollingTextView
+            <edu.byu.stringcheese.presenttime.main.events.ScollingTextView
                 android:background="#80333333"
                 android:id="@+id/item_name"
                 android:layout_width="wrap_content"

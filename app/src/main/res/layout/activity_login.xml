@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/AppTheme"
     android:background="@color/colorPrimaryDark"
-    tools:context="edu.byu.stringcheese.presenttime.LoginActivity">
+    tools:context=".main.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

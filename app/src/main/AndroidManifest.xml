@@ -21,7 +21,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".main.LoginActivity"
             android:label="@string/app_name">
             android:fontFamily="sans-serif-thin"
             <intent-filter>
@@ -31,38 +31,38 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FriendInfoActivity"
-            android:parentActivityName=".FriendInfoActivity">
+            android:name=".main.friends.info.FriendInfoActivity"
+            android:parentActivityName=".main.friends.info.FriendInfoActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.byu.stringcheese.presenttime.FriendInfoActivity" />
+                android:value=".main.friends.info.FriendInfoActivity" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".main.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".AddEventActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".main.events.AddEventActivity"
+            android:parentActivityName=".main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.byu.stringcheese.presenttime.MainActivity" />
+                android:value=".main.MainActivity" />
         </activity>
         <activity
-            android:name=".AddItemActivity"
-            android:parentActivityName=".ItemInfoActivity">
+            android:name=".main.events.info.AddItemActivity"
+            android:parentActivityName=".main.events.info.item.ItemInfoActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.byu.stringcheese.presenttime.ItemInfoActivity" />
+                android:value=".main.events.info.item.ItemInfoActivity" />
         </activity>
         <activity
-            android:name=".ItemInfoActivity"
-            android:parentActivityName=".EventWishListActivity">
+            android:name=".main.events.info.item.ItemInfoActivity"
+            android:parentActivityName=".main.events.info.EventInfoActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.byu.stringcheese.presenttime.EventWishListActivity" />
+                android:value="edu.byu.stringcheese.presenttime.main.events.info.EventInfoActivity" />
         </activity>
-        <activity android:name=".EventInfoActivity" />
+        <activity android:name=".main.events.info.EventInfoActivity" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -72,31 +72,23 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".EventWishListActivity"
-            android:label="@string/title_activity_event_wish_list"
-            android:parentActivityName=".EventInfoActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.byu.stringcheese.presenttime.EventInfoActivity" />
-        </activity>
-        <activity
-            android:name=".AddFriendActivity"
+            android:name=".main.friends.AddFriendActivity"
             android:label="@string/title_activity_add_friend"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.byu.stringcheese.presenttime.MainActivity" />
+                android:value=".main.MainActivity" />
         </activity>
         <activity
-            android:name=".ItemSearchActivity"
+            android:name=".main.events.info.item.ItemSearchActivity"
             android:label="@string/title_activity_item_search"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.byu.stringcheese.presenttime.MainActivity" />
+                android:value=".main.MainActivity" />
         </activity>
     </application>
 

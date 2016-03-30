@@ -1,4 +1,4 @@
-package edu.byu.stringcheese.presenttime;
+package edu.byu.stringcheese.presenttime.main.events.info.item;
 
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package edu.byu.stringcheese.presenttime;
+package edu.byu.stringcheese.presenttime.main.events.info.item;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import edu.byu.stringcheese.presenttime.BitmapUtils;
+import edu.byu.stringcheese.presenttime.R;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.Item;
 

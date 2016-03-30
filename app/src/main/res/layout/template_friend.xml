@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <edu.byu.stringcheese.presenttime.CircularImageView
+        <edu.byu.stringcheese.presenttime.main.friends.CircularImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/friend_image_circle"

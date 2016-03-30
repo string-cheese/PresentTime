@@ -1,9 +1,11 @@
-package edu.byu.stringcheese.presenttime;
+package edu.byu.stringcheese.presenttime.main.events.info;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -13,6 +15,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,33 +24,43 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.byu.stringcheese.presenttime.BitmapUtils;
+import edu.byu.stringcheese.presenttime.R;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.Event;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Item;
+import edu.byu.stringcheese.presenttime.main.events.info.item.ItemInfoActivity;
+import edu.byu.stringcheese.presenttime.main.events.info.item.ItemSearchActivity;
 
-public class EventWishListActivity extends AppCompatActivity implements Observer {
-
+public class EventInfoActivity extends AppCompatActivity implements Observer {
     public Event event;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseDatabase.addObserver(this);
-        setContentView(R.layout.activity_event_wish_list);
-        if(getIntent().getStringExtra("eventId") != null && getIntent().getStringExtra("profileId") != null) {
-            event = DBAccess.getProfile(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId")));
-            //((TextView)findViewById(R.id.selectedEvent)).setText(event.getName());
-            recyclerView = (RecyclerView) findViewById(R.id.event_wish_list_rv);
+        setContentView(R.layout.activity_event_info);
+        if(getIntent().getStringExtra("eventId") != null && getIntent().getStringExtra("profileId") != null)
+        {
 
-            /*LinearLayoutManager llm = new LinearLayoutManager(this);
-            recyclerView.setLayoutManager(llm);
-            recyclerView.setHasFixedSize(true);*/
+            if (getIntent().hasExtra("eventOwnerId") &&
+                    getIntent().getStringExtra("eventOwnerId").equals(getIntent().getStringExtra("profileId")))
+            {
+                initializeOwnerViews();
+            } else
+            {
+                initializeFriendViews();
+            }
+            event = DBAccess.getProfile(Integer.parseInt(getIntent().getStringExtra("eventOwnerId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId")));
+
+            recyclerView = (RecyclerView) findViewById(R.id.event_info_rv);
+
             int numberOfColumns = 2;
             //Check your orientation in your OnCreate
             if (getResources().getConfiguration().orientation == getResources().getConfiguration().ORIENTATION_LANDSCAPE) {
                 numberOfColumns = 3;
             }
-            GridLayoutManager man = new GridLayoutManager(this, numberOfColumns, GridLayoutManager.VERTICAL, false);
+            CustomGridLayoutManager man = new CustomGridLayoutManager(recyclerView.getContext(), numberOfColumns, GridLayoutManager.VERTICAL, false);
             this.recyclerView.setLayoutManager(man);
             int spacingInPixels = Math.round(-10 * (getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
             recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
@@ -63,26 +76,73 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
                         }
                     }).show();
         }
+        TextView title = (TextView)findViewById(R.id.event_title_text_view);
+        title.setText(event.getName());
+        TextView address = (TextView) findViewById(R.id.address_text_view);
+        address.setText(event.getLocation());
+
+
+      
     }
     private RecyclerView recyclerView;
 
     private void initializeAdapter(){
         ItemRVAdapter adapter = new ItemRVAdapter(event.getItems());
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void update(Observable observable, Object data) {
+
         if(recyclerView.getAdapter() != null)
         {
-            ((ItemRVAdapter)recyclerView.getAdapter()).updateEventsShown(event.getItems());
-            recyclerView.invalidate();
+            if(recyclerView.getAdapter() != null)
+            {
+                ArrayList<Item> items = DBAccess.getItems(event);
+                if(items!=null) {
+                    ((ItemRVAdapter) recyclerView.getAdapter()).updateEventsShown(items);
+                    recyclerView.invalidate();
+                }
+            }
         }
     }
 
+
+    private void initializeFriendViews() {
+        //FLOATING ACTION BUTTON
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_photo_fab);
+        ((ViewGroup)fab.getParent()).removeView(fab);
+
+    }
+
+    private void initializeOwnerViews() {
+        LinearLayout donateFundsLayout = (LinearLayout) findViewById(R.id.donate_button_layout);
+        ((ViewGroup)donateFundsLayout.getParent()).removeView(donateFundsLayout);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_photo_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v,"This should allow you to take a picture or get a photo from phone",Snackbar.LENGTH_LONG).show();
+            }
+        });
+        FloatingActionButton addItemButton = (FloatingActionButton)findViewById(R.id.add_item_fab);
+        addItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventInfoActivity.this, ItemSearchActivity.class);
+                intent.putExtra("eventId", String.valueOf(event.getId()));
+                intent.putExtra("profileId", String.valueOf(event.getProfileId()));
+                startActivity(intent);
+            }
+        });
+
+    }
+
+
     class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHolder> {
 
-        List<Item> itemsShown;
+        public List<Item> itemsShown;
 
         ItemRVAdapter(List<Item> items){
             this.itemsShown = items;
@@ -107,9 +167,9 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
             //itemViewHolder.itemLocation.setText(itemsShown.get(i).getStore());
             itemViewHolder.itemImage.setBackground(new BitmapDrawable(getResources(), BitmapUtils.decodeStringToBitmap(itemsShown.get(i).getEncodedImage())));
             itemViewHolder.currentItem = i;
-            itemViewHolder.eventId = String.valueOf(itemsShown.get(i).getEventId());
-            itemViewHolder.profileId = String.valueOf(itemsShown.get(i).getProfileId());
             itemViewHolder.itemId = String.valueOf(itemsShown.get(i).getId());
+            itemViewHolder.profileId = String.valueOf(itemsShown.get(i).getProfileId());
+            itemViewHolder.eventId = String.valueOf(itemsShown.get(i).getEventId());
         }
 
         @Override
@@ -131,20 +191,21 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
             //TextView itemLocation;
             RelativeLayout itemImage;
             public int currentItem;
-            String eventId;
-            String profileId;
             public String itemId;
+            public String eventId;
+            public String profileId;
 
             ItemViewHolder(final View itemView) {
                 super(itemView);
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(EventWishListActivity.this, ItemInfoActivity.class);
-                        intent.putExtra("eventId", String.valueOf(eventId));
-                        intent.putExtra("profileId", String.valueOf(profileId));
+                        Intent intent = new Intent(EventInfoActivity.this, ItemInfoActivity.class);
                         intent.putExtra("itemId", String.valueOf(itemId));
-                        EventWishListActivity.this.startActivity(intent);
+                        intent.putExtra("eventId", String.valueOf(eventId));
+                        intent.putExtra("eventOwnerId", getIntent().getStringExtra("eventOwnerId"));
+                        intent.putExtra("profileId", String.valueOf(profileId));
+                        EventInfoActivity.this.startActivity(intent);
                     }
                 });
                 item_cv = (CardView)itemView.findViewById(R.id.cv);
@@ -169,13 +230,22 @@ public class EventWishListActivity extends AppCompatActivity implements Observer
             outRect.bottom = space;
             outRect.top = space;
 
-            /*// Add top margin only for the first item to avoid double space between items
-            if (parent.getChildLayoutPosition(view) == 0) {
-                outRect.top = space;
-            } else {
-                outRect.top = 0;
-            }*/
         }
     }
 
+
+    /**
+     * This is a custom layout that prevents scrolling. We might want it in the future.
+     */
+    public class CustomGridLayoutManager extends GridLayoutManager {
+        CustomGridLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout){
+            super(context, spanCount, orientation, reverseLayout);
+        }
+
+        // it will always pass false to RecyclerView when calling "canScrollVertically()" method.
+        @Override
+        public boolean canScrollVertically() {
+            return false;
+        }
+    }
 }

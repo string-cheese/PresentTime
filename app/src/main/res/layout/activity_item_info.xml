@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="edu.byu.stringcheese.presenttime.ItemInfoActivity"
+        tools:context=".main.events.info.item.ItemInfoActivity"
         tools:showIn="@layout/activity_item_info">
 
         <LinearLayout

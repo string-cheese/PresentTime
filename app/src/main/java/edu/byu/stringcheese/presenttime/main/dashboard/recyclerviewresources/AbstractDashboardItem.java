@@ -1,4 +1,4 @@
-package edu.byu.stringcheese.presenttime.recyclerviewresources;
+package edu.byu.stringcheese.presenttime.main.dashboard.recyclerviewresources;
 
 /**
  * Created by liukaichi on 3/24/2016.

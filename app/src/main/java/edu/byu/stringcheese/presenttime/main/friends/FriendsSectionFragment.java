@@ -1,4 +1,4 @@
-package edu.byu.stringcheese.presenttime;
+package edu.byu.stringcheese.presenttime.main.friends;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,9 +16,12 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.byu.stringcheese.presenttime.BitmapUtils;
+import edu.byu.stringcheese.presenttime.R;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Profile;
+import edu.byu.stringcheese.presenttime.main.friends.info.FriendInfoActivity;
 
 /**
  * Created by dtaylor on 3/20/2016.

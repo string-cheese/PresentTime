@@ -1,4 +1,4 @@
-package edu.byu.stringcheese.presenttime;
+package edu.byu.stringcheese.presenttime.main.events.info;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.widget.ImageView;
 
 import java.text.NumberFormat;
 
+import edu.byu.stringcheese.presenttime.BitmapUtils;
+import edu.byu.stringcheese.presenttime.R;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.Event;
 

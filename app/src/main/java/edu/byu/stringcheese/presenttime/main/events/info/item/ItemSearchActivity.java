@@ -1,4 +1,4 @@
-package edu.byu.stringcheese.presenttime;
+package edu.byu.stringcheese.presenttime.main.events.info.item;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -22,6 +22,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.byu.stringcheese.presenttime.BitmapUtils;
+import edu.byu.stringcheese.presenttime.R;
+import edu.byu.stringcheese.presenttime.Utils;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.Item;
 
@@ -80,7 +83,7 @@ public class ItemSearchActivity extends AppCompatActivity {
                         store = item.getJSONArray("sitedetails").getJSONObject(0).getString("name");
                     else
                         store = "Manufacturer";
-                    items.add(new Item(name,cost,store,BitmapUtils.encodeResourceToString(getResources(), R.mipmap.bike, 512, 512),-1,-1,-1,false));
+                    items.add(new Item(name,cost,store, BitmapUtils.encodeResourceToString(getResources(), R.mipmap.bike, 512, 512),-1,-1,-1,false));
                 }
                 if (items != null) {
                     ((SearchItemAdapter) recyclerView.getAdapter()).updateEventsShown(items);
@@ -166,7 +169,7 @@ public class ItemSearchActivity extends AppCompatActivity {
     }
 
     private void search(String content) {
-        Utils.searchItemAsync(content, max_items, new ItemSearchListener(){
+        Utils.searchItemAsync(content, max_items, new ItemSearchListener() {
 
             @Override
             public void onSearchComplete(JSONObject jsonObject) {

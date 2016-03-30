@@ -1,4 +1,4 @@
-package edu.byu.stringcheese.presenttime;
+package edu.byu.stringcheese.presenttime.main;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -37,6 +37,8 @@ import com.google.android.gms.plus.model.people.PersonBuffer;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.byu.stringcheese.presenttime.BitmapUtils;
+import edu.byu.stringcheese.presenttime.R;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Profile;
@@ -185,7 +187,7 @@ public class LoginActivity extends FragmentActivity implements
                         new AsyncTask<Void, Void, String>() {
                             @Override
                             protected String doInBackground(Void... params) {
-                                return BitmapUtils.decodeImageFromWebToString(acct.getPhotoUrl(),512,512);
+                                return BitmapUtils.decodeImageFromWebToString(acct.getPhotoUrl(), 512, 512);
                             }
 
                             @Override

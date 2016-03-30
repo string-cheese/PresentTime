@@ -1,10 +1,13 @@
-package edu.byu.stringcheese.presenttime;
+package edu.byu.stringcheese.presenttime.main.friends.info;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
+
+import edu.byu.stringcheese.presenttime.R;
+import edu.byu.stringcheese.presenttime.main.events.EventsSectionFragment;
 
 public class FriendInfoActivity extends AppCompatActivity {
 

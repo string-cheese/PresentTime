@@ -1,4 +1,4 @@
-package edu.byu.stringcheese.presenttime;
+package edu.byu.stringcheese.presenttime.main.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,12 +17,15 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.byu.stringcheese.presenttime.BitmapUtils;
+import edu.byu.stringcheese.presenttime.R;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Profile;
-import edu.byu.stringcheese.presenttime.recyclerviewresources.AbstractDashboardItem;
-import edu.byu.stringcheese.presenttime.recyclerviewresources.DashBoardItem;
-import edu.byu.stringcheese.presenttime.recyclerviewresources.DashboardHeader;
+import edu.byu.stringcheese.presenttime.main.dashboard.recyclerviewresources.AbstractDashboardItem;
+import edu.byu.stringcheese.presenttime.main.dashboard.recyclerviewresources.DashBoardItem;
+import edu.byu.stringcheese.presenttime.main.dashboard.recyclerviewresources.DashboardHeader;
+import edu.byu.stringcheese.presenttime.main.events.info.EventInfoActivity;
 
 /**
  * Created by dtaylor on 3/20/2016.

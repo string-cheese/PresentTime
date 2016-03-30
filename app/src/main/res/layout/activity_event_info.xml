@@ -48,7 +48,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="edu.byu.stringcheese.presenttime.EventInfoActivity"
+        tools:context=".main.events.info.EventInfoActivity"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/activity_event_info">
         <RelativeLayout

@@ -1,4 +1,4 @@
-package edu.byu.stringcheese.presenttime;
+package edu.byu.stringcheese.presenttime.main;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,6 +8,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import java.util.Locale;
+
+import edu.byu.stringcheese.presenttime.ProfileSectionFragment;
+import edu.byu.stringcheese.presenttime.R;
+import edu.byu.stringcheese.presenttime.main.dashboard.DashboardSectionFragment;
+import edu.byu.stringcheese.presenttime.main.events.EventsSectionFragment;
+import edu.byu.stringcheese.presenttime.main.friends.FriendsSectionFragment;
 
 /**
  * Created by longl on 3/30/2016.

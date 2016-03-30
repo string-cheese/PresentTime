@@ -1,4 +1,4 @@
-package edu.byu.stringcheese.presenttime.recyclerviewresources;
+package edu.byu.stringcheese.presenttime.main.dashboard.recyclerviewresources;
 
 import edu.byu.stringcheese.presenttime.database.Event;
 

@@ -8,9 +8,9 @@ import java.util.List;
 
 import edu.byu.stringcheese.presenttime.BitmapUtils;
 import edu.byu.stringcheese.presenttime.R;
-import edu.byu.stringcheese.presenttime.recyclerviewresources.AbstractDashboardItem;
-import edu.byu.stringcheese.presenttime.recyclerviewresources.DashBoardItem;
-import edu.byu.stringcheese.presenttime.recyclerviewresources.DashboardHeader;
+import edu.byu.stringcheese.presenttime.main.dashboard.recyclerviewresources.AbstractDashboardItem;
+import edu.byu.stringcheese.presenttime.main.dashboard.recyclerviewresources.DashBoardItem;
+import edu.byu.stringcheese.presenttime.main.dashboard.recyclerviewresources.DashboardHeader;
 
 /**
  * Created by dtaylor on 3/22/2016.
