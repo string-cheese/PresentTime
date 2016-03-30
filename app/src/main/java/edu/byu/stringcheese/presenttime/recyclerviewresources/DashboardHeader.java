@@ -33,9 +33,9 @@ public class DashboardHeader extends AbstractDashboardItem {
     }
 
     @Override
-    public int getPhotoId() {
+    public String getEncodedImage() {
         Log.e(TAG, "Bad request of AbstractDashboardItem made!");
-        return 0;
+        return "";
     }
 
     @Override

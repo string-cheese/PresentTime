@@ -141,7 +141,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
             {
                 eventViewHolder.eventName.setText(eventsShown.get(i).getName());
                 eventViewHolder.eventDate.setText(eventsShown.get(i).dateAsString());
-                eventViewHolder.eventPhoto.setImageResource(eventsShown.get(i).getPhotoId());
+                eventViewHolder.eventPhoto.setImageBitmap(BitmapUtils.decodeStringToBitmap(eventsShown.get(i).getEncodedImage()));
                 eventViewHolder.currentItem = i;
                 eventViewHolder.eventOwnerId = String.valueOf(eventsShown.get(i).getProfileId());
                 eventViewHolder.eventId = String.valueOf(eventsShown.get(i).getId());

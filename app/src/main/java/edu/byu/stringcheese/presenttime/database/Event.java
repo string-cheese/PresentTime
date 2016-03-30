@@ -4,7 +4,6 @@ import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import edu.byu.stringcheese.presenttime.Utils;
 
@@ -12,7 +11,7 @@ public class Event implements Comparable<Event>{
     private ArrayList<Item> items = new ArrayList<>();
     private String name;
     private Calendar date;
-    private int photoId;
+    private String encodedImage;
     private String location;
     private int profileId;
     private int id;
@@ -22,10 +21,10 @@ public class Event implements Comparable<Event>{
 
     }
 
-    public Event(String name, String date, int photoId, String location, int profileId, int id) {
+    public Event(String name, String date, String encodedImage, String location, int profileId, int id) {
         this.name = name;
         this.date = Utils.parseDate(date);
-        this.photoId = photoId;
+        this.encodedImage = encodedImage;
         this.location = location;
         this.items = new ArrayList<>();
         this.profileId = profileId;
@@ -57,8 +56,8 @@ public class Event implements Comparable<Event>{
         return Utils.stringifyDate(date);
     }
 
-    public int getPhotoId() {
-        return photoId;
+    public String getEncodedImage() {
+        return encodedImage;
     }
 
     public String getLocation() {
@@ -90,10 +89,10 @@ public class Event implements Comparable<Event>{
         db.setValue(date);
     }
 
-    public void updatePhotoId(int photoId) {
-        this.photoId = photoId;
-        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(id)).child("photoId");
-        db.setValue(photoId);
+    public void updatePhotoId(String encodedImage) {
+        this.encodedImage = encodedImage;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(id)).child("encodedImage");
+        db.setValue(encodedImage);
     }
 
     public void updateLocation(String location) {

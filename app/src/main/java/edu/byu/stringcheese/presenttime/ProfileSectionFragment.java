@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import edu.byu.stringcheese.presenttime.R;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.Profile;
 
@@ -36,6 +36,7 @@ public class ProfileSectionFragment extends android.support.v4.app.Fragment {
         TextView favorite_store_text = (TextView) view.findViewById(R.id.profile_favorite_store);
         TextView favorite_hobbies_text = (TextView) view.findViewById(R.id.profile_hobbies);
         TextView favorite_restaurant_text = (TextView) view.findViewById(R.id.profile_restaurant);
+        ImageView profile_image_view = (ImageView) view.findViewById(R.id.profile_image);
 
         String profileId = getArguments().getString("profileId");
         profile = DBAccess.getProfile(profileId);
@@ -48,5 +49,6 @@ public class ProfileSectionFragment extends android.support.v4.app.Fragment {
         favorite_store_text.setText(profile.getFavoriteStore());
         favorite_hobbies_text.setText(profile.getHobbies());
         favorite_restaurant_text.setText(profile.getFavoriteRestaurant());
+        profile_image_view.setImageBitmap(BitmapUtils.decodeStringToBitmap(profile.getEncodedProfileImage()));
     }
 }

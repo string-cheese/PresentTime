@@ -1,6 +1,7 @@
 package edu.byu.stringcheese.presenttime;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -67,7 +68,7 @@ public class LoginActivity extends FragmentActivity implements
         setContentView(R.layout.activity_login);
         //Firebase setup
         FirebaseDatabase.addObserver(this);
-        FirebaseDatabase.initializeFirebase(this);
+        FirebaseDatabase.initializeFirebase(this,getResources());
         debug_login = (Button) findViewById(R.id.debug_login_button);
         facebook_login_button = (LoginButton) findViewById(R.id.facebook_login_button);
         google_login_button = (SignInButton) findViewById(R.id.google_login_button);
@@ -175,35 +176,47 @@ public class LoginActivity extends FragmentActivity implements
             Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
                 @Override
                 public void onResult(@NonNull People.LoadPeopleResult loadPeopleResult) {
-                    Person person = loadPeopleResult.getPersonBuffer().get(0);
+                    PersonBuffer buffer = loadPeopleResult.getPersonBuffer();
+                    final Person person = buffer.get(0);
+                    buffer.release();
 
                     Profile myProfile = DBAccess.getProfileByEmail(acct.getEmail());
                     if (myProfile == null) {
-                        DBAccess.addProfile(acct.getDisplayName(), acct.getEmail(), person.getId(), "", "", person.getBirthday(), "", "", "");
-                        //Get Friends Info
-                        Plus.PeopleApi.loadVisible(mGoogleApiClient, null).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+                        new AsyncTask<Void, Void, String>() {
                             @Override
-                            public void onResult(People.LoadPeopleResult loadPeopleResult) {
-                                if (loadPeopleResult.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
-                                    PersonBuffer personBuffer = loadPeopleResult.getPersonBuffer();
-                                    try {
-                                        int count = personBuffer.getCount();
-                                        for (int i = 0; i < count; i++) {
-                                            DBAccess.getProfileByEmail(acct.getEmail()).addFriendByGoogleId(personBuffer.get(i).getId());
+                            protected String doInBackground(Void... params) {
+                                return BitmapUtils.decodeImageFromWebToString(acct.getPhotoUrl(),512,512);
+                            }
+
+                            @Override
+                            protected void onPostExecute(String encodedImage) {
+                                DBAccess.addProfile(acct.getDisplayName(), acct.getEmail(), person.getId(), "", "", person.getBirthday(), "", "", "", encodedImage);
+                                //Get Friends Info
+                                Plus.PeopleApi.loadVisible(mGoogleApiClient, null).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+                                    @Override
+                                    public void onResult(People.LoadPeopleResult loadPeopleResult) {
+                                        if (loadPeopleResult.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
+                                            PersonBuffer personBuffer = loadPeopleResult.getPersonBuffer();
+                                            try {
+                                                int count = personBuffer.getCount();
+                                                for (int i = 0; i < count; i++) {
+                                                    DBAccess.getProfileByEmail(acct.getEmail()).addFriendByGoogleId(personBuffer.get(i).getId());
                                             /*Log.i("person", "Person " + i + " name: " + personBuffer.get(i).getDisplayName() + " - id: " + personBuffer.get(i).getId());
                                             Log.i("birthday", personBuffer.get(i).getBirthday() + "" + "  hasBday" + personBuffer.get(i).hasBirthday());*/
+                                                }
+                                            } finally {
+                                                personBuffer.release();
+                                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                intent.putExtra("profileId", String.valueOf(DBAccess.getProfileByEmail(acct.getEmail()).getId()));
+                                                startActivity(intent);
+                                            }
+                                        } else {
+                                            Log.i("error", "Error");
                                         }
-                                    } finally {
-
-                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                        intent.putExtra("profileId", String.valueOf(DBAccess.getProfileByEmail(acct.getEmail()).getId()));
-                                        startActivity(intent);
                                     }
-                                } else {
-                                    Log.i("error", "Error");
-                                }
+                                });
                             }
-                        });
+                        }.execute();
                     }
                     else
                     {

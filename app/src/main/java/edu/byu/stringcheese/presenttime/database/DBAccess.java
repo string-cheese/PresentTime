@@ -1,9 +1,12 @@
 package edu.byu.stringcheese.presenttime.database;
 
+import android.content.res.Resources;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.byu.stringcheese.presenttime.BitmapUtils;
 import edu.byu.stringcheese.presenttime.R;
 import edu.byu.stringcheese.presenttime.recyclerviewresources.AbstractDashboardItem;
 import edu.byu.stringcheese.presenttime.recyclerviewresources.DashBoardItem;
@@ -62,8 +65,8 @@ public class DBAccess {
         return getProfile(Integer.parseInt(profileId));
     }
 
-    public static Profile addProfile(String name, String email, String googleId, String store, String hobbies, String birthday, String anniversary, String restaurant, String favoriteColor) {
-        return FirebaseDatabase.getInstance().addProfile(name, email, googleId, store, hobbies, birthday, anniversary, restaurant, favoriteColor);
+    public static Profile addProfile(String name, String email, String googleId, String store, String hobbies, String birthday, String anniversary, String restaurant, String favoriteColor, String encodedProfileImage) {
+        return FirebaseDatabase.getInstance().addProfile(name, email, googleId, store, hobbies, birthday, anniversary, restaurant, favoriteColor, encodedProfileImage);
     }
 
     public static ArrayList<Event> getEvents(int profileId) {
@@ -114,41 +117,41 @@ public class DBAccess {
         return null;
     }
 
-    public static void fakeData()
+    public static void fakeData(Resources resources)
     {
-        Profile profile = DBAccess.addProfile("Justin", "justin@cool.com", "googleId", "Cotton On", "Singing, Longboarding, Hacking", "June 7th", "August 12th", "Station 22", "Navy Blue");
+        Profile profile = DBAccess.addProfile("Justin", "justin@cool.com", "googleId", "Cotton On", "Singing, Longboarding, Hacking", "June 7th", "August 12th", "Station 22", "Navy Blue", BitmapUtils.encodeResourceToString(resources,R.drawable.justin_profile, 512, 512));
 
-        Event event = profile.addEvent("Justin's Wedding", "June 15th, 2016", R.drawable.wedding, "SLC Temple");
+        Event event = profile.addEvent("Justin's Wedding", "June 15th, 2016", BitmapUtils.encodeResourceToString(resources,R.drawable.wedding, 512, 512), "SLC Temple");
         event.addItem("F150",100000,"Ford",R.drawable.f150, false);
         event.addItem("Apple Watch",400,"Apple",R.drawable.applewatch, false);
         event.addItem("KitchenAid Mixer",230,"Kohls",R.drawable.kitchenaid, false);
 
 
-        Profile profile2 = DBAccess.addProfile("Amanda","amanda@cool.com", "googleId", "J. Crew", "Design, Hiking, Music, Videography, Travel", "June 7th", "NA", "Station 22", "Teal");
+        Profile profile2 = DBAccess.addProfile("Amanda","amanda@cool.com", "googleId", "J. Crew", "Design, Hiking, Music, Videography, Travel", "June 7th", "NA", "Station 22", "Teal", BitmapUtils.encodeResourceToString(resources,R.drawable.justin_profile, 512, 512));
 
-        Event eventa = profile2.addEvent("Amanda's Graduation", "August 11th, 2016", R.drawable.graduation, "BYU Wilkinson Ballroom");
+        Event eventa = profile2.addEvent("Amanda's Graduation", "August 11th, 2016", BitmapUtils.encodeResourceToString(resources,R.drawable.graduation, 512, 512), "BYU Wilkinson Ballroom");
         eventa.addItem("MacBook Pro",2500,"Apple",R.drawable.macbook, false);
         eventa.addItem("Arvo Watch",90,"ArvoWear",R.drawable.arvo, false);
         eventa.addItem("Phantom 4 Drone",1999,"Scheels",R.drawable.drone, false);
 
-        Event event2a = profile2.addEvent("Amanda's '22' Birthday", "June 7th, 2016", R.drawable.balloon, "Belmont Condos");
+        Event event2a = profile2.addEvent("Amanda's '22' Birthday", "June 7th, 2016", BitmapUtils.encodeResourceToString(resources,R.drawable.balloon, 512, 512), "Belmont Condos");
         event2a.addItem("Phantom 4", 1999, "Scheels", R.drawable.drone, false);
         event2a.addItem("G Series",119000,"Mercedese Benz",R.drawable.mercedes, false);
         event2a.addItem("MacBook Pro",2500,"Apple",R.drawable.macbook, false);
 
-        Event event3a = profile2.addEvent("Amanda's Christmas", "December 25th, 2016", R.drawable.christmas, "Draper, UT");
+        Event event3a = profile2.addEvent("Amanda's Christmas", "December 25th, 2016", BitmapUtils.encodeResourceToString(resources,R.drawable.christmas, 512, 512), "Draper, UT");
         event3a.addItem("Apple Watch", 0, "Apple", R.drawable.applewatch, false);
         event3a.addItem("Puppy",600,"Humane Society of Utah",R.drawable.puppy, false);
         event3a.addItem("iPhone 6s",0,"Apple",R.drawable.iphone, false);
 
-        Profile profile3 = DBAccess.addProfile("Sam","sam@cool.com", "googleId", "Amazon", "Business Startups", "December 17th", "NA", "Bam Bam's BBQ", "Army Green");
+        Profile profile3 = DBAccess.addProfile("Sam","sam@cool.com", "googleId", "Amazon", "Business Startups", "December 17th", "NA", "Bam Bam's BBQ", "Army Green", BitmapUtils.encodeResourceToString(resources,R.drawable.justin_profile, 512, 512));
 
-        Event eventb = profile3.addEvent("Sam's '25' Birthday", "December 17th, 2016", R.drawable.balloon, "Buffalo Wild Wings");
+        Event eventb = profile3.addEvent("Sam's '25' Birthday", "December 17th, 2016", BitmapUtils.encodeResourceToString(resources,R.drawable.balloon, 512, 512), "Buffalo Wild Wings");
         eventb.addItem("F150",100000,"Ford",R.drawable.f150, false);
         eventb.addItem("iPhone 6s Plus", 900, "Apple", R.drawable.iphone, false);
         eventb.addItem("MacBook Pro",2500,"Apple",R.drawable.macbook, false);
 
-        Event event2b = profile3.addEvent("Sam's Wedding", "October 7th, 2016", R.drawable.wedding, "SLC Temple");
+        Event event2b = profile3.addEvent("Sam's Wedding", "October 7th, 2016", BitmapUtils.encodeResourceToString(resources,R.drawable.wedding, 512, 512), "SLC Temple");
         event2b.addItem("Puppy", 600, "Humane Society of Utah", R.drawable.puppy, false);
         event2b.addItem("Phantom 4 Drone",2000,"Scheels",R.drawable.drone, false);
         event2b.addItem("KitchenAid Mixer", 230, "Kohls", R.drawable.kitchenaid, false);

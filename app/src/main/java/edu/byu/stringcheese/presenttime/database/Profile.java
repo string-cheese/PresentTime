@@ -3,7 +3,6 @@ package edu.byu.stringcheese.presenttime.database;
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Profile
 {
@@ -19,13 +18,14 @@ public class Profile
     private String favoriteRestaurant;
     private String favoriteColor;
     private String googleId;
+    private String encodedProfileImage;
 
     public Profile()
     {
 
     }
 
-    public Profile(int id, String name, String email, String googleId, String favoriteStore, String hobbies, String birthDate, String anniversaryDate, String favoriteRestaurant, String favoriteColor) {
+    public Profile(int id, String name, String email, String googleId, String favoriteStore, String hobbies, String birthDate, String anniversaryDate, String favoriteRestaurant, String favoriteColor, String encodedProfileImage) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -36,6 +36,11 @@ public class Profile
         this.favoriteRestaurant = favoriteRestaurant;
         this.favoriteColor = favoriteColor;
         this.googleId = googleId;
+        this.encodedProfileImage = encodedProfileImage;
+    }
+
+    public String getEncodedProfileImage() {
+        return encodedProfileImage;
     }
 
     public Profile addFriend(String email)
@@ -48,10 +53,10 @@ public class Profile
         return DBAccess.getProfileByEmail(email);
     }
 
-    public Event addEvent(String eventName, String eventDate, int photoID, String eventAddress) {
+    public Event addEvent(String eventName, String eventDate, String encodedImage, String eventAddress) {
         //add event
         Firebase events = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("events");
-        Event event = new Event(eventName,eventDate,photoID,eventAddress, id, this.events.size());
+        Event event = new Event(eventName,eventDate,encodedImage,eventAddress, id, this.events.size());
         this.events.add(event);
         events.setValue(this.events);
         return event;

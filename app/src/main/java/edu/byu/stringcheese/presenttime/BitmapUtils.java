@@ -13,8 +13,11 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.content.CursorLoader;
 import android.util.Base64;
+import android.util.Log;
 
 import com.firebase.client.Firebase;
+
+import org.apache.http.HttpStatus;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -22,6 +25,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 
 /**
@@ -88,6 +93,12 @@ public class BitmapUtils {
         image.compress(Bitmap.CompressFormat.PNG, 1, byteStream);
         byte[] byteArray = byteStream.toByteArray();
         String imageFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        image.recycle();
+        try {
+            byteStream.close();
+        } catch (IOException e) {
+            //already closed
+        }
         return imageFile;
     }
 
@@ -245,5 +256,48 @@ public class BitmapUtils {
         }
 
         return inSampleSize;
+    }
+
+    public static String encodeResourceToString(Resources resources, int res, int width, int height) {
+        return BitmapUtils.encodeBitmapToString(BitmapUtils.decodeSampledBitmapFromResource(resources,res, width, height));
+    }
+
+    public static Bitmap decodeSampledBitmapFromWebImage(Uri url, int width, int height)
+    {
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        HttpURLConnection urlConnection = null;
+        try {
+            URL uri = new URL(url.toString());
+            urlConnection = (HttpURLConnection) uri.openConnection();
+
+            int statusCode = urlConnection.getResponseCode();
+            if (statusCode != HttpStatus.SC_OK) {
+                return null;
+            }
+
+            InputStream inputStream = urlConnection.getInputStream();
+            if (inputStream != null) {
+
+                // Calculate inSampleSize
+                options.inSampleSize = calculateInSampleSize(options, width, height);
+
+                // Decode bitmap with inSampleSize set
+                options.inJustDecodeBounds = false;
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);
+                return bitmap;
+            }
+        }
+        catch(Exception e)
+        {
+            Log.e("BitmapUtils","Failed to download image",e);
+        }
+
+        return null;
+    }
+
+    public static String decodeImageFromWebToString(Uri photoUrl, int width, int height) {
+        return BitmapUtils.encodeBitmapToString(decodeSampledBitmapFromWebImage(photoUrl,width,height));
     }
 }

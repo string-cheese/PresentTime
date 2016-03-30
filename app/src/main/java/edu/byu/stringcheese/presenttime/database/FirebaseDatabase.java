@@ -5,6 +5,7 @@ package edu.byu.stringcheese.presenttime.database;
  */
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -41,11 +42,11 @@ public class FirebaseDatabase{
 
     }
 
-    public Profile addProfile(String name, String email, String googleId, String store, String hobbies, String birthday, String annviversary, String restaurant, String favoriteColor)
+    public Profile addProfile(String name, String email, String googleId, String store, String hobbies, String birthday, String annviversary, String restaurant, String favoriteColor, String encodedProfileImage)
     {
         //add item
         Firebase profiles = FirebaseDatabase.ref.child("profiles");
-        Profile profile = new Profile(DBAccess.getProfiles().size(), name, email, googleId, store, hobbies, birthday, annviversary, restaurant, favoriteColor);
+        Profile profile = new Profile(DBAccess.getProfiles().size(), name, email, googleId, store, hobbies, birthday, annviversary, restaurant, favoriteColor, encodedProfileImage);
         DBAccess.getProfiles().add(profile);
         profiles.setValue(DBAccess.getProfiles());
         return profile;
@@ -60,15 +61,15 @@ public class FirebaseDatabase{
     }
     public static Firebase ref;
     public static boolean makeFakeData = true;
-    public static String databaseName = "present-time-test";
+    public static String databaseName = "present-time-bitmap";
 
 
-    public static void initializeFirebase(Context context) {
+    public static void initializeFirebase(Context context, Resources resources) {
         Firebase.setAndroidContext(context);
         ref = new Firebase("https://crackling-fire-2441.firebaseio.com/"+FirebaseDatabase.databaseName);
         if(makeFakeData) {
             DBAccess.clear();
-            DBAccess.fakeData();
+            DBAccess.fakeData(resources);
         }
         ref.addValueEventListener(getValueEventListener());
         ref.getParent().addChildEventListener(getChildEventListener());

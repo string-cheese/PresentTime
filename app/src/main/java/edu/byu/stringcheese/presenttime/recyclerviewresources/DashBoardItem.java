@@ -39,8 +39,8 @@ public class DashBoardItem extends AbstractDashboardItem {
     }
 
     @Override
-    public int getPhotoId() {
-        return event.getPhotoId();
+    public String getEncodedImage() {
+        return event.getEncodedImage();
     }
 
     @Override

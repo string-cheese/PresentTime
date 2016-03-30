@@ -19,8 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import edu.byu.stringcheese.presenttime.database.Profile;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
+import edu.byu.stringcheese.presenttime.database.Profile;
 
 public class AddEventActivity extends Activity implements View.OnClickListener {
 
@@ -165,7 +165,7 @@ public class AddEventActivity extends Activity implements View.OnClickListener {
         if (eventType.equals("Christmas"))
             eventImageId = R.mipmap.gifts;
 
-        profile.addEvent(eventName, eventDate, eventImageId, eventAddress);
+        profile.addEvent(eventName, eventDate, BitmapUtils.encodeResourceToString(getResources(),eventImageId,512,512), eventAddress);
         //SlidingTabsBasicFragment.mViewPager.setCurrentItem(1);
         finish();
     }
