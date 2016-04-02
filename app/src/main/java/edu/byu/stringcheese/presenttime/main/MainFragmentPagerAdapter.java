@@ -21,11 +21,25 @@ import edu.byu.stringcheese.presenttime.main.friends.FriendsSectionFragment;
 class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private static final int NUM_PAGES = 4;
+    private final DashboardSectionFragment dashboardSectionFragment;
+    private final EventsSectionFragment eventsSectionFragment;
+    private final FriendsSectionFragment friendsSectionFragment;
+    private final ProfileSectionFragment profileSectionFragment;
     private Context context;
 
     public MainFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
+        Bundle bundle = new Bundle();
+        bundle.putString("profileId",String.valueOf(((MainActivity)context).getIntent().getStringExtra("profileId")));
+        dashboardSectionFragment = new DashboardSectionFragment();
+        dashboardSectionFragment.setArguments(bundle);
+        eventsSectionFragment = new EventsSectionFragment();
+        eventsSectionFragment.setArguments(bundle);
+        friendsSectionFragment = new FriendsSectionFragment();
+        friendsSectionFragment.setArguments(bundle);
+        profileSectionFragment = new ProfileSectionFragment();
+        profileSectionFragment.setArguments(bundle);
     }
 
     /**
@@ -40,28 +54,21 @@ class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         Fragment fragment;
-        Bundle bundle = new Bundle();
-        bundle.putString("profileId",String.valueOf(((MainActivity)context).getIntent().getStringExtra("profileId")));
         switch (position) {
             case 0:
-                fragment = new DashboardSectionFragment();
-                fragment.setArguments(bundle);
+                fragment = dashboardSectionFragment;
                 break;
             case 1:
-                fragment = new EventsSectionFragment();
-                fragment.setArguments(bundle);
+                fragment = eventsSectionFragment;
                 break;
             case 2:
-                fragment = new FriendsSectionFragment();
-                fragment.setArguments(bundle);
+                fragment = friendsSectionFragment;
                 break;
             case 3:
-                fragment = new ProfileSectionFragment();
-                fragment.setArguments(bundle);
+                fragment = profileSectionFragment;
                 break;
             default:
-                fragment = new DashboardSectionFragment();
-                fragment.setArguments(bundle);
+                fragment = dashboardSectionFragment;
                 break;
         }
         return fragment;
@@ -97,4 +104,5 @@ class MainFragmentPagerAdapter extends FragmentPagerAdapter {
                 return context.getString(R.string.title_section1).toUpperCase(l);
         }
     }
+
 }

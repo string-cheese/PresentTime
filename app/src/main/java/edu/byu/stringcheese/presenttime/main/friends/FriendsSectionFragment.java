@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -38,45 +37,34 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        FrameLayout layout = new FrameLayout(getActivity(),null);
-        final View overlay = inflater.inflate(R.layout.fragment_friends_helper, container, false);
-        layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((FrameLayout) v).removeView(overlay);
-                View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
-                ((FrameLayout) v).addView(rootView);
-                recyclerView = (RecyclerView) v.findViewById(R.id.friends_rv);
-                Context context = recyclerView.getContext();
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                if(getArguments()!=null && getArguments().getString("profileId") != null)
-                {
-                    profile = DBAccess.getProfile(getArguments().getString("profileId"));
-                    List<Profile> friends = DBAccess.getFriends(profile);
-                    recyclerView.setAdapter(new FriendsListViewAdapter(friends));
-                    FloatingActionButton addFriendButton = (FloatingActionButton) v.findViewById(R.id.add_friend_fab);
-                    addFriendButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(),AddFriendActivity.class);
-                            intent.putExtra("profileId", String.valueOf(profile.getId()));
-                            startActivity(intent);
-                        }
-                    });
-                }
-            }
-        });
-        layout.addView(overlay);
-        return layout;
+        View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
+        return rootView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        recyclerView = (RecyclerView) view.findViewById(R.id.friends_rv);
+        Context context = recyclerView.getContext();
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        if(getArguments()!=null && getArguments().getString("profileId") != null)
+        {
+            profile = DBAccess.getProfile(getArguments().getString("profileId"));
+            List<Profile> friends = DBAccess.getFriends(profile);
+            recyclerView.setAdapter(new FriendsListViewAdapter(friends));
+            FloatingActionButton addFriendButton = (FloatingActionButton) view.findViewById(R.id.add_friend_fab);
+            addFriendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), AddFriendActivity.class);
+                    intent.putExtra("profileId", String.valueOf(profile.getId()));
+                    startActivity(intent);
+                }
+            });
+        }
 
     }
 
@@ -94,6 +82,11 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
 
         public FriendsListViewAdapter(List<Profile> profiles) {
             shownProfiles = profiles;
+        }
+
+        @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+            super.onAttachedToRecyclerView(recyclerView);
         }
 
         @Override
