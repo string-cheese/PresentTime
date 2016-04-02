@@ -132,4 +132,6 @@
     <string name="search_title">Item Search</string>
     <string name="title_activity_search_result">SearchResultActivity</string>
     <string name="title_activity_fragment_holder">FragmentHolderActivity</string>
+    <string name="click_friend"><![CDATA[Click here to see friend\'s events\n\t\t\t\t\t\t--> <--]]></string>
+    <string name="click_friend_profile"><![CDATA[<--Click there to see friend\'s profile]]></string>
 </resources>
