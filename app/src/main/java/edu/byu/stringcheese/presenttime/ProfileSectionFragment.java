@@ -17,6 +17,11 @@ import edu.byu.stringcheese.presenttime.database.Profile;
 public class ProfileSectionFragment extends android.support.v4.app.Fragment {
     private Profile profile;
 
+    public ProfileSectionFragment()
+    {
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

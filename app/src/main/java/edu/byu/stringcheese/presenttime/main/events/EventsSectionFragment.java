@@ -34,6 +34,11 @@ public class EventsSectionFragment extends Fragment implements Observer {
 
     private Profile profile;
 
+    public EventsSectionFragment()
+    {
+
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

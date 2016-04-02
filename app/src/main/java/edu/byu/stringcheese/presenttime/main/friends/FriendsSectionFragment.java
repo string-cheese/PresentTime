@@ -17,11 +17,11 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.byu.stringcheese.presenttime.BitmapUtils;
+import edu.byu.stringcheese.presenttime.FragmentHolderActivity;
 import edu.byu.stringcheese.presenttime.R;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Profile;
-import edu.byu.stringcheese.presenttime.main.friends.info.FriendInfoActivity;
 
 /**
  * Created by dtaylor on 3/20/2016.
@@ -124,14 +124,25 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
                 mView = view;
                 friendName = (TextView) view.findViewById(R.id.friend_name);
                 friendImage = (CircularImageView) view.findViewById(R.id.friend_image_circle);
+                friendImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(getActivity(), FragmentHolderActivity.class);
+                        intent.putExtra("eventOwnerId", String.valueOf(eventOwnerId));
+                        intent.putExtra("profileId", getArguments().getString("profileId"));
+                        intent.putExtra("class","profile");
+                        getActivity().startActivity(intent);
+                    }
+                });
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), FriendInfoActivity.class);
+                        Intent intent = new Intent(getActivity(), FragmentHolderActivity.class);
                         intent.putExtra("eventOwnerId", String.valueOf(eventOwnerId));
                         intent.putExtra("profileId", getArguments().getString("profileId"));
-
-                        startActivity(intent);
+                        intent.putExtra("class","events");
+                        getActivity().startActivity(intent);
                     }
                 });
             }

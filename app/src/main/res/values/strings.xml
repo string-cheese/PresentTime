@@ -131,4 +131,5 @@
     <string name="search_hint">item name</string>
     <string name="search_title">Item Search</string>
     <string name="title_activity_search_result">SearchResultActivity</string>
+    <string name="title_activity_fragment_holder">FragmentHolderActivity</string>
 </resources>
