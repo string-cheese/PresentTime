@@ -97,7 +97,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         public void onBindViewHolder(final FriendViewHolder holder, int position) {
             holder.currentItem = position;
             holder.eventOwnerId = String.valueOf(shownProfiles.get(position).getId());
-            holder.friendName.setText(shownProfiles.get(position).getName());
+            holder.friendName.setText(shownProfiles.get(position).getName()+"'s Events");
             holder.friendImage.setImageBitmap(BitmapUtils.decodeStringToBitmap(shownProfiles.get(position).getEncodedProfileImage()));
         }
 
