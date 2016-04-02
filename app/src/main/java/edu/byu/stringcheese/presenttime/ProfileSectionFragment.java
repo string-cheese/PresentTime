@@ -39,8 +39,21 @@ public class ProfileSectionFragment extends android.support.v4.app.Fragment {
         TextView favorite_restaurant_text = (TextView) view.findViewById(R.id.profile_restaurant);
         final ImageView profile_image_view = (ImageView) view.findViewById(R.id.profile_image);
 
-        String profileId = getArguments().getString("profileId");
-        profile = DBAccess.getProfile(profileId);
+        if(getArguments().containsKey("profileId") && getArguments().containsKey("eventOwnerId"))
+        {
+            FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.profile_photo_fab);
+            fab.setVisibility(View.INVISIBLE);
+            String profileId = getArguments().getString("eventOwnerId");
+            profile = DBAccess.getProfile(profileId);
+
+        }
+        else if(getArguments().containsKey("profileId"))
+        {
+            FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.profile_photo_fab);
+            fab.setVisibility(View.VISIBLE);
+            String profileId = getArguments().getString("profileId");
+            profile = DBAccess.getProfile(profileId);
+        }
 
         name_text.setText(profile.getName());
         email_text.setText(profile.getEmail());
