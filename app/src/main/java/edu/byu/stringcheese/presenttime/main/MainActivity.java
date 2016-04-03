@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     private Profile myProfile;
+    private boolean firstTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onPageScrollStateChanged(int state) {
-                        if (state == ViewPager.SCROLL_STATE_IDLE && viewPager.getCurrentItem() == 2) {
+                        if (state == ViewPager.SCROLL_STATE_IDLE && viewPager.getCurrentItem() == 2 && firstTime) {
 
                             final RecyclerView recyclerView = (RecyclerView) ((MainFragmentPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem()).getView().findViewById(R.id.friends_rv);
-                            new ShowcaseView.Builder(MainActivity.this)
+                            ShowcaseView showcase = new ShowcaseView.Builder(MainActivity.this)
                                     .withMaterialShowcase()
                                     .setStyle(R.style.CustomShowcaseTheme2)
                                     .setTarget(new RecyclerViewTarget(recyclerView, R.id.friend_image_circle))
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                                                     .setContentText("Click here to view your friend's events")
                                                     .hideOnTouchOutside()
                                                     .build();
+                                            view.hideButton();
                                             view.show();
                                         }
 
@@ -106,7 +108,9 @@ public class MainActivity extends AppCompatActivity {
                                         public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
 
                                         }
-                                    }).build().show();
+                                    }).build();
+                            showcase.hideButton();
+                            showcase.show();
                         }
                     }
                 });
