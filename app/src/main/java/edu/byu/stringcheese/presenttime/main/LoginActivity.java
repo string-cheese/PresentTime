@@ -209,7 +209,7 @@ public class LoginActivity extends FragmentActivity implements
                                             } finally {
                                                 personBuffer.release();
                                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                                intent.putExtra("profileId", String.valueOf(DBAccess.getProfileByEmail(acct.getEmail()).getId()));
+                                                intent.putExtra("clientProfileId", String.valueOf(DBAccess.getProfileByEmail(acct.getEmail()).getId()));
                                                 startActivity(intent);
                                             }
                                         } else {
@@ -223,7 +223,7 @@ public class LoginActivity extends FragmentActivity implements
                     else
                     {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.putExtra("profileId", String.valueOf(DBAccess.getProfileByEmail(acct.getEmail()).getId()));
+                        intent.putExtra("clientProfileId", String.valueOf(DBAccess.getProfileByEmail(acct.getEmail()).getId()));
                         startActivity(intent);
                     }
                 }
@@ -254,7 +254,7 @@ public class LoginActivity extends FragmentActivity implements
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     Profile profile = DBAccess.getProfileByEmail("justin@cool.com");
                     if(profile != null) {
-                        intent.putExtra("profileId", String.valueOf(profile.getId()));
+                        intent.putExtra("clientProfileId", String.valueOf(profile.getId()));
                         startActivity(intent);
                     }
                     else

@@ -50,9 +50,9 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         recyclerView = (RecyclerView) view.findViewById(R.id.friends_rv);
         Context context = recyclerView.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        if(getArguments()!=null && getArguments().getString("profileId") != null)
+        if(getArguments()!=null && getArguments().getString("clientProfileId") != null)
         {
-            profile = DBAccess.getProfile(getArguments().getString("profileId"));
+            profile = DBAccess.getProfile(getArguments().getString("clientProfileId"));
             List<Profile> friends = DBAccess.getFriends(profile);
             recyclerView.setAdapter(new FriendsListViewAdapter(friends));
             FloatingActionButton addFriendButton = (FloatingActionButton) view.findViewById(R.id.add_friend_fab);
@@ -60,7 +60,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), AddFriendActivity.class);
-                    intent.putExtra("profileId", String.valueOf(profile.getId()));
+                    intent.putExtra("clientProfileId", String.valueOf(profile.getId()));
                     startActivity(intent);
                 }
             });
@@ -135,7 +135,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
 
                         Intent intent = new Intent(getActivity(), FragmentHolderActivity.class);
                         intent.putExtra("eventOwnerId", String.valueOf(eventOwnerId));
-                        intent.putExtra("profileId", getArguments().getString("profileId"));
+                        intent.putExtra("clientProfileId", getArguments().getString("clientProfileId"));
                         intent.putExtra("class","profile");
                         getActivity().startActivity(intent);
                     }
@@ -145,7 +145,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), FragmentHolderActivity.class);
                         intent.putExtra("eventOwnerId", String.valueOf(eventOwnerId));
-                        intent.putExtra("profileId", getArguments().getString("profileId"));
+                        intent.putExtra("clientProfileId", getArguments().getString("clientProfileId"));
                         intent.putExtra("class","events");
                         getActivity().startActivity(intent);
                     }

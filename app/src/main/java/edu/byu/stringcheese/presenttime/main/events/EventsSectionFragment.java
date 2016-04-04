@@ -55,10 +55,10 @@ public class EventsSectionFragment extends Fragment implements Observer {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(getArguments() != null && getArguments().containsKey("profileId"))
+        if(getArguments() != null && getArguments().containsKey("clientProfileId"))
         {
             if (getArguments().containsKey("eventOwnerId") &&
-                    !getArguments().getString("eventOwnerId").equals(getArguments().getString("profileId")))
+                    !getArguments().getString("eventOwnerId").equals(getArguments().getString("clientProfileId")))
             {
                 initializeFriendViews(view);
             } else
@@ -89,15 +89,15 @@ public class EventsSectionFragment extends Fragment implements Observer {
     }
 
     private void initializeOwnerViews(View view) {
-        profile = DBAccess.getProfile(Integer.parseInt(getArguments().getString("profileId")));
-        getArguments().putString("eventOwnerId", getArguments().getString("profileId"));
+        profile = DBAccess.getProfile(Integer.parseInt(getArguments().getString("clientProfileId")));
+        getArguments().putString("eventOwnerId", getArguments().getString("clientProfileId"));
 
         FloatingActionButton addEventFAB = (FloatingActionButton) view.findViewById(R.id.add_event_fab);
         addEventFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AddEventActivity.class);
-                intent.putExtra("profileId", String.valueOf(profile.getId()));
+                intent.putExtra("clientProfileId", String.valueOf(profile.getId()));
                 getActivity().startActivity(intent);
             }
         });
@@ -184,7 +184,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), EventInfoActivity.class);
                         intent.putExtra("eventId", String.valueOf(eventId));
-                        intent.putExtra("profileId", getArguments().getString("profileId"));
+                        intent.putExtra("clientProfileId", getArguments().getString("clientProfileId"));
                         intent.putExtra("eventOwnerId", String.valueOf(eventOwnerId));
                         getActivity().startActivity(intent);
                     }

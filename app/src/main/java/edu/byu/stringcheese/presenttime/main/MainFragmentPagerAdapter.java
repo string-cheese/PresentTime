@@ -31,7 +31,7 @@ class MainFragmentPagerAdapter extends FragmentPagerAdapter {
         super(fm);
         this.context = context;
         Bundle bundle = new Bundle();
-        bundle.putString("profileId",String.valueOf(((MainActivity)context).getIntent().getStringExtra("profileId")));
+        bundle.putString("clientProfileId",String.valueOf(((MainActivity)context).getIntent().getStringExtra("clientProfileId")));
         dashboardSectionFragment = new DashboardSectionFragment();
         dashboardSectionFragment.setArguments(bundle);
         eventsSectionFragment = new EventsSectionFragment();

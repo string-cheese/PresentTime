@@ -40,9 +40,9 @@ public class AddEventActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
-        if(getIntent().getStringExtra("profileId") != null)
+        if(getIntent().getStringExtra("clientProfileId") != null)
         {
-            profile = DBAccess.getProfile(Integer.parseInt(getIntent().getStringExtra("profileId")));
+            profile = DBAccess.getProfile(Integer.parseInt(getIntent().getStringExtra("clientProfileId")));
         }
         else
         {

@@ -153,7 +153,7 @@ public class ItemSearchActivity extends AppCompatActivity {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String profileId = getIntent().getStringExtra("profileId");
+                        String profileId = getIntent().getStringExtra("clientProfileId");
                         String eventId = getIntent().getStringExtra("eventId");
                         DBAccess.getEvent(profileId, eventId).addItem(itemName.getText().toString(), Double.parseDouble(itemCost.getText().toString()), itemStore.getText().toString(), BitmapUtils.encodeResourceToString(getResources(),R.mipmap.bike,512,512), false);
                         finish();

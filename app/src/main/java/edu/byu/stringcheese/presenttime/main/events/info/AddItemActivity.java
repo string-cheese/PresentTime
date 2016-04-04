@@ -29,7 +29,7 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
         if(getIntent().getStringExtra("eventId") != null)
         {
-            String profileId = getIntent().getStringExtra("profileId");
+            String profileId = getIntent().getStringExtra("clientProfileId");
             String eventId = getIntent().getStringExtra("eventId");
             event = DBAccess.getEvent(profileId, eventId);
         }

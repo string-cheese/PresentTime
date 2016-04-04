@@ -44,7 +44,7 @@ public class ProfileSectionFragment extends android.support.v4.app.Fragment {
         TextView favorite_restaurant_text = (TextView) view.findViewById(R.id.profile_restaurant);
         final ImageView profile_image_view = (ImageView) view.findViewById(R.id.profile_image);
 
-        if(getArguments().containsKey("profileId") && getArguments().containsKey("eventOwnerId"))
+        if(getArguments().containsKey("clientProfileId") && getArguments().containsKey("eventOwnerId"))
         {
             FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.profile_photo_fab);
             fab.setVisibility(View.INVISIBLE);
@@ -52,11 +52,11 @@ public class ProfileSectionFragment extends android.support.v4.app.Fragment {
             profile = DBAccess.getProfile(profileId);
 
         }
-        else if(getArguments().containsKey("profileId"))
+        else if(getArguments().containsKey("clientProfileId"))
         {
             FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.profile_photo_fab);
             fab.setVisibility(View.VISIBLE);
-            String profileId = getArguments().getString("profileId");
+            String profileId = getArguments().getString("clientProfileId");
             profile = DBAccess.getProfile(profileId);
         }
 

@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_main);
-        if (getIntent().getStringExtra("profileId") != null) {
-            String id = getIntent().getStringExtra("profileId");
+        if (getIntent().getStringExtra("clientProfileId") != null) {
+            String id = getIntent().getStringExtra("clientProfileId");
             myProfile = DBAccess.getProfile(id);
 
             if (savedInstanceState == null) {
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     public void addEvent(View view) {
         Log.d(TAG, "trying to add an item");
         Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
-        intent.putExtra("profileId", String.valueOf(myProfile.getId()));
+        intent.putExtra("clientProfileId", String.valueOf(myProfile.getId()));
         MainActivity.this.startActivity(intent);
         Log.d(TAG, "I started an activity");
         Log.d(TAG, intent.toString());

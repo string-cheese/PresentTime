@@ -52,9 +52,9 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment im
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(getArguments() != null && getArguments().containsKey("profileId"))
+        if(getArguments() != null && getArguments().containsKey("clientProfileId"))
         {
-            profile = DBAccess.getProfile(Integer.parseInt(getArguments().getString("profileId")));
+            profile = DBAccess.getProfile(Integer.parseInt(getArguments().getString("clientProfileId")));
             recyclerView = (RecyclerView) view.findViewById(R.id.dashboard_upcoming_rv);
 
             LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
@@ -182,7 +182,7 @@ public class DashboardSectionFragment extends android.support.v4.app.Fragment im
                         Intent intent = new Intent(getActivity(), EventInfoActivity.class);
                         intent.putExtra("eventId", String.valueOf(eventId));
                         intent.putExtra("eventOwnerId", String.valueOf(eventOwnerId));
-                        intent.putExtra("profileId", getArguments().getString("profileId"));
+                        intent.putExtra("clientProfileId", getArguments().getString("clientProfileId"));
                         getActivity().startActivity(intent);
                     }
                 });

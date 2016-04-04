@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import edu.byu.stringcheese.presenttime.BitmapUtils;
@@ -26,9 +27,12 @@ public class ItemInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_info);
-        if(getIntent().getStringExtra("itemId") != null && getIntent().getStringExtra("profileId") != null && getIntent().getStringExtra("eventId") != null)
+        if(getIntent().getStringExtra("itemId") != null && getIntent().getStringExtra("eventOwnerId") != null && getIntent().getStringExtra("eventId") != null)
         {
-            thisItem = DBAccess.getProfiles().get(Integer.parseInt(getIntent().getStringExtra("profileId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId"))).getItems().get(Integer.parseInt(getIntent().getStringExtra("itemId")));
+            thisItem = DBAccess.getProfiles().get(
+                    Integer.parseInt(getIntent().getStringExtra("eventOwnerId"))).getEvents().get(
+                    Integer.parseInt(getIntent().getStringExtra("eventId"))).getItems().get(
+                    Integer.parseInt(getIntent().getStringExtra("itemId")));
             TextView itemName = (TextView)findViewById(R.id.item_name);
             itemName.setText(thisItem.getName());
             TextView itemPrice = (TextView)findViewById(R.id.item_price);
@@ -39,7 +43,7 @@ public class ItemInfoActivity extends AppCompatActivity {
             itemImage.setImageBitmap(BitmapUtils.decodeStringToBitmap(thisItem.getEncodedImage()));
 
             if (getIntent().hasExtra("eventOwnerId") &&
-                    getIntent().getStringExtra("eventOwnerId").equals(getIntent().getStringExtra("profileId")))
+                    getIntent().getStringExtra("eventOwnerId").equals(getIntent().getStringExtra("clientProfileId")))
             {
                 initializeOwnerViews();
             } else
@@ -58,25 +62,18 @@ public class ItemInfoActivity extends AppCompatActivity {
                     }).show();
         }
 
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.item_info_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     private void initializeFriendViews() {
         //FLOATING ACTION BUTTON
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_photo_fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.item_info_fab);
         ((ViewGroup)fab.getParent()).removeView(fab);
 
-        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.add_item_fab);
-        ((ViewGroup)fab2.getParent()).removeView(fab2);
+        RelativeLayout purchasedStateLayout = (RelativeLayout) findViewById(R.id.purchased_state_layout);
+        ((ViewGroup)purchasedStateLayout.getParent()).removeView(purchasedStateLayout);
+
+        TextView editItemText = (TextView) findViewById(R.id.edit_item_text);
+        ((ViewGroup)editItemText.getParent()).removeView(editItemText);
 
         final Button buyItemButton = (Button) findViewById(R.id.buy_item_button);
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -97,6 +94,8 @@ public class ItemInfoActivity extends AppCompatActivity {
 
                     }
                 });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
     }

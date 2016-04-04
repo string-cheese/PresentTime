@@ -13,14 +13,14 @@ public class FragmentHolderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_holder);
         Bundle bundle = getIntent().getExtras();
-        if(bundle.containsKey("class") && bundle.containsKey("profileId") && bundle.containsKey("eventOwnerId"))
+        if(bundle.containsKey("class") && bundle.containsKey("clientProfileId") && bundle.containsKey("eventOwnerId"))
         {
             String myClass = bundle.getString("class");
             String eventOwnerId = bundle.getString("eventOwnerId");
-            String profileId = bundle.getString("profileId");
+            String profileId = bundle.getString("clientProfileId");
             Bundle args = new Bundle();
             args.putString("eventOwnerId", eventOwnerId);
-            args.putString("profileId", profileId);
+            args.putString("clientProfileId", profileId);
             FragmentTransaction t = getSupportFragmentManager().beginTransaction();
             if(myClass.equals("profile"))
             {

@@ -30,7 +30,7 @@ public class FriendInfoActivity extends AppCompatActivity {
         TextView favorite_restaurant_text = (TextView) findViewById(R.id.profile_restaurant);
         final ImageView profile_image_view = (ImageView) findViewById(R.id.profile_image);
 
-        if(getIntent().getExtras().containsKey("profileId") && getIntent().getExtras().containsKey("eventOwnerId"))
+        if(getIntent().getExtras().containsKey("clientProfileId") && getIntent().getExtras().containsKey("eventOwnerId"))
         {
             String profileId = getIntent().getStringExtra("eventOwnerId");
             profile = DBAccess.getProfile(profileId);
@@ -44,7 +44,7 @@ public class FriendInfoActivity extends AppCompatActivity {
             favorite_restaurant_text.setText(profile.getFavoriteRestaurant());
             profile_image_view.setImageBitmap(BitmapUtils.decodeStringToBitmap(profile.getEncodedProfileImage()));
             Bundle args = new Bundle();
-            args.putString("profileId", getIntent().getStringExtra("profileId"));
+            args.putString("clientProfileId", getIntent().getStringExtra("clientProfileId"));
             args.putString("eventOwnerId", getIntent().getStringExtra("eventOwnerId"));
 
             FragmentTransaction t = getSupportFragmentManager().beginTransaction();

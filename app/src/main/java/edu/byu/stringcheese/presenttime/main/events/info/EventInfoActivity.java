@@ -40,11 +40,11 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         FirebaseDatabase.addObserver(this);
         setContentView(R.layout.activity_event_info);
-        if(getIntent().getStringExtra("eventId") != null && getIntent().getStringExtra("profileId") != null)
+        if(getIntent().getStringExtra("eventId") != null && getIntent().getStringExtra("clientProfileId") != null)
         {
 
             if (getIntent().hasExtra("eventOwnerId") &&
-                    getIntent().getStringExtra("eventOwnerId").equals(getIntent().getStringExtra("profileId")))
+                    getIntent().getStringExtra("eventOwnerId").equals(getIntent().getStringExtra("clientProfileId")))
             {
                 initializeOwnerViews();
             } else
@@ -132,7 +132,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
             public void onClick(View v) {
                 Intent intent = new Intent(EventInfoActivity.this, ItemSearchActivity.class);
                 intent.putExtra("eventId", String.valueOf(event.getId()));
-                intent.putExtra("profileId", String.valueOf(event.getProfileId()));
+                intent.putExtra("clientProfileId", String.valueOf(event.getProfileId()));
                 startActivity(intent);
             }
         });
@@ -168,7 +168,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
             itemViewHolder.itemImage.setBackground(new BitmapDrawable(getResources(), BitmapUtils.decodeStringToBitmap(itemsShown.get(i).getEncodedImage())));
             itemViewHolder.currentItem = i;
             itemViewHolder.itemId = String.valueOf(itemsShown.get(i).getId());
-            itemViewHolder.profileId = String.valueOf(itemsShown.get(i).getProfileId());
+            itemViewHolder.eventOwnerId = String.valueOf(itemsShown.get(i).getProfileId());
             itemViewHolder.eventId = String.valueOf(itemsShown.get(i).getEventId());
         }
 
@@ -193,7 +193,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
             public int currentItem;
             public String itemId;
             public String eventId;
-            public String profileId;
+            public String eventOwnerId;
 
             ItemViewHolder(final View itemView) {
                 super(itemView);
@@ -203,8 +203,8 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
                         Intent intent = new Intent(EventInfoActivity.this, ItemInfoActivity.class);
                         intent.putExtra("itemId", String.valueOf(itemId));
                         intent.putExtra("eventId", String.valueOf(eventId));
-                        intent.putExtra("eventOwnerId", getIntent().getStringExtra("eventOwnerId"));
-                        intent.putExtra("profileId", String.valueOf(profileId));
+                        intent.putExtra("eventOwnerId", String.valueOf(eventOwnerId));
+                        intent.putExtra("clientProfileId", getIntent().getStringExtra("clientProfileId"));
                         EventInfoActivity.this.startActivity(intent);
                     }
                 });

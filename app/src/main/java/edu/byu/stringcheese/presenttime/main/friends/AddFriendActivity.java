@@ -24,8 +24,8 @@ public class AddFriendActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(getIntent().getStringExtra("profileId") != null) {
-                    Profile profile = DBAccess.getProfile(getIntent().getStringExtra("profileId"));
+                if(getIntent().getStringExtra("clientProfileId") != null) {
+                    Profile profile = DBAccess.getProfile(getIntent().getStringExtra("clientProfileId"));
                     EditText friendEmail = (EditText) findViewById(R.id.friend_email_text);
                     profile.addFriend(friendEmail.getText().toString());
                     finish();
