@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -71,7 +72,7 @@ public class AddEventActivity extends Activity implements View.OnClickListener {
             }
         };
 
-
+        editText.setInputType(InputType.TYPE_NULL);
         editText.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -81,7 +82,7 @@ public class AddEventActivity extends Activity implements View.OnClickListener {
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
-        });
+        });/*
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -93,7 +94,7 @@ public class AddEventActivity extends Activity implements View.OnClickListener {
                 }
 
             }
-        });
+        });*/
 
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
