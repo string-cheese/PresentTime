@@ -72,45 +72,47 @@ public class MainActivity extends AppCompatActivity {
                         if (state == ViewPager.SCROLL_STATE_IDLE && viewPager.getCurrentItem() == 2 && firstTime) {
 
                             final RecyclerView recyclerView = (RecyclerView) ((MainFragmentPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem()).getView().findViewById(R.id.friends_rv);
-                            ShowcaseView showcase = new ShowcaseView.Builder(MainActivity.this)
-                                    .withMaterialShowcase()
-                                    .setStyle(R.style.CustomShowcaseTheme2)
-                                    .setTarget(new RecyclerViewTarget(recyclerView, R.id.friend_image_circle))
-                                    .setContentTitle("Profile")
-                                    .setContentText("Click here to view your friends profile.")
-                                    .hideOnTouchOutside()
-                                    .setShowcaseEventListener(new OnShowcaseEventListener() {
-                                        @Override
-                                        public void onShowcaseViewHide(ShowcaseView showcaseView) {
-                                            ShowcaseView view = new ShowcaseView.Builder(MainActivity.this)
-                                                    .setShowcaseDrawer(new FriendCardViewDrawer(recyclerView, getResources()))
-                                                    .setStyle(R.style.CustomShowcaseTheme3)
-                                                    .setTarget(new RecyclerViewTarget(recyclerView, R.id.friend_card))
-                                                    .setContentTitle("Events")
-                                                    .setContentText("Click here to view your friend's events")
-                                                    .hideOnTouchOutside()
-                                                    .build();
-                                            view.hideButton();
-                                            view.show();
-                                        }
+                            if(recyclerView.getChildAt(0) != null) {
+                                ShowcaseView showcase = new ShowcaseView.Builder(MainActivity.this)
+                                        .withMaterialShowcase()
+                                        .setStyle(R.style.CustomShowcaseTheme2)
+                                        .setTarget(new RecyclerViewTarget(recyclerView, R.id.friend_image_circle))
+                                        .setContentTitle("Profile")
+                                        .setContentText("Click here to view your friends profile.")
+                                        .hideOnTouchOutside()
+                                        .setShowcaseEventListener(new OnShowcaseEventListener() {
+                                            @Override
+                                            public void onShowcaseViewHide(ShowcaseView showcaseView) {
+                                                ShowcaseView view = new ShowcaseView.Builder(MainActivity.this)
+                                                        .setShowcaseDrawer(new FriendCardViewDrawer(recyclerView, getResources()))
+                                                        .setStyle(R.style.CustomShowcaseTheme3)
+                                                        .setTarget(new RecyclerViewTarget(recyclerView, R.id.friend_card))
+                                                        .setContentTitle("Events")
+                                                        .setContentText("Click here to view your friend's events")
+                                                        .hideOnTouchOutside()
+                                                        .build();
+                                                view.hideButton();
+                                                view.show();
+                                            }
 
-                                        @Override
-                                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                                            @Override
+                                            public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
 
-                                        }
+                                            }
 
-                                        @Override
-                                        public void onShowcaseViewShow(ShowcaseView showcaseView) {
+                                            @Override
+                                            public void onShowcaseViewShow(ShowcaseView showcaseView) {
 
-                                        }
+                                            }
 
-                                        @Override
-                                        public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+                                            @Override
+                                            public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
 
-                                        }
-                                    }).build();
-                            showcase.hideButton();
-                            showcase.show();
+                                            }
+                                        }).build();
+                                showcase.hideButton();
+                                showcase.show();
+                            }
                         }
                     }
                 });

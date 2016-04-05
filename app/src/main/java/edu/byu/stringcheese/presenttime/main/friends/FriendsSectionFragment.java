@@ -1,5 +1,6 @@
 package edu.byu.stringcheese.presenttime.main.friends;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,9 +63,58 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
             addFriendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), AddFriendActivity.class);
-                    intent.putExtra("clientProfileId", String.valueOf(profile.getId()));
-                    startActivity(intent);
+                    // Create Object of Dialog class
+                    final Dialog addFriend = new Dialog(getActivity());
+                    // Set GUI of login screen
+                    addFriend.setContentView(R.layout.fragment_dialog_add_friend);
+                    addFriend.setTitle("Add a friend by email address");
+
+                    // Init button of login GUI
+                    Button btnLogin = (Button) addFriend.findViewById(R.id.btnLogin);
+                    Button btnCancel = (Button) addFriend.findViewById(R.id.btnCancel);
+                    final EditText friendEmailAddress = (EditText)addFriend.findViewById(R.id.friend_email_address);
+
+                    // Attached listener for login GUI button
+                    btnLogin.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String address = friendEmailAddress.getText().toString().trim();
+                            boolean valid = address.matches(".*@.*\\.com");
+                            if(address.length() > 0 && valid)
+                            {
+                                if(profile != null) {
+                                    profile.addFriend(address);
+                                    //update friends view
+                                }
+                                // Validate Your login credential here than display message
+                                Toast.makeText(getActivity(),
+                                        "Friend added", Toast.LENGTH_LONG).show();
+
+                                // Redirect to dashboard / home screen.
+                                addFriend.dismiss();
+                            }
+                            else if(address.length() == 0)
+                            {
+                                Toast.makeText(getActivity(),
+                                        "Please enter friends email", Toast.LENGTH_LONG).show();
+
+                            }
+                            else if(!valid)
+                            {
+                                Toast.makeText(getActivity(),
+                                        "Please enter a VALID email address", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            addFriend.dismiss();
+                        }
+                    });
+
+                    // Make dialog box visible.
+                    addFriend.show();
                 }
             });
         }
