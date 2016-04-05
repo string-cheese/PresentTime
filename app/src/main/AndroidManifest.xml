@@ -91,7 +91,7 @@
             android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.byu.stringcheese.presenttime.main.MainActivity" />
+                android:value=".main.MainActivity" />
         </activity>
     </application>
 
