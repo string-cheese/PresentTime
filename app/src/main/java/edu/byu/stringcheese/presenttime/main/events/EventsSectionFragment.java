@@ -57,8 +57,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() != null && getArguments().containsKey("clientProfileId"))
         {
-            if (getArguments().containsKey("eventOwnerId") &&
-                    !getArguments().getString("eventOwnerId").equals(getArguments().getString("clientProfileId")))
+            if (getArguments().containsKey("clientProfileId") && getArguments().containsKey("eventOwnerId"))
             {
                 initializeFriendViews(view);
             } else
@@ -85,7 +84,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
         profile = DBAccess.getProfile(Integer.parseInt(getArguments().getString("eventOwnerId")));
 
         FloatingActionButton addEventFAB = (FloatingActionButton) view.findViewById(R.id.add_event_fab);
-        ((ViewGroup) addEventFAB.getParent()).removeView(addEventFAB);
+        addEventFAB.setVisibility(View.INVISIBLE);
     }
 
     private void initializeOwnerViews(View view) {
@@ -93,6 +92,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
         getArguments().putString("eventOwnerId", getArguments().getString("clientProfileId"));
 
         FloatingActionButton addEventFAB = (FloatingActionButton) view.findViewById(R.id.add_event_fab);
+        addEventFAB.setVisibility(View.VISIBLE);
         addEventFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -40,7 +40,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         FirebaseDatabase.addObserver(this);
         setContentView(R.layout.activity_event_info);
-        if(getIntent().getStringExtra("eventId") != null && getIntent().getStringExtra("clientProfileId") != null)
+        if(getIntent().getStringExtra("eventOwnerId") != null && getIntent().getStringExtra("clientProfileId") != null)
         {
 
             if (getIntent().hasExtra("eventOwnerId") &&
@@ -112,7 +112,9 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
     private void initializeFriendViews() {
         //FLOATING ACTION BUTTON
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_photo_fab);
-        ((ViewGroup)fab.getParent()).removeView(fab);
+        fab.setVisibility(View.INVISIBLE);
+        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.add_item_fab);
+        fab2.setVisibility(View.INVISIBLE);
 
     }
 
