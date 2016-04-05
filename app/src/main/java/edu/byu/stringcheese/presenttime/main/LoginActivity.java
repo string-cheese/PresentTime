@@ -249,6 +249,38 @@ public class LoginActivity extends FragmentActivity implements
             case R.id.disconnect_button:
                 revokeAccess();
                 break;
+            case R.id.debug_amanda_login_button:
+                if (FirebaseDatabase.hasInstance()) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Profile profile = DBAccess.getProfileByEmail("amanda@cool.com");
+                    if(profile != null) {
+                        intent.putExtra("clientProfileId", String.valueOf(profile.getId()));
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        //Snackbar.make(LoginActivit)
+                        Log.e(TAG, "DEBUG DATA NOT ADDED");
+                    }
+                } else
+                    Snackbar.make(v, "Database Not Yet Loaded", Snackbar.LENGTH_SHORT);
+                break;
+            case R.id.debug_sam_login_button:
+                if (FirebaseDatabase.hasInstance()) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Profile profile = DBAccess.getProfileByEmail("sam@cool.com");
+                    if(profile != null) {
+                        intent.putExtra("clientProfileId", String.valueOf(profile.getId()));
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        //Snackbar.make(LoginActivit)
+                        Log.e(TAG, "DEBUG DATA NOT ADDED");
+                    }
+                } else
+                    Snackbar.make(v, "Database Not Yet Loaded", Snackbar.LENGTH_SHORT);
+                break;
             case R.id.debug_login_button:
                 if (FirebaseDatabase.hasInstance()) {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
