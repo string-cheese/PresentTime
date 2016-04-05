@@ -68,13 +68,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:textColor="@color/colorTextIcons"
+                android:enabled="false"
                 android:text="Amanda"/><Button
             android:id="@+id/debug_sam_login_button"
             android:layout_width="wrap_content"
+            android:enabled="false"
             android:layout_height="50dp"
             android:textColor="@color/colorTextIcons"
             android:text="Sam"/><Button
             android:id="@+id/debug_login_button"
+            android:enabled="false"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:textColor="@color/colorTextIcons"
