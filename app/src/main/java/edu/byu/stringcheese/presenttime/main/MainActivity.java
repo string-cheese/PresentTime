@@ -1,6 +1,7 @@
 package edu.byu.stringcheese.presenttime.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -72,7 +73,10 @@ public class MainActivity extends AppCompatActivity {
                         if (state == ViewPager.SCROLL_STATE_IDLE && viewPager.getCurrentItem() == 2 && firstTime) {
 
                             final RecyclerView recyclerView = (RecyclerView) ((MainFragmentPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem()).getView().findViewById(R.id.friends_rv);
-                            if(recyclerView.getChildAt(0) != null) {
+                            if(recyclerView.getChildAt(0) != null && getPreferences(MODE_PRIVATE).getBoolean("showcase",true)) {
+                                SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+                                editor.putBoolean("showcase",false);
+                                editor.commit();
                                 ShowcaseView showcase = new ShowcaseView.Builder(MainActivity.this)
                                         .withMaterialShowcase()
                                         .setStyle(R.style.CustomShowcaseTheme2)
