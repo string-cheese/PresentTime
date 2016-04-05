@@ -62,6 +62,8 @@ public class LoginActivity extends FragmentActivity implements
     private Button google_logout_button;
     private Button google_disconnect_button;
     private Button debug_login;
+    private Button debug_amanda_login;
+    private Button debug_sam_login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +72,10 @@ public class LoginActivity extends FragmentActivity implements
         setContentView(R.layout.activity_login);
         //Firebase setup
         FirebaseDatabase.addObserver(this);
-        FirebaseDatabase.initializeFirebase(this,getResources());
+        FirebaseDatabase.initializeFirebase(this, getResources());
         debug_login = (Button) findViewById(R.id.debug_login_button);
+        debug_amanda_login = (Button) findViewById(R.id.debug_amanda_login_button);
+        debug_sam_login = (Button) findViewById(R.id.debug_sam_login_button);
         facebook_login_button = (LoginButton) findViewById(R.id.facebook_login_button);
         google_login_button = (SignInButton) findViewById(R.id.google_login_button);
         google_logout_button = (Button) findViewById(R.id.sign_out_button);
@@ -89,6 +93,8 @@ public class LoginActivity extends FragmentActivity implements
         google_logout_button.setOnClickListener(this);
         google_disconnect_button.setOnClickListener(this);
         debug_login.setOnClickListener(this);
+        debug_amanda_login.setOnClickListener(this);
+        debug_sam_login.setOnClickListener(this);
 
         callbackManager = CallbackManager.Factory.create();
         facebook_login_button.setReadPermissions("user_friends");
@@ -311,6 +317,8 @@ public class LoginActivity extends FragmentActivity implements
         facebook_login_button.setEnabled(true);
         google_login_button.setEnabled(true);
         debug_login.setEnabled(true);
+        debug_sam_login.setEnabled(true);
+        debug_amanda_login.setEnabled(true);
     }
 
     private class FacebookLoginCallback implements FacebookCallback<LoginResult> {
