@@ -6,12 +6,23 @@
     android:fitsSystemWindows="true"
     android:theme="@style/AppTheme"
     android:padding="16dp">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.RecyclerView
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:id="@+id/friends_rv">
     </android.support.v7.widget.RecyclerView>
+    <TextView
+        android:id="@+id/no_friends_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add friends to view their activity"
+        android:layout_centerInParent="true"
+        />
+</RelativeLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_friend_fab"
         android:layout_width="wrap_content"

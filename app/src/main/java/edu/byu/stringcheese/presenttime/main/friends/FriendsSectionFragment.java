@@ -146,8 +146,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         public FriendViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.template_friend, parent, false);
-
-
+                ((View)parent.getParent()).findViewById(R.id.no_friends_message).setVisibility(View.INVISIBLE);
             return new FriendViewHolder(view);
         }
 
