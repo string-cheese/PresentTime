@@ -166,9 +166,14 @@ public class AddEventActivity extends Activity implements View.OnClickListener {
             eventImageId = R.mipmap.cake;
         if (eventType.equals("Christmas"))
             eventImageId = R.mipmap.gifts;
-
-        profile.addEvent(eventName, eventDate, BitmapUtils.encodeResourceToString(getResources(), eventImageId, 512, 512), eventAddress);
-        //SlidingTabsBasicFragment.mViewPager.setCurrentItem(1);
-        finish();
+        if(eventName.length() > 0 && eventDate.length() > 0 && eventType.length() > 0 && eventAddress.length() > 0) {
+            profile.addEvent(eventName, eventDate, BitmapUtils.encodeResourceToString(getResources(), eventImageId, 512, 512), eventAddress);
+            //SlidingTabsBasicFragment.mViewPager.setCurrentItem(1);
+            finish();
+        }
+        else
+        {
+            Snackbar.make(findViewById(R.id.add_event_root_view),"All fields are required",Snackbar.LENGTH_LONG).show();
+        }
     }
 }
