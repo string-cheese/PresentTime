@@ -101,6 +101,13 @@ public class Event implements Comparable<Event>{
         db.setValue(location);
     }
 
+    public void removeItem(int index)
+    {
+        Firebase profile = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId));
+        this.items.remove(index);
+        profile.setValue(DBAccess.getProfiles().get(profileId));
+    }
+
     @Override
     public int compareTo(Event another) {
         return another.date.getTime().compareTo(this.date.getTime());

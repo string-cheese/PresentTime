@@ -12,12 +12,16 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +39,9 @@ import edu.byu.stringcheese.presenttime.main.events.info.item.ItemSearchActivity
 
 public class EventInfoActivity extends AppCompatActivity implements Observer {
     public Event event;
+    private int itemPosition;
+    private boolean owner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,17 +50,22 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
         if(getIntent().getStringExtra("eventOwnerId") != null && getIntent().getStringExtra("clientProfileId") != null)
         {
 
+            recyclerView = (RecyclerView) findViewById(R.id.event_info_rv);
+            registerForContextMenu(recyclerView);
             if (getIntent().hasExtra("eventOwnerId") &&
                     getIntent().getStringExtra("eventOwnerId").equals(getIntent().getStringExtra("clientProfileId")))
             {
+                owner = true;
                 initializeOwnerViews();
             } else
             {
+                owner = false;
                 initializeFriendViews();
             }
             event = DBAccess.getProfile(Integer.parseInt(getIntent().getStringExtra("eventOwnerId"))).getEvents().get(Integer.parseInt(getIntent().getStringExtra("eventId")));
+            ImageView eventImage = (ImageView) findViewById(R.id.event_info_image);
+            eventImage.setImageBitmap(BitmapUtils.decodeStringToBitmap(event.getEncodedImage()));
 
-            recyclerView = (RecyclerView) findViewById(R.id.event_info_rv);
 
             int numberOfColumns = 2;
             //Check your orientation in your OnCreate
@@ -83,6 +95,23 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
 
 
       
+    }
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle() == "Delete") {
+            event.removeItem(itemPosition);
+            Toast.makeText(this, "Item Removed", Toast.LENGTH_SHORT).show();
+        }
+        else if (item.getTitle() == "Action 2") {
+            Toast.makeText(this, "Action 2 invoked", Toast.LENGTH_SHORT).show();
+        }
+        else if (item.getTitle() == "Action 3") {
+            Toast.makeText(this, "Action 3 invoked", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            return false;
+        }
+        return true;
     }
     private RecyclerView recyclerView;
 
@@ -119,6 +148,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
     }
 
     private void initializeOwnerViews() {
+
         LinearLayout donateFundsLayout = (LinearLayout) findViewById(R.id.donate_button_layout);
         ((ViewGroup)donateFundsLayout.getParent()).removeView(donateFundsLayout);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_photo_fab);
@@ -185,7 +215,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
             notifyDataSetChanged();
         }
 
-        public class ItemViewHolder extends RecyclerView.ViewHolder {
+        public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
             CardView item_cv;
             TextView itemName;
@@ -210,10 +240,25 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
                         EventInfoActivity.this.startActivity(intent);
                     }
                 });
+                if(owner) {
+                    itemView.setOnCreateContextMenuListener(this);
+                    itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            itemPosition = currentItem;
+                            return false;
+                        }
+                    });
+                }
                 item_cv = (CardView)itemView.findViewById(R.id.cv);
                 itemName = (TextView)itemView.findViewById(R.id.item_name);
                 itemPrice = (TextView)itemView.findViewById(R.id.item_price);
                 itemImage = (RelativeLayout)itemView.findViewById(R.id.item_image);
+            }
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                menu.setHeaderTitle(itemName.getText().toString());
+                menu.add(0, v.getId(), 0, "Delete");//groupId, itemId, order, title
             }
         }
     }

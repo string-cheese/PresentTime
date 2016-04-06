@@ -161,6 +161,13 @@ public class Profile
         db.setValue(favoriteColor);
     }
 
+    public void removeEvent(int eventId) {
+        //add event
+        Firebase events = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("events");
+        this.events.remove(eventId);
+        events.setValue(this.events);
+    }
+
     public void addFriendByGoogleId(String googleId) {
         for(Profile profile : DBAccess.getProfiles())
         {

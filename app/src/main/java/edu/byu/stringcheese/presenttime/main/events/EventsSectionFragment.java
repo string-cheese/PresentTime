@@ -8,11 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,8 @@ import edu.byu.stringcheese.presenttime.main.events.info.EventInfoActivity;
 public class EventsSectionFragment extends Fragment implements Observer {
 
     private Profile profile;
+    int itemPosition = 0;
+    private boolean owner;
 
     public EventsSectionFragment()
     {
@@ -57,16 +62,19 @@ public class EventsSectionFragment extends Fragment implements Observer {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() != null && getArguments().containsKey("clientProfileId"))
         {
+            recyclerView = (RecyclerView) view.findViewById(R.id.events_section_rv);
+            registerForContextMenu(recyclerView);
             if (getArguments().containsKey("clientProfileId") && getArguments().containsKey("eventOwnerId") && !getArguments().getString("eventOwnerId").equals(getArguments().getString("clientProfileId")))
             {
+                owner = false;
                 initializeFriendViews(view);
             } else
             {
+                owner = true;
                 initializeOwnerViews(view);
             }
 
 
-            recyclerView = (RecyclerView) view.findViewById(R.id.events_section_rv);
 
             LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
             recyclerView.setLayoutManager(llm);
@@ -123,6 +131,24 @@ public class EventsSectionFragment extends Fragment implements Observer {
         }
     }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle() == "Delete") {
+            profile.removeEvent(itemPosition);
+            Toast.makeText(getActivity(), "Event Removed", Toast.LENGTH_SHORT).show();
+        }
+        else if (item.getTitle() == "Action 2") {
+            Toast.makeText(getActivity(), "Action 2 invoked", Toast.LENGTH_SHORT).show();
+        }
+        else if (item.getTitle() == "Action 3") {
+            Toast.makeText(getActivity(), "Action 3 invoked", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            return false;
+        }
+            return true;
+    }
+
     class RVAdapter extends RecyclerView.Adapter<RVAdapter.EventViewHolder> {
 
         public List<Event> eventsShown;
@@ -166,7 +192,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
             notifyDataSetChanged();
         }
 
-        public class EventViewHolder extends RecyclerView.ViewHolder {
+        public class EventViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
             CardView cv;
             TextView eventName;
@@ -188,10 +214,27 @@ public class EventsSectionFragment extends Fragment implements Observer {
                         getActivity().startActivity(intent);
                     }
                 });
+                if(owner) {
+                    itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            itemPosition = currentItem;
+                            return false;
+                        }
+                    });
+                    itemView.setOnCreateContextMenuListener(EventViewHolder.this);
+                }
                 cv = (CardView)itemView.findViewById(R.id.cv);
                 eventName = (TextView)itemView.findViewById(R.id.event_template_name);
                 eventDate = (TextView)itemView.findViewById(R.id.event_template_date);
                 eventPhoto = (ImageView)itemView.findViewById(R.id.event_template_photo);
+            }
+
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                menu.setHeaderTitle(eventName.getText().toString());
+
+                menu.add(0, v.getId(), 0, "Delete");//groupId, itemId, order, title
             }
         }
     }
