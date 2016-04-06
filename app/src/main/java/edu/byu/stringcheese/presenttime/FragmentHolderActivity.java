@@ -16,6 +16,7 @@ public class FragmentHolderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_holder);
+
         Bundle bundle = getIntent().getExtras();
         if(bundle.containsKey("class") && bundle.containsKey("clientProfileId") && bundle.containsKey("eventOwnerId"))
         {
