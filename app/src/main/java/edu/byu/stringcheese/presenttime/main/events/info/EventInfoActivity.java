@@ -98,7 +98,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
     }
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if (item.getTitle() == "Delete") {
+        if (item.getTitle() == "Delete Item") {
             event.removeItem(itemPosition);
             Toast.makeText(this, "Item Removed", Toast.LENGTH_SHORT).show();
         }
@@ -258,7 +258,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
                 menu.setHeaderTitle(itemName.getText().toString());
-                menu.add(0, v.getId(), 0, "Delete");//groupId, itemId, order, title
+                menu.add(0, v.getId(), 0, "Delete Item");//groupId, itemId, order, title
             }
         }
     }

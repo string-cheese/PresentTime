@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,6 +35,7 @@ import edu.byu.stringcheese.presenttime.database.Profile;
 public class FriendsSectionFragment extends android.support.v4.app.Fragment implements Observer {
     private RecyclerView recyclerView = null;
     private Profile profile;
+    private int itemPosition;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,11 +50,28 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
         View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
         return rootView;
     }
-
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle() == "Delete Friend") {
+            profile.removeFriend(itemPosition);
+            Toast.makeText(getActivity(), "Friend Removed", Toast.LENGTH_SHORT).show();
+        }
+        else if (item.getTitle() == "Action 2") {
+            Toast.makeText(getActivity(), "Action 2 invoked", Toast.LENGTH_SHORT).show();
+        }
+        else if (item.getTitle() == "Action 3") {
+            Toast.makeText(getActivity(), "Action 3 invoked", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            return false;
+        }
+        return true;
+    }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = (RecyclerView) view.findViewById(R.id.friends_rv);
+        registerForContextMenu(recyclerView);
         Context context = recyclerView.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         if(getArguments()!=null && getArguments().getString("clientProfileId") != null)
@@ -169,7 +189,7 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
             notifyDataSetChanged();
         }
 
-        public class FriendViewHolder extends RecyclerView.ViewHolder {
+        public class FriendViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
             public final View mView;
             public final TextView friendName;
             public CircularImageView friendImage;
@@ -192,6 +212,15 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
                         getActivity().startActivity(intent);
                     }
                 });
+
+                view.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        itemPosition = currentItem;
+                        return false;
+                    }
+                });
+                itemView.setOnCreateContextMenuListener(FriendViewHolder.this);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -202,6 +231,12 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
                         getActivity().startActivity(intent);
                     }
                 });
+            }
+            @Override
+             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                menu.setHeaderTitle(friendName.getText().toString());
+
+                menu.add(0, v.getId(), 0, "Delete Friend");//groupId, itemId, order, title
             }
         }
     }

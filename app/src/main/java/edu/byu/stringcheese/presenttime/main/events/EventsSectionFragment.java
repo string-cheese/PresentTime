@@ -133,7 +133,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if (item.getTitle() == "Delete") {
+        if (item.getTitle() == "Delete Event") {
             profile.removeEvent(itemPosition);
             Toast.makeText(getActivity(), "Event Removed", Toast.LENGTH_SHORT).show();
         }
@@ -234,7 +234,7 @@ public class EventsSectionFragment extends Fragment implements Observer {
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
                 menu.setHeaderTitle(eventName.getText().toString());
 
-                menu.add(0, v.getId(), 0, "Delete");//groupId, itemId, order, title
+                menu.add(0, v.getId(), 0, "Delete Event");//groupId, itemId, order, title
             }
         }
     }

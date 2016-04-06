@@ -187,4 +187,10 @@ public class Profile
         Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("encodedProfileImage");
         db.setValue(favoriteColor);
     }
+
+    public void removeFriend(int itemPosition) {
+        Firebase friends = FirebaseDatabase.ref.child("profiles").child(String.valueOf(id)).child("friends");
+        this.friends.remove(itemPosition);
+        friends.setValue(this.friends);
+    }
 }
