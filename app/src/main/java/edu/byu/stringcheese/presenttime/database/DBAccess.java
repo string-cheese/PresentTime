@@ -127,7 +127,7 @@ public class DBAccess {
         event.addItem("KitchenAid Mixer",230,"Kohls",BitmapUtils.encodeResourceToString(resources,R.drawable.kitchenaid, 512, 512), false);
 
 
-        Profile profile2 = DBAccess.addProfile("Amanda","amanda@cool.com", "googleId", "J. Crew", "Design, Hiking, Music, Videography, Travel", "June 7th", "NA", "Station 22", "Teal", BitmapUtils.encodeResourceToString(resources,R.mipmap.ic_amanda, 512, 512));
+        Profile profile2 = DBAccess.addProfile("Amanda","amanda@cool.com", "googleId", "J. Crew", "Design, Hiking, Music, Videography, Travel", "June 7th", "NA", "Station 22", "Teal", BitmapUtils.encodeResourceToString(resources,R.mipmap.amanda_update, 512, 512));
 
         Event eventa = profile2.addEvent("Amanda's Graduation", "August 11th, 2016", BitmapUtils.encodeResourceToString(resources,R.drawable.graduation, 512, 512), "BYU Wilkinson Ballroom");
         eventa.addItem("MacBook Pro",2500,"Apple",BitmapUtils.encodeResourceToString(resources,R.drawable.macbook, 512, 512), false);
