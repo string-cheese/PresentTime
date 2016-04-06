@@ -60,7 +60,7 @@ public class FirebaseDatabase{
         return _instance != null;
     }
     public static Firebase ref;
-    public static boolean makeFakeData = true;
+    public static boolean makeFakeData = false;
     public static String databaseName = "present-time-bitmap";
 
 
