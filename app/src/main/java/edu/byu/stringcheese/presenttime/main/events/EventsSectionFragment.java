@@ -57,12 +57,11 @@ public class EventsSectionFragment extends Fragment implements Observer {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() != null && getArguments().containsKey("clientProfileId"))
         {
-            if (getArguments().containsKey("clientProfileId") && getArguments().containsKey("eventOwnerId"))
+            if (getArguments().containsKey("clientProfileId") && getArguments().containsKey("eventOwnerId") && !getArguments().getString("eventOwnerId").equals(getArguments().getString("clientProfileId")))
             {
                 initializeFriendViews(view);
             } else
             {
-
                 initializeOwnerViews(view);
             }
 
