@@ -17,12 +17,15 @@ import android.widget.ListView;
 
 import com.firebase.client.Firebase;
 
+import edu.byu.stringcheese.presenttime.BitmapUtils;
+import edu.byu.stringcheese.presenttime.FragmentHolderActivity;
 import edu.byu.stringcheese.presenttime.R;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.Profile;
 import edu.byu.stringcheese.presenttime.main.dashboard.DashboardSectionFragment;
 import edu.byu.stringcheese.presenttime.main.events.AddEventActivity;
 import edu.byu.stringcheese.presenttime.main.events.EventsSectionFragment;
+import edu.byu.stringcheese.presenttime.main.friends.CircularImageView;
 import edu.byu.stringcheese.presenttime.main.friends.FriendsSectionFragment;
 
 /**
@@ -152,76 +155,17 @@ public class MainActivity extends AppCompatActivity {
                         .replace(R.id.content_frame, fragment)
                         .commit();
                 setTitle(sectionTitles[0]);
-                /*final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-                viewPager.setAdapter(new MainFragmentPagerAdapter(getSupportFragmentManager(),
-                        MainActivity.this));
-                viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                ((CircularImageView)findViewById(R.id.imgProfilePic)).setImageBitmap(BitmapUtils.decodeStringToBitmap(myProfile.getEncodedProfileImage()));
+                ((CircularImageView)findViewById(R.id.imgProfilePic)).setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                    }
-
-                    @Override
-                    public void onPageSelected(int position) {
-
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-                        if (state == ViewPager.SCROLL_STATE_IDLE && viewPager.getCurrentItem() == 2 && firstTime) {
-
-                            final RecyclerView recyclerView = (RecyclerView) ((MainFragmentPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem()).getView().findViewById(R.id.friends_rv);
-                            if(recyclerView.getChildAt(0) != null && getPreferences(MODE_PRIVATE).getBoolean("showcase",true)) {
-                                SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-                                editor.putBoolean("showcase",false);
-                                editor.commit();
-                                ShowcaseView showcase = new ShowcaseView.Builder(MainActivity.this)
-                                        .withMaterialShowcase()
-                                        .setStyle(R.style.CustomShowcaseTheme2)
-                                        .setTarget(new RecyclerViewTarget(recyclerView, R.id.friend_image_circle))
-                                        .setContentTitle("Profile")
-                                        .setContentText("Click here to view your friends profile.")
-                                        .hideOnTouchOutside()
-                                        .setShowcaseEventListener(new OnShowcaseEventListener() {
-                                            @Override
-                                            public void onShowcaseViewHide(ShowcaseView showcaseView) {
-                                                ShowcaseView view = new ShowcaseView.Builder(MainActivity.this)
-                                                        .setShowcaseDrawer(new FriendCardViewDrawer(recyclerView, getResources()))
-                                                        .setStyle(R.style.CustomShowcaseTheme3)
-                                                        .setTarget(new RecyclerViewTarget(recyclerView, R.id.friend_card))
-                                                        .setContentTitle("Events")
-                                                        .setContentText("Click here to view your friend's events")
-                                                        .hideOnTouchOutside()
-                                                        .build();
-                                                view.hideButton();
-                                                view.show();
-                                            }
-
-                                            @Override
-                                            public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-
-                                            }
-
-                                            @Override
-                                            public void onShowcaseViewShow(ShowcaseView showcaseView) {
-
-                                            }
-
-                                            @Override
-                                            public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
-
-                                            }
-                                        }).build();
-                                showcase.hideButton();
-                                showcase.show();
-                            }
-                        }
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, FragmentHolderActivity.class);
+                        intent.putExtra("eventOwnerId",String.valueOf(myProfile.getId()));
+                        intent.putExtra("clientProfileId",String.valueOf(myProfile.getId()));
+                        intent.putExtra("class","profile");
+                        startActivity(intent);
                     }
                 });
-
-                // Give the TabLayout the ViewPager
-                /*TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-                tabLayout.setupWithViewPager(viewPager);*/
             }
         }
 
