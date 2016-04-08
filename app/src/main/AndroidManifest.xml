@@ -32,8 +32,8 @@
         </activity>
         <activity
             android:name=".main.friends.info.FriendInfoActivity"
-            android:theme="@style/AppTheme"
-            android:parentActivityName=".main.friends.info.FriendInfoActivity" >
+            android:parentActivityName=".main.friends.info.FriendInfoActivity"
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.friends.info.FriendInfoActivity" />
@@ -44,24 +44,24 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".main.events.AddEventActivity"
-            android:theme="@style/AppTheme"
-            android:parentActivityName=".main.MainActivity" >
+            android:parentActivityName=".main.MainActivity"
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.MainActivity" />
         </activity>
         <activity
             android:name=".main.events.info.AddItemActivity"
-            android:theme="@style/AppTheme"
-            android:parentActivityName=".main.events.info.item.ItemInfoActivity" >
+            android:parentActivityName=".main.events.info.item.ItemInfoActivity"
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.events.info.item.ItemInfoActivity" />
         </activity>
         <activity
             android:name=".main.events.info.item.ItemInfoActivity"
-            android:theme="@style/AppTheme"
-            android:parentActivityName=".main.events.info.EventInfoActivity" >
+            android:parentActivityName=".main.events.info.EventInfoActivity"
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.byu.stringcheese.presenttime.main.events.info.EventInfoActivity" />
@@ -74,6 +74,7 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".main.events.info.item.ItemSearchActivity"
             android:label="@string/title_activity_item_search"
