@@ -55,6 +55,8 @@ public class ItemSearchActivity extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(false);
+        recyclerView.setVisibility(View.GONE);
+        //findViewById(R.id.search_progress).setVisibility(View.GONE);
         initializeAdapter();
     }
 
@@ -173,11 +175,15 @@ public class ItemSearchActivity extends AppCompatActivity {
     }
 
     private void search(String content) {
+        findViewById(R.id.item_search_recyclerview).setVisibility(View.GONE);
+        findViewById(R.id.search_progress).setVisibility(View.VISIBLE);
         Utils.searchItemAsync(content, max_items, new ItemSearchListener() {
 
             @Override
             public void onSearchComplete(JSONObject jsonObject) {
                 update(jsonObject);
+                findViewById(R.id.search_progress).setVisibility(View.GONE);
+                findViewById(R.id.item_search_recyclerview).setVisibility(View.VISIBLE);
             }
         });
     }

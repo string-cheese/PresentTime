@@ -136,4 +136,5 @@
     <string name="click_friend_profile"><![CDATA[<--Click there to see friend\'s profile]]></string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    <string name="splash_screen_message">Loading</string>
 </resources>

@@ -16,6 +16,26 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:id="@+id/search_progress"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+        <ProgressBar
+            android:id="@+id/search_progress_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@xml/progress"
+            android:indeterminate="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/splash_screen_message"
+            android:layout_below="@id/search_progress_image"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="fill_parent"
@@ -35,11 +55,13 @@
         <android.support.v7.widget.RecyclerView
             android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:id="@+id/item_search_recyclerview"
             >
 
         </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>
