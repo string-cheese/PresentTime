@@ -5,4 +5,9 @@
         <item>Wedding</item>
         <item>Christmas</item>
     </string-array>
+    <string-array name="nav_drawer_items" >
+        <item>Dashboard</item>
+        <item>Your Events</item>
+        <item>Friends</item>
+    </string-array>
 </resources>

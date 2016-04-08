@@ -1,21 +1,35 @@
 package edu.byu.stringcheese.presenttime.main.friends;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
+import com.github.amlcurran.showcaseview.ShowcaseDrawer;
+import com.github.amlcurran.showcaseview.ShowcaseView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +39,7 @@ import java.util.Observer;
 import edu.byu.stringcheese.presenttime.BitmapUtils;
 import edu.byu.stringcheese.presenttime.FragmentHolderActivity;
 import edu.byu.stringcheese.presenttime.R;
+import edu.byu.stringcheese.presenttime.RecyclerViewTarget;
 import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.FirebaseDatabase;
 import edu.byu.stringcheese.presenttime.database.Profile;
@@ -137,6 +152,48 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
                     addFriend.show();
                 }
             });
+            SharedPreferences.Editor editor = getActivity().getPreferences(Activity.MODE_PRIVATE).edit();
+            editor.putBoolean("showcase",false);
+            editor.commit();
+            ShowcaseView showcase = new ShowcaseView.Builder(getActivity())
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new RecyclerViewTarget(recyclerView, R.id.friend_image_circle))
+                    .setContentTitle("Profile")
+                    .setContentText("Click here to view your friends profile.")
+                    .hideOnTouchOutside()
+                    .setShowcaseEventListener(new OnShowcaseEventListener() {
+                        @Override
+                        public void onShowcaseViewHide(ShowcaseView showcaseView) {
+                            ShowcaseView view = new ShowcaseView.Builder(getActivity())
+                                    .setShowcaseDrawer(new FriendCardViewDrawer(recyclerView, getResources()))
+                                    .setStyle(R.style.CustomShowcaseTheme3)
+                                    .setTarget(new RecyclerViewTarget(recyclerView, R.id.friend_card))
+                                    .setContentTitle("Events")
+                                    .setContentText("Click here to view your friend's events")
+                                    .hideOnTouchOutside()
+                                    .build();
+                            view.hideButton();
+                            view.show();
+                        }
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+                        }
+
+                        @Override
+                        public void onShowcaseViewShow(ShowcaseView showcaseView) {
+
+                        }
+
+                        @Override
+                        public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+
+                        }
+                    }).build();
+            showcase.hideButton();
+            showcase.show();
         }
 
     }
@@ -240,6 +297,81 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
             }
         }
     }
+}
+class FriendCardViewDrawer implements ShowcaseDrawer
+{
+    private int xoffset;
+    private float height;
+    private float width;
+    private final float radius;
+    private final Paint basicPaint;
+    private final Paint eraserPaint;
+    private int backgroundColor;
+
+    public FriendCardViewDrawer(Resources resources) {
+        this.radius = resources.getDimension(com.github.amlcurran.showcaseview.R.dimen.showcase_radius_material);
+        this.eraserPaint = new Paint();
+        this.eraserPaint.setColor(0xFFFFFF);
+        this.eraserPaint.setAlpha(0);
+        this.eraserPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY));
+        this.eraserPaint.setAntiAlias(true);
+        this.basicPaint = new Paint();
+    }
+
+    public FriendCardViewDrawer(RecyclerView view, Resources resources)
+    {
+        this(resources);
+        CardView card = (CardView)view.getChildAt(0).findViewById(R.id.friend_card);
+        CircularImageView imageView = (CircularImageView)view.getChildAt(0).findViewById(R.id.friend_image_circle);
+        this.height = card.getHeight();
+        this.width = card.getWidth()-imageView.getWidth();
+        this.xoffset = imageView.getWidth()/2;
+    }
+
+    @Override
+    public void setShowcaseColour(int color) {
+        // no-op
+    }
+
+    @Override
+    public void drawShowcase(Bitmap buffer, float x, float y, float scaleMultiplier) {
+        Canvas bufferCanvas = new Canvas(buffer);
+        //bufferCanvas.drawCircle(x, y, radius, eraserPaint);
+        bufferCanvas.drawRect(x-width/2+xoffset,y-height/2,x+width/2+xoffset,y+height/2,eraserPaint);
+    }
+
+    @Override
+    public int getShowcaseWidth() {
+        //return (int) (radius * 2);
+        return (int)width;
+    }
+
+    @Override
+    public int getShowcaseHeight() {
+        //return (int) (radius * 2);
+        return (int)height;
+    }
+
+    @Override
+    public float getBlockedRadius() {
+        return radius;
+    }
+
+    @Override
+    public void setBackgroundColour(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    @Override
+    public void erase(Bitmap bitmapBuffer) {
+        bitmapBuffer.eraseColor(backgroundColor);
+    }
+
+    @Override
+    public void drawToCanvas(Canvas canvas, Bitmap bitmapBuffer) {
+        canvas.drawBitmap(bitmapBuffer, 0, 0, basicPaint);
+    }
+
 }
 
 

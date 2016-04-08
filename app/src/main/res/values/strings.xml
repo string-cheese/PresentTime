@@ -134,4 +134,6 @@
     <string name="title_activity_fragment_holder">FragmentHolderActivity</string>
     <string name="click_friend"><![CDATA[Click here to see friend\'s events\n\t\t\t\t\t\t--> <--]]></string>
     <string name="click_friend_profile"><![CDATA[<--Click there to see friend\'s profile]]></string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
 </resources>
