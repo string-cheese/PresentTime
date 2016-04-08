@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             View vi = convertView;
             if (vi == null)
-                vi = inflater.inflate(R.layout.row, null);
+                vi = inflater.inflate(R.layout.nav_drawer_item, null);
             TextView text = (TextView) vi.findViewById(R.id.option_text);
             text.setText(data[position]);
             ImageView image = (ImageView) vi.findViewById(R.id.option_image);
