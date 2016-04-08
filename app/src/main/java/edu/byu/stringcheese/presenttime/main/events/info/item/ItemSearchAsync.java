@@ -1,9 +1,14 @@
 package edu.byu.stringcheese.presenttime.main.events.info.item;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import edu.byu.stringcheese.presenttime.BitmapUtils;
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.basic.DefaultOAuthConsumer;
 import oauth.signpost.http.HttpResponse;
@@ -49,7 +55,42 @@ public class ItemSearchAsync extends AsyncTask<String, Object, JSONObject>
             String line;
             while ((line = streamReader.readLine()) != null)
                 res.append(line);
-            return new JSONObject(res.toString());
+            JSONObject jsonResult = new JSONObject(res.toString());
+            try {
+                JSONArray results = jsonResult.getJSONArray("results");
+                for (int i = 0; i < results.length(); i++)
+                {
+                    JSONObject item = results.getJSONObject(i);
+                    if(item.has("upc") && item.has("name") && item.has("price")) {
+                        String path = "http://www.upcindex.com/" + item.getString("upc");
+                        try {
+                            Document doc = Jsoup.parse(new URL(path), 1000);
+                            Element imageElement = doc.select(".thumbnail img").first();
+                            String absoluteUrl = imageElement.absUrl("src");  //absolute URL on src
+                            //String srcValue = imageElement.attr("src");  // exact content value of the attribute.
+                            jsonResult.getJSONArray("results").getJSONObject(i).put("img", BitmapUtils.encodeBitmapToString(BitmapUtils.decodeSampledBitmapFromWebImage(Uri.parse(absoluteUrl), 512, 512)));
+                        }
+                        catch(Exception e)
+                        {
+                            Log.e("ItemSearchAsync",e.getMessage(),e);
+                        }
+                    }
+                    else
+                    {
+                        Log.d("ItemSearchAsync",String.format("name:%s price:%s upc:%s",item.has("name"),item.has("price"),item.has("upc")));
+                    }
+
+                }
+
+            }
+            catch(Exception e)
+            {
+                Log.e("ItemSearchAsync",e.getMessage(),e);
+            }
+            finally
+            {
+                return jsonResult;
+            }
         } catch(Exception e)
         {
             Log.e("ItemSearchActivity", "Failure to get search results", e);

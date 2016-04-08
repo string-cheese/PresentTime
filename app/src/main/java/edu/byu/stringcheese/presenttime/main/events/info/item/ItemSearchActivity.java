@@ -31,7 +31,7 @@ import edu.byu.stringcheese.presenttime.database.Item;
 public class ItemSearchActivity extends AppCompatActivity {
     // Search EditText
     EditText inputSearch;
-    public static int max_items = 10;
+    public static int max_items = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,14 +76,17 @@ public class ItemSearchActivity extends AppCompatActivity {
                 for (int i = 0; i < results.length(); i++)
                 {
                     JSONObject item = results.getJSONObject(i);
-                    String name = item.getString("name");
-                    double cost = Double.parseDouble(item.getString("price"));
-                    String store;
-                    if(item.getJSONArray("sitedetails").length() != 0)
-                        store = item.getJSONArray("sitedetails").getJSONObject(0).getString("name");
-                    else
-                        store = "Manufacturer";
-                    items.add(new Item(name,cost,store, BitmapUtils.encodeResourceToString(getResources(), R.mipmap.bike, 512, 512),-1,-1,-1,false));
+                    if(item.has("upc") && item.has("name") && item.has("price") && item.has("img")) {
+                        String name = item.getString("name");
+                        double cost = Double.parseDouble(item.getString("price"));
+                        String store;
+                        if (item.getJSONArray("sitedetails").length() != 0)
+                            store = item.getJSONArray("sitedetails").getJSONObject(0).getString("name");
+                        else
+                            store = "Manufacturer";
+                        String img = item.getString("img");
+                        items.add(new Item(name, cost, store, img, -1, -1, -1, false));
+                    }
                 }
                 if (items != null) {
                     ((SearchItemAdapter) recyclerView.getAdapter()).updateEventsShown(items);
@@ -155,7 +158,8 @@ public class ItemSearchActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         String profileId = getIntent().getStringExtra("clientProfileId");
                         String eventId = getIntent().getStringExtra("eventId");
-                        DBAccess.getEvent(profileId, eventId).addItem(itemName.getText().toString(), Double.parseDouble(itemCost.getText().toString()), itemStore.getText().toString(), BitmapUtils.encodeResourceToString(getResources(),R.mipmap.bike,512,512), false);
+                        String img = searchItemsShown.get(selectedItem).getEncodedImage();
+                        DBAccess.getEvent(profileId, eventId).addItem(itemName.getText().toString(), Double.parseDouble(itemCost.getText().toString()), itemStore.getText().toString(), img, false);
                         finish();
                     }
                 });
