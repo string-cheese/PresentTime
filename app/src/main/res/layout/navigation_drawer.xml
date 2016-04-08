@@ -7,16 +7,28 @@
     android:orientation="vertical"
     android:background="@android:color/white"
     android:gravity="center" >
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start"
+    android:orientation="vertical">
     <edu.byu.stringcheese.presenttime.main.friends.CircularImageView
         android:id="@+id/imgProfilePic"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_gravity="start"
         android:src="@drawable/justin_profile"
         android:contentDescription="Description" />
+    <TextView
+        android:id="@+id/nav_drawer_profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"
+        android:text="Justin Liu"/>
+</LinearLayout>
+
 
     <ListView android:id="@+id/left_drawer"
         android:layout_width="match_parent"

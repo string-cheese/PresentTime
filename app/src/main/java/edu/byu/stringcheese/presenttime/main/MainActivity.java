@@ -1,5 +1,6 @@
 package edu.byu.stringcheese.presenttime.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,12 +9,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 
@@ -39,13 +44,12 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     private Profile myProfile;
-    private boolean firstTime = true;
-    private String[] sectionTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private CharSequence mTitle;
     private ActionBarDrawerToggle mDrawerToggle;
     private LinearLayout mDrawerLinearLayout;
+    private String[] sectionTitles;
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -129,17 +133,15 @@ public class MainActivity extends AppCompatActivity {
                     /** Called when a drawer has settled in a completely open state. */
                     public void onDrawerOpened(View drawerView) {
                         super.onDrawerOpened(drawerView);
-                        getSupportActionBar().setTitle(myProfile.getName());
+                        getSupportActionBar().setTitle("Present-Time");
                         invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
                     }
                 };
 
                 // Set the drawer toggle as the DrawerListener
-                mDrawerLayout.setDrawerListener(mDrawerToggle);
-
+                mDrawerLayout.addDrawerListener(mDrawerToggle);
                 // Set the adapter for the list view
-                mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                        R.layout.drawer_list_item, sectionTitles));
+                mDrawerList.setAdapter(new NavigationDrawerListAdapter(this, sectionTitles));
                 // Set the list's click listener
                 mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -166,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+                ((TextView)findViewById(R.id.nav_drawer_profile_name)).setText(myProfile.getName());
             }
         }
 
@@ -181,4 +184,46 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "I started an activity");
         Log.d(TAG, intent.toString());
     }
+    class NavigationDrawerListAdapter extends BaseAdapter {
+
+        private final LayoutInflater inflater;
+        Context context;
+        String[] data;
+        int[] drawables;
+
+        public NavigationDrawerListAdapter(Context context, String[] data) {
+            this.context = context;
+            this.data = data;
+            inflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            drawables = new int[]{R.drawable.dashboard,R.drawable.events,R.drawable.friends};
+        }
+
+        @Override
+        public int getCount() {
+            return data.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return data[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View vi = convertView;
+            if (vi == null)
+                vi = inflater.inflate(R.layout.row, null);
+            TextView text = (TextView) vi.findViewById(R.id.option_text);
+            text.setText(data[position]);
+            ImageView image = (ImageView) vi.findViewById(R.id.option_image);
+            image.setImageResource(drawables[position]);
+            return vi;
+        }
+    }
 }
+

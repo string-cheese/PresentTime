@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="dashboard" >@android:drawable/ic_menu_agenda</drawable>
+    <drawable name="events" >@android:drawable/ic_menu_edit</drawable>
+    <drawable name="friends" >@android:drawable/ic_menu_week</drawable>
+</resources>
