@@ -2,15 +2,19 @@ package edu.byu.stringcheese.presenttime.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -57,6 +61,20 @@ public class MainActivity extends AppCompatActivity {
             selectItem(position);
         }
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                {
+                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                }
+                else
+                    mDrawerLayout.openDrawer(GravityCompat.START);  // OPEN DRAWER
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /** Swaps fragments in the main content view */
@@ -106,6 +124,18 @@ public class MainActivity extends AppCompatActivity {
         mTitle = title;
         getSupportActionBar().setTitle(mTitle);
     }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                         invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
                     }
                 };
+                mDrawerToggle.setDrawerIndicatorEnabled(true);
 
                 // Set the drawer toggle as the DrawerListener
                 mDrawerLayout.addDrawerListener(mDrawerToggle);
@@ -169,6 +200,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 ((TextView)findViewById(R.id.nav_drawer_profile_name)).setText(myProfile.getName());
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setHomeButtonEnabled(true);
             }
         }
 
