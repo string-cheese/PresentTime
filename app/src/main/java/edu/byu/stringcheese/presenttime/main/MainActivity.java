@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mDrawerToggle.syncState();
+        mDrawerList.setItemChecked(0, true);
     }
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
