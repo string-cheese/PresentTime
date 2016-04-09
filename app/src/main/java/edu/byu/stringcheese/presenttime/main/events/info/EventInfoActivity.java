@@ -233,7 +233,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
             itemViewHolder.itemName.setText(itemsShown.get(i).getName());
             itemViewHolder.itemPrice.setText("$" + String.valueOf(itemsShown.get(i).getCost()));
             //itemViewHolder.itemLocation.setText(itemsShown.get(i).getStore());
-            itemViewHolder.itemImage.setBackground(new BitmapDrawable(getResources(), BitmapUtils.decodeStringToBitmap(itemsShown.get(i).getEncodedImage())));
+            itemViewHolder.itemImage.setImageDrawable(new BitmapDrawable(getResources(), BitmapUtils.decodeStringToBitmap(itemsShown.get(i).getEncodedImage())));
             itemViewHolder.currentItem = i;
             itemViewHolder.itemId = String.valueOf(itemsShown.get(i).getId());
             itemViewHolder.eventOwnerId = String.valueOf(itemsShown.get(i).getProfileId());
@@ -257,7 +257,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
             TextView itemName;
             TextView itemPrice;
             //TextView itemLocation;
-            RelativeLayout itemImage;
+            ImageView itemImage;
             public int currentItem;
             public String itemId;
             public String eventId;
@@ -289,7 +289,7 @@ public class EventInfoActivity extends AppCompatActivity implements Observer {
                 item_cv = (CardView)itemView.findViewById(R.id.cv);
                 itemName = (TextView)itemView.findViewById(R.id.item_name);
                 itemPrice = (TextView)itemView.findViewById(R.id.item_price);
-                itemImage = (RelativeLayout)itemView.findViewById(R.id.item_image);
+                itemImage = (ImageView)itemView.findViewById(R.id.item_image);
             }
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/AppTheme"
-    android:padding="16dp">
+    android:padding="@dimen/margin_small">
 
     <android.support.v7.widget.RecyclerView
         android:layout_height="match_parent"

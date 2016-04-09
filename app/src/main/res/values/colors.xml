@@ -13,6 +13,6 @@
     <color name="secondary_text_material_dark">#030000</color>
     <color name="primary_text_material_dark">#000000</color>
     <color name="primary_text_material_light">#000000</color>
-    <color name="colorBackground">#000000</color>
+    <color name="colorBackground">#EDEDED</color>
     <color name="opaqueLabelBackground">#CCFFFFFF</color>
 </resources>

@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:id="@+id/dashboard_upcoming_rv"
-        android:padding="25dp"
+        android:padding="@dimen/margin_small"
         />
 
 </LinearLayout>
