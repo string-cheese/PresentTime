@@ -49,6 +49,7 @@ public class ItemSearchActivity extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(false);
+        recyclerView.setNestedScrollingEnabled(true);
         recyclerView.setVisibility(View.GONE);
         //findViewById(R.id.search_progress).setVisibility(View.GONE);
         initializeAdapter();

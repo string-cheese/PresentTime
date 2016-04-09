@@ -68,6 +68,11 @@ public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHo
         itemViewHolder.eventId = String.valueOf(itemsShown.get(i).getEventId());
         itemViewHolder.itemStore.setText(itemsShown.get(i).getStore());
         itemViewHolder.amountFunded.setProgress((int)((itemsShown.get(i).getAmount_funded()/(double)itemsShown.get(i).getCost())*100));
+        if(itemsShown.get(i).getAmount_funded() >= itemsShown.get(i).getCost() || itemsShown.get(i).isPurchased())
+        {
+            itemViewHolder.item_cv.setEnabled(false);
+            itemViewHolder.item_purchased_overlay.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -94,6 +99,7 @@ public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHo
         public String itemId;
         public String eventId;
         public String eventOwnerId;
+        ImageView item_purchased_overlay;
 
         ItemViewHolder(final View itemView) {
             super(itemView);
@@ -138,6 +144,7 @@ public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHo
             itemImage = (ImageView)itemView.findViewById(R.id.item_image);
             itemStore = (TextView)itemView.findViewById(R.id.search_item_store);
             amountFunded = (ProgressBar)itemView.findViewById(R.id.item_fund_progress);
+            item_purchased_overlay = (ImageView)itemView.findViewById(R.id.item_purchased_overlay);
         }
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {

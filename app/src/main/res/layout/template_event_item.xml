@@ -97,7 +97,13 @@
                 />
 
         </LinearLayout>
-
+        <ImageView
+            android:id="@+id/item_purchased_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#AAFFFFFF"
+            android:visibility="gone"
+            />
     </android.support.v7.widget.CardView>
 
 </LinearLayout>
