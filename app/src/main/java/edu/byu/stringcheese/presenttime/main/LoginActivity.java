@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -64,6 +65,8 @@ public class LoginActivity extends FragmentActivity implements
     private Button debug_login;
     private Button debug_amanda_login;
     private Button debug_sam_login;
+    private ProgressBar loginProgress;
+    private TextView login_slash_message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,8 @@ public class LoginActivity extends FragmentActivity implements
         google_login_button = (SignInButton) findViewById(R.id.google_login_button);
         google_logout_button = (Button) findViewById(R.id.sign_out_button);
         google_disconnect_button = (Button) findViewById(R.id.disconnect_button);
+        loginProgress = (ProgressBar) findViewById(R.id.login_progress_image);
+        login_slash_message = (TextView) findViewById(R.id.login_slash_message);
 
 
         mStatusTextView = (TextView) findViewById(R.id.status);
@@ -314,7 +319,15 @@ public class LoginActivity extends FragmentActivity implements
 
     @Override
     public void update(Observable observable, Object data) {
-        facebook_login_button.setEnabled(true);
+        //facebook_login_button.setVisibility(View.VISIBLE);
+        google_login_button.setVisibility(View.VISIBLE);
+        debug_login.setVisibility(View.VISIBLE);
+        debug_sam_login.setVisibility(View.VISIBLE);
+        debug_amanda_login.setVisibility(View.VISIBLE);
+        loginProgress.setVisibility(View.GONE);
+        login_slash_message.setVisibility(View.GONE);
+
+        //facebook_login_button.setEnabled(true);
         google_login_button.setEnabled(true);
         debug_login.setEnabled(true);
         debug_sam_login.setEnabled(true);

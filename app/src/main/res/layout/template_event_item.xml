@@ -64,9 +64,7 @@
                         android:text="$199"
 
                         android:textSize="15sp"
-                        android:color="#fff"
-                        android:layout_above="@id/item_fund_progress"
-                        android:layout_alignParentEnd="true" />
+                        android:color="#fff" />
 
                 </LinearLayout>
 

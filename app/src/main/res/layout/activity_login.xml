@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -9,7 +10,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/AppTheme"
-    android:background="@color/colorPrimaryDark"
     tools:context=".main.LoginActivity">
 
     <LinearLayout
@@ -25,24 +25,24 @@
             android:layout_height="48dp"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="@dimen/g_top_margin"
-            android:contentDescription="PresentTime Icon"/>
+            android:contentDescription="PresentTime Icon" />
 
         <TextView
             android:id="@+id/title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="PRESENT TIME"
             android:fontFamily="sans-serif-thin"
             android:gravity="center"
+            android:text="PRESENT TIME"
             android:textColor="@android:color/white"
             android:textSize="36sp" />
 
         <TextView
-            android:fontFamily="sans-serif-bold"
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-bold"
             android:text="@string/signed_out"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
@@ -59,30 +59,58 @@
             android:scrollbars="vertical"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/debug_amanda_login_button"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:textColor="@color/colorTextIcons"
                 android:enabled="false"
-                android:text="Amanda"/><Button
-            android:id="@+id/debug_sam_login_button"
-            android:layout_width="wrap_content"
-            android:enabled="false"
-            android:layout_height="50dp"
-            android:textColor="@color/colorTextIcons"
-            android:text="Sam"/><Button
-            android:id="@+id/debug_login_button"
-            android:enabled="false"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:textColor="@color/colorTextIcons"
-            android:text="Justin"/>
+                android:text="Amanda"
+                android:textColor="@color/colorTextIcons"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/debug_sam_login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:enabled="false"
+                android:text="Sam"
+                android:textColor="@color/colorTextIcons"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/debug_login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:enabled="false"
+                android:text="Justin"
+                android:textColor="@color/colorTextIcons"
+                android:visibility="gone" />
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/login_progress_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@xml/progress"
+            android:indeterminate="true"
+            android:layout_above="@+id/sign_out_and_disconnect"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/login_slash_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/splash_screen_message"
+            android:layout_below="@id/search_progress_image"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal" />
 
 
     </LinearLayout>
@@ -96,27 +124,27 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <com.google.android.gms.common.SignInButton
+                android:visibility="gone"
                 android:id="@+id/google_login_button"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:visibility="visible"
-                tools:visibility="visible" />
+                android:layout_marginTop="10dp" />
 
             <com.facebook.login.widget.LoginButton
+                android:visibility="gone"
                 android:id="@+id/facebook_login_button"
                 android:layout_width="200dp"
                 android:layout_height="100dp"
-                android:height="500dp"
                 android:layout_below="@id/google_login_button"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:height="500dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -139,6 +167,7 @@
                 android:theme="@style/ThemeOverlay.MyDarkButton" />
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/disconnect_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -146,6 +175,7 @@
                 android:text="@string/google_disconnect_button"
                 android:theme="@style/ThemeOverlay.MyDarkButton" />
         </LinearLayout>
+
 
     </RelativeLayout>
 </LinearLayout>
