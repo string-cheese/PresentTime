@@ -78,6 +78,7 @@
                 android:fontFamily="sans-serif-light"
                 android:layout_gravity="end"
                 android:text="Walmart"
+                android:visibility="gone"
                 android:textSize="15sp" />
 
             <ProgressBar

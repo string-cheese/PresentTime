@@ -61,7 +61,7 @@ public class FirebaseDatabase{
     }
     public static Firebase ref;
     public static boolean makeFakeData = false;
-    public static String databaseName = "present-time-bitmap";
+    public static String databaseName = "present-time";
 
 
     public static void initializeFirebase(Context context, Resources resources) {

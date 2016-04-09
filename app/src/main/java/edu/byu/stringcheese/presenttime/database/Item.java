@@ -9,6 +9,7 @@ public class Item
     private int profileId;
     private String name;
     private double cost;
+    private double amount_funded;
     private String store;
     private String encodedImage;
     private boolean purchased;
@@ -16,7 +17,7 @@ public class Item
     {
 
     }
-    public Item(String name, double cost, String location, String encodedImage, int profileId, int eventId, int id, boolean purchased)
+    public Item(String name, double cost, String location, String encodedImage, int profileId, int eventId, int id, boolean purchased, double amount_funded)
     {
         this.name = name;
         this.cost = cost;
@@ -26,6 +27,7 @@ public class Item
         this.eventId = eventId;
         this.id = id;
         this.purchased = purchased;
+        this.amount_funded = amount_funded;
     }
 
     public String getName() {
@@ -54,6 +56,10 @@ public class Item
 
     public int getProfileId() {
         return profileId;
+    }
+
+    public double getAmount_funded() {
+        return amount_funded;
     }
 
     public boolean isPurchased() {

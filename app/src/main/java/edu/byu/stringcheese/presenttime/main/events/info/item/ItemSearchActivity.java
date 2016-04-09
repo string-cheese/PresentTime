@@ -90,7 +90,7 @@ public class ItemSearchActivity extends AppCompatActivity {
                         else
                             store = "Manufacturer";
                         String img = item.getString("img");
-                        items.add(new Item(name, cost, store, img, -1, -1, -1, false));
+                        items.add(new Item(name, cost, store, img, -1, -1, -1, false,0));
                     }
                 }
                 if (items != null) {

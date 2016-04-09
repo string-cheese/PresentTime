@@ -111,7 +111,7 @@ public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHo
                         String profileId = ((Activity)context).getIntent().getStringExtra("clientProfileId");
                         String eventId = ((Activity)context).getIntent().getStringExtra("eventId");
                         String img = itemsShown.get(currentItem).getEncodedImage();
-                        DBAccess.getEvent(profileId, eventId).addItem(itemName.getText().toString(), Double.parseDouble(itemPrice.getText().toString().replace("$","")), itemStore.getText().toString(), img, false);
+                        DBAccess.getEvent(profileId, eventId).addItem(itemName.getText().toString(), Double.parseDouble(itemPrice.getText().toString().replace("$","")), itemStore.getText().toString(), img, false,0);
                         ((Activity)context).finish();
                     }
                 }
