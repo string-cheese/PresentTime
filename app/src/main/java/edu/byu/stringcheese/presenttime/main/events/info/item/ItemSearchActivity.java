@@ -83,7 +83,7 @@ public class ItemSearchActivity extends AppCompatActivity {
                     JSONObject item = results.getJSONObject(i);
                     if(item.has("upc") && item.has("name") && item.has("price") && item.has("img")) {
                         String name = item.getString("name");
-                        double cost = Double.parseDouble(item.getString("price"));
+                        int cost = (int)Double.parseDouble(item.getString("price"));
                         String store;
                         if (item.getJSONArray("sitedetails").length() != 0)
                             store = item.getJSONArray("sitedetails").getJSONObject(0).getString("name");

@@ -8,8 +8,8 @@ public class Item
     private int id;
     private int profileId;
     private String name;
-    private double cost;
-    private double amount_funded;
+    private int cost;
+    private int amount_funded;
     private String store;
     private String encodedImage;
     private boolean purchased;
@@ -17,7 +17,7 @@ public class Item
     {
 
     }
-    public Item(String name, double cost, String location, String encodedImage, int profileId, int eventId, int id, boolean purchased, double amount_funded)
+    public Item(String name, int cost, String location, String encodedImage, int profileId, int eventId, int id, boolean purchased, int amount_funded)
     {
         this.name = name;
         this.cost = cost;
@@ -34,7 +34,7 @@ public class Item
         return name;
     }
 
-    public double getCost() {
+    public int getCost() {
         return cost;
     }
 
@@ -58,7 +58,7 @@ public class Item
         return profileId;
     }
 
-    public double getAmount_funded() {
+    public int getAmount_funded() {
         return amount_funded;
     }
 
@@ -72,7 +72,7 @@ public class Item
         db.setValue(name);
     }
 
-    public void updateCost(double cost) {
+    public void updateCost(int cost) {
         this.cost = cost;
         Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(eventId)).child("items").child(String.valueOf(id)).child("cost");
         db.setValue(cost);
@@ -94,5 +94,12 @@ public class Item
         this.purchased = purchased;
         Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(eventId)).child("items").child(String.valueOf(id)).child("purchased");
         db.setValue(purchased);
+    }
+
+    public void updateAmountFunded(int amount_funded)
+    {
+        this.amount_funded = amount_funded;
+        Firebase db = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId)).child("events").child(String.valueOf(eventId)).child("items").child(String.valueOf(id)).child("amount_funded");
+        db.setValue(amount_funded);
     }
 }

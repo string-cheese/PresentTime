@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHo
         itemViewHolder.eventOwnerId = String.valueOf(itemsShown.get(i).getProfileId());
         itemViewHolder.eventId = String.valueOf(itemsShown.get(i).getEventId());
         itemViewHolder.itemStore.setText(itemsShown.get(i).getStore());
+        itemViewHolder.amountFunded.setProgress((int)((itemsShown.get(i).getAmount_funded()/(double)itemsShown.get(i).getCost())*100));
     }
 
     @Override
@@ -85,6 +87,7 @@ public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHo
         TextView itemName;
         TextView itemPrice;
         TextView itemStore;
+        ProgressBar amountFunded;
         //TextView itemLocation;
         ImageView itemImage;
         public int currentItem;
@@ -111,7 +114,7 @@ public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHo
                         String profileId = ((Activity)context).getIntent().getStringExtra("clientProfileId");
                         String eventId = ((Activity)context).getIntent().getStringExtra("eventId");
                         String img = itemsShown.get(currentItem).getEncodedImage();
-                        DBAccess.getEvent(profileId, eventId).addItem(itemName.getText().toString(), Double.parseDouble(itemPrice.getText().toString().replace("$","")), itemStore.getText().toString(), img, false,0);
+                        DBAccess.getEvent(profileId, eventId).addItem(itemName.getText().toString(), (int)Double.parseDouble(itemPrice.getText().toString().replace("$","")), itemStore.getText().toString(), img, false,0);
                         ((Activity)context).finish();
                     }
                 }
@@ -134,6 +137,7 @@ public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHo
             itemPrice = (TextView)itemView.findViewById(R.id.item_price);
             itemImage = (ImageView)itemView.findViewById(R.id.item_image);
             itemStore = (TextView)itemView.findViewById(R.id.search_item_store);
+            amountFunded = (ProgressBar)itemView.findViewById(R.id.item_fund_progress);
         }
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {

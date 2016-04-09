@@ -31,7 +31,7 @@ public class Event implements Comparable<Event>{
         this.id = id;
     }
 
-    public Item addItem(String name, double cost, String store, String encodedImage, boolean purchased, double amount_funded) {
+    public Item addItem(String name, int cost, String store, String encodedImage, boolean purchased, int amount_funded) {
         //add item
         Firebase profile = FirebaseDatabase.ref.child("profiles").child(String.valueOf(profileId));
         Item item = new Item(name, cost, store, encodedImage,profileId,this.id, items.size(), purchased, amount_funded);

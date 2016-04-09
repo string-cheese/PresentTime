@@ -89,7 +89,7 @@ public class AddItemActivity extends AppCompatActivity {
         Log.d(TAG, "adding new item...");
 
         String itemName = ((EditText) findViewById(R.id.add_item_name)).getText().toString();
-        double itemPrice = Double.parseDouble(((EditText) findViewById(R.id.add_item_price)).getText().toString().replaceAll("[^\\d.]+", ""));
+        int itemPrice = (int)Double.parseDouble(((EditText) findViewById(R.id.add_item_price)).getText().toString().replaceAll("[^\\d.]+", ""));
         String itemLocation = ((EditText) findViewById(R.id.add_item_location)).getText().toString();
         event.addItem(itemName, itemPrice, itemLocation, BitmapUtils.encodeBitmapToString(((BitmapDrawable) ((ImageView) findViewById(R.id.item_image)).getDrawable()).getBitmap()), false,0);
         finish();
