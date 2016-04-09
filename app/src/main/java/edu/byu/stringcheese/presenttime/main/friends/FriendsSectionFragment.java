@@ -152,48 +152,50 @@ public class FriendsSectionFragment extends android.support.v4.app.Fragment impl
                     addFriend.show();
                 }
             });
-            SharedPreferences.Editor editor = getActivity().getPreferences(Activity.MODE_PRIVATE).edit();
-            editor.putBoolean("showcase",false);
-            editor.commit();
-            ShowcaseView showcase = new ShowcaseView.Builder(getActivity())
-                    .withMaterialShowcase()
-                    .setStyle(R.style.CustomShowcaseTheme2)
-                    .setTarget(new RecyclerViewTarget(recyclerView, R.id.friend_image_circle))
-                    .setContentTitle("Profile")
-                    .setContentText("Click here to view your friends profile.")
-                    .hideOnTouchOutside()
-                    .setShowcaseEventListener(new OnShowcaseEventListener() {
-                        @Override
-                        public void onShowcaseViewHide(ShowcaseView showcaseView) {
-                            ShowcaseView view = new ShowcaseView.Builder(getActivity())
-                                    .setShowcaseDrawer(new FriendCardViewDrawer(recyclerView, getResources()))
-                                    .setStyle(R.style.CustomShowcaseTheme3)
-                                    .setTarget(new RecyclerViewTarget(recyclerView, R.id.friend_card))
-                                    .setContentTitle("Events")
-                                    .setContentText("Click here to view your friend's events")
-                                    .hideOnTouchOutside()
-                                    .build();
-                            view.hideButton();
-                            view.show();
-                        }
+            if(getActivity().getPreferences(Activity.MODE_PRIVATE).getBoolean("showcase",true)) {
+                SharedPreferences.Editor editor = getActivity().getPreferences(Activity.MODE_PRIVATE).edit();
+                editor.putBoolean("showcase", false);
+                editor.commit();
+                ShowcaseView showcase = new ShowcaseView.Builder(getActivity())
+                        .withMaterialShowcase()
+                        .setStyle(R.style.CustomShowcaseTheme2)
+                        .setTarget(new RecyclerViewTarget(recyclerView, R.id.friend_image_circle))
+                        .setContentTitle("Profile")
+                        .setContentText("Click here to view your friends profile.")
+                        .hideOnTouchOutside()
+                        .setShowcaseEventListener(new OnShowcaseEventListener() {
+                            @Override
+                            public void onShowcaseViewHide(ShowcaseView showcaseView) {
+                                ShowcaseView view = new ShowcaseView.Builder(getActivity())
+                                        .setShowcaseDrawer(new FriendCardViewDrawer(recyclerView, getResources()))
+                                        .setStyle(R.style.CustomShowcaseTheme3)
+                                        .setTarget(new RecyclerViewTarget(recyclerView, R.id.friend_card))
+                                        .setContentTitle("Events")
+                                        .setContentText("Click here to view your friend's events")
+                                        .hideOnTouchOutside()
+                                        .build();
+                                view.hideButton();
+                                view.show();
+                            }
 
-                        @Override
-                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            @Override
+                            public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onShowcaseViewShow(ShowcaseView showcaseView) {
+                            @Override
+                            public void onShowcaseViewShow(ShowcaseView showcaseView) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+                            @Override
+                            public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
 
-                        }
-                    }).build();
-            showcase.hideButton();
-            showcase.show();
+                            }
+                        }).build();
+                showcase.hideButton();
+                showcase.show();
+            }
         }
 
     }

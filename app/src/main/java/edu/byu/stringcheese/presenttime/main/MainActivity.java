@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private LinearLayout mDrawerLinearLayout;
     private String[] sectionTitles;
+    private DashboardSectionFragment dashboard;
+    private EventsSectionFragment events;
+    private FriendsSectionFragment friends;
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -80,25 +83,21 @@ public class MainActivity extends AppCompatActivity {
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
         Fragment fragment;
-        Bundle args = new Bundle();
-        args.putString("clientProfileId",String.valueOf((this).getIntent().getStringExtra("clientProfileId")));
         switch(position)
         {
             case 0:
-                fragment = new DashboardSectionFragment();
+                fragment = dashboard;
                 break;
             case 1:
-                fragment = new EventsSectionFragment();
+                fragment = events;
                 break;
             case 2:
-                fragment = new FriendsSectionFragment();
+                fragment = friends;
                 break;
             default:
-                fragment = new DashboardSectionFragment();
+                fragment = dashboard;
                 break;
         }
-        // Create a new fragment and specify the planet to show based on position
-        fragment.setArguments(args);
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -145,6 +144,14 @@ public class MainActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("clientProfileId") != null) {
             String id = getIntent().getStringExtra("clientProfileId");
             myProfile = DBAccess.getProfile(id);
+                dashboard = new DashboardSectionFragment();
+                events = new EventsSectionFragment();
+                friends = new FriendsSectionFragment();
+            Bundle args = new Bundle();
+            args.putString("clientProfileId",String.valueOf((this).getIntent().getStringExtra("clientProfileId")));
+            dashboard.setArguments(args);
+            events.setArguments(args);
+            friends.setArguments(args);
 
             if (savedInstanceState == null) {
                 sectionTitles = getResources().getStringArray(R.array.nav_drawer_items);
@@ -177,16 +184,11 @@ public class MainActivity extends AppCompatActivity {
                 // Set the list's click listener
                 mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-                //selectItem(0);
-                DashboardSectionFragment fragment = new DashboardSectionFragment();
-                Bundle args = new Bundle();
-                args.putString("clientProfileId",String.valueOf((this).getIntent().getStringExtra("clientProfileId")));
-                fragment.setArguments(args);
 
                 // Insert the fragment by replacing any existing fragment
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
+                        .replace(R.id.content_frame, dashboard)
                         .commit();
                 setTitle(sectionTitles[0]);
                 ((CircularImageView)findViewById(R.id.imgProfilePic)).setImageBitmap(BitmapUtils.decodeStringToBitmap(myProfile.getEncodedProfileImage()));

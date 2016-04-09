@@ -36,6 +36,7 @@ public class ItemInfoActivity extends AppCompatActivity {
                     Integer.parseInt(getIntent().getStringExtra("eventOwnerId"))).getEvents().get(
                     Integer.parseInt(getIntent().getStringExtra("eventId"))).getItems().get(
                     Integer.parseInt(getIntent().getStringExtra("itemId")));
+            setTitle(thisItem.getName());
             TextView itemName = (TextView)findViewById(R.id.item_name);
             itemName.setText(thisItem.getName());
             TextView itemPrice = (TextView)findViewById(R.id.item_price);
