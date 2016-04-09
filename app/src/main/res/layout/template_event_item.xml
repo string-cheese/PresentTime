@@ -68,20 +68,32 @@
 
                 </LinearLayout>
 
-                <ProgressBar
+            <TextView
+                android:paddingLeft="@dimen/margin_small"
+                android:paddingRight="@dimen/margin_small"
+                android:id="@+id/search_item_store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/opaqueLabelBackground"
+                android:fontFamily="sans-serif-light"
+                android:layout_gravity="end"
+                android:text="Walmart"
+                android:textSize="15sp" />
 
-                    android:paddingLeft="@dimen/margin_small"
-                    android:paddingRight="@dimen/margin_small"
-                    android:id="@+id/item_fund_progress"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:indeterminate="false"
-                    android:max="100"
-                    android:minHeight="20dp"
-                    android:minWidth="200dp"
-                    android:progress="50"
-                    />
+            <ProgressBar
+
+                android:paddingLeft="@dimen/margin_small"
+                android:paddingRight="@dimen/margin_small"
+                android:id="@+id/item_fund_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="false"
+                android:max="100"
+                android:minHeight="20dp"
+                android:minWidth="200dp"
+                android:progress="50"
+                />
 
         </LinearLayout>
 

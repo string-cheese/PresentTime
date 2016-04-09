@@ -1,31 +1,25 @@
 package edu.byu.stringcheese.presenttime.main.events.info.item;
 
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import edu.byu.stringcheese.presenttime.BitmapUtils;
 import edu.byu.stringcheese.presenttime.R;
 import edu.byu.stringcheese.presenttime.Utils;
-import edu.byu.stringcheese.presenttime.database.DBAccess;
 import edu.byu.stringcheese.presenttime.database.Item;
 
 public class ItemSearchActivity extends AppCompatActivity {
@@ -62,9 +56,18 @@ public class ItemSearchActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private void initializeAdapter(){
+        int numberOfColumns = 2;
+        //Check your orientation in your OnCreate
+        if (getResources().getConfiguration().orientation == getResources().getConfiguration().ORIENTATION_LANDSCAPE) {
+            numberOfColumns = 3;
+        }
+        CustomGridLayoutManager man = new CustomGridLayoutManager(recyclerView.getContext(), numberOfColumns, GridLayoutManager.VERTICAL, false);
+        this.recyclerView.setLayoutManager(man);
+        int spacingInPixels = Math.round(-10 * (getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         ArrayList<Item> searchItems = new ArrayList<>();
         if(searchItems != null) {
-            SearchItemAdapter adapter = new SearchItemAdapter(searchItems);
+            ItemRVAdapter adapter = new ItemRVAdapter(this,true,searchItems);
             recyclerView.setAdapter(adapter);
         }
     }
@@ -91,7 +94,7 @@ public class ItemSearchActivity extends AppCompatActivity {
                     }
                 }
                 if (items != null) {
-                    ((SearchItemAdapter) recyclerView.getAdapter()).updateEventsShown(items);
+                    ((ItemRVAdapter) recyclerView.getAdapter()).updateEventsShown(items);
                     recyclerView.invalidate();
                 }
             }
@@ -102,7 +105,7 @@ public class ItemSearchActivity extends AppCompatActivity {
         }
     }
 
-    class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.EventViewHolder> {
+    /*class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.EventViewHolder> {
 
         public List<Item> searchItemsShown;
         SearchItemAdapter(List<Item> items){
@@ -172,7 +175,7 @@ public class ItemSearchActivity extends AppCompatActivity {
                 itemStore = (TextView)itemView.findViewById(R.id.search_item_store);
             }
         }
-    }
+    }*/
 
     private void search(String content) {
         findViewById(R.id.item_search_recyclerview).setVisibility(View.GONE);
