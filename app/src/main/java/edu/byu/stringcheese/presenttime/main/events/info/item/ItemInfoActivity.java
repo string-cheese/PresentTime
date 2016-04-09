@@ -73,8 +73,8 @@ public class ItemInfoActivity extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.item_info_fab);
         ((ViewGroup)fab.getParent()).removeView(fab);
 
-        RelativeLayout purchasedStateLayout = (RelativeLayout) findViewById(R.id.purchased_state_layout);
-        ((ViewGroup)purchasedStateLayout.getParent()).removeView(purchasedStateLayout);
+//        RelativeLayout purchasedStateLayout = (RelativeLayout) findViewById(R.id.purchased_state_layout);
+//        ((ViewGroup)purchasedStateLayout.getParent()).removeView(purchasedStateLayout);
 
         TextView editItemText = (TextView) findViewById(R.id.edit_item_text);
         ((ViewGroup)editItemText.getParent()).removeView(editItemText);
