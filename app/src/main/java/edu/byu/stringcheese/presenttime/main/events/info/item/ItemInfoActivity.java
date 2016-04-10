@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import edu.byu.stringcheese.presenttime.BitmapUtils;
@@ -46,6 +47,7 @@ public class ItemInfoActivity extends AppCompatActivity {
             itemLocation.setText(thisItem.getStore());
             ImageView itemImage = (ImageView)findViewById(R.id.item_info_image);
             itemImage.setImageBitmap(BitmapUtils.decodeStringToBitmap(thisItem.getEncodedImage()));
+            ((ProgressBar)findViewById(R.id.item_fund_progress)).setProgress((int)((thisItem.getAmount_funded()/(double)thisItem.getCost())*100));
 
             if (getIntent().hasExtra("eventOwnerId") &&
                     getIntent().getStringExtra("eventOwnerId").equals(getIntent().getStringExtra("clientProfileId")))
