@@ -82,7 +82,7 @@ public class DBAccess {
 
     public static List<AbstractDashboardItem> getUpcomingEventsItems(Profile profile) {
         List<AbstractDashboardItem> result = new ArrayList<>();
-        result.add(new DashboardHeader("Upcoming Events"));
+        result.add(new DashboardHeader("Friends Upcoming Events"));
 
         List<Event> allEvents = new ArrayList<>();
         for (Profile friend: getFriends(profile))
