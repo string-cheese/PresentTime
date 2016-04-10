@@ -41,7 +41,7 @@ public class ItemInfoActivity extends AppCompatActivity {
             TextView itemName = (TextView)findViewById(R.id.item_name);
             itemName.setText(thisItem.getName());
             TextView itemPrice = (TextView)findViewById(R.id.item_price);
-            itemPrice.setText(String.valueOf(thisItem.getCost()));
+            itemPrice.setText("$"+String.valueOf(thisItem.getCost()));
             TextView itemLocation = (TextView)findViewById(R.id.item_location);
             itemLocation.setText(thisItem.getStore());
             ImageView itemImage = (ImageView)findViewById(R.id.item_info_image);
