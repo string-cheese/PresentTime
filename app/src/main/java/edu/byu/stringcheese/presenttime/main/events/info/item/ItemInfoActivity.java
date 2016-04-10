@@ -8,12 +8,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import edu.byu.stringcheese.presenttime.BitmapUtils;
@@ -78,7 +79,32 @@ public class ItemInfoActivity extends AppCompatActivity {
 
         TextView editItemText = (TextView) findViewById(R.id.edit_item_text);
         ((ViewGroup)editItemText.getParent()).removeView(editItemText);
+        final Button fundItemButton = (Button) findViewById(R.id.fund_item_button);
+        fundItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(ItemInfoActivity.this);
+                builder.setMessage("How much would you like to fund?");
+                LayoutInflater inflater = ItemInfoActivity.this.getLayoutInflater();
+                final View layout = inflater.inflate(R.layout.dialog_fund, null);
+                builder.setView(layout);
+                builder.setPositiveButton("Fund!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        thisItem.updateAmountFunded(thisItem.getAmount_funded()+(int)Double.parseDouble(((EditText)layout.findViewById(R.id.dialog_fund_amount)).getText().toString()));
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
         final Button buyItemButton = (Button) findViewById(R.id.buy_item_button);
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         buyItemButton.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +134,10 @@ public class ItemInfoActivity extends AppCompatActivity {
 
         Button buyItemButton = (Button) findViewById(R.id.buy_item_button);
         ((ViewGroup)buyItemButton.getParent()).removeView(buyItemButton);
+
+
+        Button fundItemButton = (Button) findViewById(R.id.fund_item_button);
+        ((ViewGroup)fundItemButton.getParent()).removeView(fundItemButton);
 
         //EDIT ITEM TEXT
         TextView editItemText = (TextView) findViewById(R.id.edit_item_text);

@@ -10,6 +10,8 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -72,6 +74,9 @@ public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHo
         {
             itemViewHolder.item_cv.setEnabled(false);
             itemViewHolder.item_purchased_overlay.setVisibility(View.VISIBLE);
+            itemViewHolder.item_purchased_text.setVisibility(View.VISIBLE);
+            RotateAnimation rotate= (RotateAnimation) AnimationUtils.loadAnimation(context,R.anim.rotateanimation);
+            itemViewHolder.item_purchased_text.setAnimation(rotate);
         }
     }
 
@@ -88,6 +93,7 @@ public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHo
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
+        TextView item_purchased_text;
         CardView item_cv;
         TextView itemName;
         TextView itemPrice;
@@ -145,6 +151,7 @@ public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHo
             itemStore = (TextView)itemView.findViewById(R.id.search_item_store);
             amountFunded = (ProgressBar)itemView.findViewById(R.id.item_fund_progress);
             item_purchased_overlay = (ImageView)itemView.findViewById(R.id.item_purchased_overlay);
+            item_purchased_text = (TextView)itemView.findViewById(R.id.item_purchased_text);
         }
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
